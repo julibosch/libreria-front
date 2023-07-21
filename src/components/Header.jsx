@@ -1,7 +1,9 @@
-const Header = () => {
+const Header = ({title}) => {
   return (
-    <header className="py-5 bg-slate-400">
-      <h1 className="text-4xl uppercase font-bold text-center">Administrador de Libreria - Piquitos</h1>
+    <header className="py-4 bg-slate-900 shadow-md">
+      <h1 className="text-4xl uppercase font-bold text-center text-slate-50">
+        {title}
+      </h1>
     </header>
   )
 }
