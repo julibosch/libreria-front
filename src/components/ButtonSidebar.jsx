@@ -5,8 +5,13 @@ const ButtonSidebar = ({nombre, icon}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const url = `${nombre.trim()}`
-    navigate(url)
+    const palabra = nombre;
+
+    if(palabra === 'Inicio') {
+      navigate('/inicio')
+    } else {
+      navigate(palabra.replace(/\s/g, '-').toLowerCase());
+    }
   }
 
   return (
