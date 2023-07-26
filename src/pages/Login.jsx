@@ -1,29 +1,20 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext } from "react";
+import AuthContext from "../context/AuthProvider";
 
 const Login = () => {
-  const [nombre, setNombre] = useState('');
-  const [contrasenia, setContrasenia] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [contrasenia, setContrasenia] = useState("");
+  const { login } = useContext(AuthContext);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if ([nombre, contrasenia].includes('')) {
-      console.log("nombres y contrasenia vacios")
+    if ([nombre, contrasenia].includes("")) {
+      console.log("nombres y contrasenia vacios");
       return;
     }
 
-    try {
-      const url = "http://localhost:4000";
-      const respuesta = await axios.post(url, { nombre, contrasenia });
-      navigate('/inicio');
-
-    } catch (error) {
-      console.log(error)
-    }
+    login(nombre, contrasenia);
   };
 
   return (
@@ -51,7 +42,7 @@ const Login = () => {
             placeholder="Ingresa tu Usuario"
             className="py-1 px-2 text-md rounded-md border border-slate-400 "
             value={nombre}
-            onChange={ e => setNombre(e.target.value) }
+            onChange={(e) => setNombre(e.target.value)}
           />
         </div>
 
@@ -69,7 +60,7 @@ const Login = () => {
             placeholder="Ingresa tu Contraseña"
             className="py-1 px-2 text-md rounded-md border border-slate-400"
             value={contrasenia}
-            onChange={ e => setContrasenia(e.target.value) }
+            onChange={(e) => setContrasenia(e.target.value)}
           />
         </div>
 
