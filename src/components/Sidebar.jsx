@@ -4,14 +4,14 @@ import ButtonSidebar from "./ButtonSidebar";
 const Sidebar = () => {
 
   return (
-    <aside className="bg-slate-800 h-screen w-1/5 py-5">
-      <h2 className="uppercase text-4xl font-black text-center mb-10 text-slate-50">Piquitos</h2>
+    <aside className="pattern h-screen w-1/5 pb-5">
+      <h2 className="uppercase text-4xl font-black text-center py-4 mx-3 border-b mb-5 text-slate-50">Piquitos</h2>
 
       <div className="flex flex-col justify-between h-3/4">
         <nav>
           <ButtonSidebar
             nombre={"Inicio"}
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
               <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
@@ -20,7 +20,7 @@ const Sidebar = () => {
           />
           <ButtonSidebar
             nombre={"Articulos"}
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-apple" width="40" height="40" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-apple" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M12 14m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
               <path d="M12 11v-6a2 2 0 0 1 2 -2h2v1a2 2 0 0 1 -2 2h-2" />
@@ -28,10 +28,23 @@ const Sidebar = () => {
             </svg>}
           />
           <ButtonSidebar
-            nombre={"Tipo de Articulos"}
+            nombre={"Tipos de Articulo"}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-cards" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M3.604 7.197l7.138 -3.109a.96 .96 0 0 1 1.27 .527l4.924 11.902a1 1 0 0 1 -.514 1.304l-7.137 3.109a.96 .96 0 0 1 -1.271 -.527l-4.924 -11.903a1 1 0 0 1 .514 -1.304z" />
+              <path d="M15 4h1a1 1 0 0 1 1 1v3.5" />
+              <path d="M20 6c.264 .112 .52 .217 .768 .315a1 1 0 0 1 .53 1.311l-2.298 5.374" />
+            </svg>}
           />
           <ButtonSidebar
             nombre={"Proveedores"}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+              <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+            </svg>}
           />
         </nav>
 

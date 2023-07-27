@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Inicio from "./pages/Inicio";
 import TipoArticulo from "./pages/TipoArticulo";
 import Proveedores from "./pages/Proveedores";
+import Articulos from "./pages/Articulos";
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
 
             <Route path="inicio" element={<InicioLayout />}>
               <Route index element={<Inicio />} />
-              <Route path="tipo-de-articulos" element={<TipoArticulo />} />
+              <Route path="tipos-de-articulo" element={<TipoArticulo />} />
               <Route path="proveedores" element={<Proveedores />} />
+              <Route path="articulos" element={<Articulos />} />
             </Route>
           </Route>
         </Routes>

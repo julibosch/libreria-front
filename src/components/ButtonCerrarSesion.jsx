@@ -7,14 +7,14 @@ const ButtonCerrarSesion = () => {
   return (
     <button
       type="button"
-      className=" flex uppercase font-bold text-xl items-center gap-2 w-2/3 bg-red-500 hover:bg-red-700 transition-colors cursor-pointer rounded-md px-3 py-2 mx-auto shadow-md"
+      className=" flex uppercase font-bold text-md items-center gap-2 bg-red-500 hover:bg-red-700 transition-colors cursor-pointer rounded-md px-3 py-2 mx-auto shadow-md"
       onClick={logout}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="icon icon-tabler icon-tabler-logout"
-        width="40"
-        height="40"
+        width="30"
+        height="30"
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         stroke="#000000"
