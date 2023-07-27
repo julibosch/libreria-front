@@ -1,4 +1,13 @@
-export default function Table() {
+import { useState } from "react";
+import AltaProvTipo from "./AltaProvTipo";
+
+const TableProvTipo = ({title, placeholder}) => {
+  const [activado, setActivado] = useState(false)
+
+  const handleAgregar = () => {
+    setActivado(true);
+  }
+
   return (
     <div className="container mx-auto bg-slate-500 rounded-lg shadow-md">
       <div className="flex flex-col">
@@ -29,8 +38,12 @@ export default function Table() {
               </div>
             </div>
             <div className="absolute w-1/4 justify-between flex right-4 top-5">
-              <button className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md">Agregar</button>
-              <button className="px-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md">Aumentar Precio</button>
+              <button
+               className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+               onClick={handleAgregar}
+               >
+                Agregar
+              </button>
             </div>
           </div>
 
@@ -75,7 +88,18 @@ export default function Table() {
                     </td>
                     <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                       <button className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-edit" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-edit"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="#000000"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
                           <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
@@ -85,7 +109,18 @@ export default function Table() {
                     </td>
                     <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                       <button className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-trash"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="#000000"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7l16 0" />
                           <path d="M10 11l0 6" />
@@ -106,7 +141,18 @@ export default function Table() {
                     </td>
                     <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                       <button className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-edit" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-edit"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="#000000"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
                           <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
@@ -116,7 +162,18 @@ export default function Table() {
                     </td>
                     <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                       <button className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-trash"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="#000000"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                           <path d="M4 7l16 0" />
                           <path d="M10 11l0 6" />
@@ -133,6 +190,17 @@ export default function Table() {
           </div>
         </div>
       </div>
+
+      {activado && (
+        <AltaProvTipo 
+          title={title}
+          placeholder={placeholder}
+          setActivado={setActivado}
+        />
+      )}
+
     </div>
   );
-} 
+}
+
+export default TableProvTipo;

@@ -6,7 +6,10 @@ const TipoArticulo = () => {
       <h2 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">Tipos de articulo</h2>
 
       <div className="px-10">
-        <TableProvTipo />
+        <TableProvTipo 
+          title={"Alta de Tipo de Articulo"}
+          placeholder={"Ingrese el Tipo de Articulo"}
+        />
       </div>
 
     </section>
