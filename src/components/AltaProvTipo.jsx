@@ -1,26 +1,34 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
-const AltaProvTipo = ({ title, placeholder, setActivado }) => {
-  const [descripcion, setDescripcion] = useState('');
+const AltaProvTipo = ({
+  title,
+  placeholder,
+  setActivado,
+  tipoArticulos,
+  setTipoArticulos,
+}) => {
+  const [descripcion, setDescripcion] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(descripcion === '') {
+    if (descripcion === "") {
       return console.log("No hay nada");
     }
 
     const url = "http://localhost:4000/admin/tipos-de-articulo";
 
     try {
-      const respuesta = await axios.post(url, {descripcion});
-      console.log(respuesta.data);
+      // Al hacer el post del nuevo tipo de articulo, acutalizamos el estado de tipos de articulos usando el spread operator y agregando el nuevo que nos llega desde la respuesta del back
+      const respuesta = await axios.post(url, { descripcion });
+      setTipoArticulos([...tipoArticulos, respuesta.data.respuesta]);
+      // Mensaje de creado con exito
       setActivado(false);
     } catch (error) {
       console.log(error);
     }
-  } 
+  };
 
   return (
     <div className="w-full h-screen absolute top-0 left-0 bg-black bg-opacity-70 backdrop-blur-sm">
@@ -34,10 +42,12 @@ const AltaProvTipo = ({ title, placeholder, setActivado }) => {
             {title}
           </h2>
 
-          <button 
+          <button
             className="absolute right-4 top-1 hover:scale-110 transition-all"
             type="button"
-            onClick={() => {setActivado(false)}}
+            onClick={() => {
+              setActivado(false);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +80,7 @@ const AltaProvTipo = ({ title, placeholder, setActivado }) => {
             type="text"
             className="border border-slate-600 rounded-md py-1 px-3 mb-10"
             value={descripcion}
-            onChange={e => setDescripcion(e.target.value)}
+            onChange={(e) => setDescripcion(e.target.value)}
             placeholder={placeholder}
           />
         </div>

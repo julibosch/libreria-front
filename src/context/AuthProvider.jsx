@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [usuarioNoExiste, setUsuarioNoExiste] = useState("");
 
   const navigate = useNavigate();
 
@@ -13,13 +14,17 @@ const AuthProvider = ({ children }) => {
     try {
       const url = "http://localhost:4000";
       const respuesta = await axios.post(url, { nombre, contrasenia });
-      console.log(respuesta);
       
       // Se le cambia el estado de Logueado a true y se navega
       setIsLoggedIn(true)
+      setUsuarioNoExiste("");
       navigate("/inicio");
     } catch (error) {
-      console.log(error.message);
+      
+      setUsuarioNoExiste(error.response.data.msg);
+      setTimeout(() => {
+        setUsuarioNoExiste('');
+      }, 1500);
     }
   };
 
@@ -33,7 +38,8 @@ const AuthProvider = ({ children }) => {
       value={{
         isLoggedIn,
         login,
-        logout
+        logout,
+        usuarioNoExiste
       }}
     >
       {children}

@@ -1,21 +1,45 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import AuthContext from "../context/AuthProvider";
+import Alerta from "../components/Alerta";
 
 const Login = () => {
   const [nombre, setNombre] = useState("");
   const [contrasenia, setContrasenia] = useState("");
-  const { login } = useContext(AuthContext);
+  const [alerta, setAlerta] = useState({});
+  const { login, usuarioNoExiste } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if ([nombre, contrasenia].includes("")) {
-      console.log("nombres y contrasenia vacios");
+      setAlerta({
+        msg: "Ambos campos son obligatorios",
+        error: true,
+      });
+
+      setTimeout(() => {
+        setAlerta({});
+      }, 1500);
+      
       return;
     }
 
     login(nombre, contrasenia);
   };
+
+  //Si el catch del context devuelve un error del que socio no existe , entra aca.
+  useEffect(() => {
+    if (usuarioNoExiste) {
+      setAlerta({
+        msg: usuarioNoExiste,
+        error: true,
+      });
+    } else {
+      setAlerta({}); // Restablecer la alerta cuando no hay error
+    }
+  }, [usuarioNoExiste]);
+
+  const { msg } = alerta;
 
   return (
     <div className="w-1/3 mx-auto bg-slate-300 rounded-lg shadow-md overflow-hidden">
@@ -64,10 +88,12 @@ const Login = () => {
           />
         </div>
 
+        {msg && <Alerta alerta={alerta} />}
+
         <input
           type="submit"
           value="Iniciar Sesión"
-          className="mt-10 py-3 bg-[#2d39a8] hover:bg-[#121b6b] cursor-pointer transition-all w-full rounded-md uppercase font-bold text-lg text-slate-50"
+          className=" py-3 bg-[#2d39a8] hover:bg-[#121b6b] cursor-pointer transition-all w-full rounded-md uppercase font-bold text-lg text-slate-50"
         />
       </form>
     </div>
