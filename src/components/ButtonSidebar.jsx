@@ -17,7 +17,7 @@ const ButtonSidebar = ({nombre, icon}) => {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 w-full bg-slate-500 hover:bg-slate-300 transition-colors cursor-pointer uppercase font-bold text-left text-md px-2 py-3"
+      className="flex items-center gap-2 w-full text-slate-100 hover:bg-slate-700 hover:bg-opacity-40 transition-colors cursor-pointer uppercase font-bold text-left text-md px-2 py-3"
     >
       {icon}
       {nombre}
