@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Alerta from "./Alerta";
 
-const EditarTipo = ({ setActivadoEditar, descripcion, id }) => {
+const EditarTipo = ({ setActivadoEditar, descripcion, id, tipoArticulos, setTipoArticulos }) => {
   const [descripcionEditar, setDescripcionEditar] = useState(descripcion); //Recibe la descripcion del padre y la muestra en el input
   const [idEditar, setIdEditar] = useState(id);
   const [alerta, setAlerta] = useState({});
@@ -24,13 +24,27 @@ const EditarTipo = ({ setActivadoEditar, descripcion, id }) => {
     const url = `http://localhost:4000/admin/tipos-de-articulo/${idEditar}`;
 
     try {
-      const response = await axios.put(url,{descripcionEditar});
+      const { data } = await axios.put(url, { descripcion: descripcionEditar });
       
+      const tipoArticuloActualizado = tipoArticulos.map( tipoArticulo => tipoArticulo.id === data.tipo.id ? data.tipo : tipoArticulo);
+
+      setTipoArticulos(tipoArticuloActualizado)
+      console.log(tipoArticuloActualizado)
+      
+      setAlerta({
+        error: false,
+        msg: data.tipo.msg,
+      });
+
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
     } catch (error) {
       setAlerta({
         error: true,
-        msg: "Hubo un error, vuelva a intentarlo",
+        msg: error.response.data.msg,
       });
+
       setTimeout(() => {
         setAlerta({});
       }, 3000);
@@ -93,11 +107,7 @@ const EditarTipo = ({ setActivadoEditar, descripcion, id }) => {
             onChange={(e) => setDescripcionEditar(e.target.value)}
             placeholder="Descripción"
           />
-          <input
-            type="text"
-            className="hidden"
-            value={id}
-          />
+          <input type="text" className="hidden" value={id} readOnly={true} />
         </div>
 
         <div className="w-full px-5">

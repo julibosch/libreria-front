@@ -183,6 +183,8 @@ const TableProvTipo = ({ title, placeholder, tipoArticulos, setTipoArticulos }) 
             setActivadoEditar={setActivadoEditar}
             descripcion={descripcion}
             id={id}
+            tipoArticulos={tipoArticulos}
+            setTipoArticulos={setTipoArticulos}
           />
         )
       }
