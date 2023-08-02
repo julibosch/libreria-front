@@ -1,15 +1,26 @@
 import { useState, useEffect } from "react";
 import AltaProvTipo from "./AltaProvTipo";
+import EditarTipo from "./EditarTipo";
 
 const TableProvTipo = ({ title, placeholder, tipoArticulos, setTipoArticulos }) => {
   const [activado, setActivado] = useState(false);
+  const [activadoEditar, setActivadoEditar] = useState(false);
+  const [descripcion, setDescripcion] = useState(""); //Se pasa al componente editar
+  const [id, setId] = useState(""); //Se pasa al componente editar
 
   const handleAgregar = () => {
     setActivado(true);
   };
 
+  const handleEditar = (id, descripcion) => {
+    setActivadoEditar(true);
+    setDescripcion(descripcion);
+    setId(id);
+  }
+
+  //Cuando se agrega un nuevo tipo, se actualiza el state y se actualiza el componente para mostrar en la lista el nuevo tipo.
   useEffect(() => {
-    console.log("nashei")
+
   }, [tipoArticulos])
   
 
@@ -94,7 +105,9 @@ const TableProvTipo = ({ title, placeholder, tipoArticulos, setTipoArticulos }) 
                           {tipo.descripcion}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
-                          <button className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full">
+                          <button className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
+                          onClick={() => handleEditar(tipo.id, tipo.descripcion)}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="icon icon-tabler icon-tabler-edit"
@@ -163,6 +176,16 @@ const TableProvTipo = ({ title, placeholder, tipoArticulos, setTipoArticulos }) 
           setTipoArticulos={setTipoArticulos}
         />
       )}
+
+      {
+        activadoEditar && (
+          <EditarTipo
+            setActivadoEditar={setActivadoEditar}
+            descripcion={descripcion}
+            id={id}
+          />
+        )
+      }
     </div>
   );
 };

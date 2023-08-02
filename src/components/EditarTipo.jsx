@@ -1,21 +1,16 @@
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 import Alerta from "./Alerta";
 
-const AltaProvTipo = ({
-  title,
-  placeholder,
-  setActivado,
-  tipoArticulos,
-  setTipoArticulos,
-}) => {
-  const [descripcion, setDescripcion] = useState("");
-  const [alerta, setAlerta] = useState("");
+const EditarTipo = ({ setActivadoEditar, descripcion, id }) => {
+  const [descripcionEditar, setDescripcionEditar] = useState(descripcion); //Recibe la descripcion del padre y la muestra en el input
+  const [idEditar, setIdEditar] = useState(id);
+  const [alerta, setAlerta] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (descripcion === "") {
+    if (descripcionEditar === "") {
       setAlerta({
         msg: "Debe rellenar el campo",
         error: true,
@@ -26,18 +21,15 @@ const AltaProvTipo = ({
       return;
     }
 
-    const url = "http://localhost:4000/admin/tipos-de-articulo";
+    const url = `http://localhost:4000/admin/tipos-de-articulo/${idEditar}`;
 
     try {
-      // Al hacer el post del nuevo tipo de articulo, acutalizamos el estado de tipos de articulos usando el spread operator y agregando el nuevo que nos llega desde la respuesta del back
-      const respuesta = await axios.post(url, { descripcion });
-      setTipoArticulos([...tipoArticulos, respuesta.data.respuesta]);
-      // Mensaje de creado con exito
-      setActivado(false);
+      const response = await axios.put(url,{descripcionEditar});
+      
     } catch (error) {
       setAlerta({
         error: true,
-        msg: "Hubo un error, vuelva a intentarlo"
+        msg: "Hubo un error, vuelva a intentarlo",
       });
       setTimeout(() => {
         setAlerta({});
@@ -56,14 +48,14 @@ const AltaProvTipo = ({
       >
         <div className="flex relative">
           <h2 className="w-full bg-slate-300 text-2xl font-bold uppercase text-center py-3 mb-5">
-            {title}
+            Editar tipo de artículo
           </h2>
 
           <button
             className="absolute right-4 top-1 hover:scale-110 transition-all"
             type="button"
             onClick={() => {
-              setActivado(false);
+              setActivadoEditar(false);
             }}
           >
             <svg
@@ -86,7 +78,7 @@ const AltaProvTipo = ({
         </div>
 
         <div className="flex flex-col px-5">
-      {msg && <Alerta alerta={alerta} />}
+          {msg && <Alerta alerta={alerta} />}
           <label
             htmlFor="descripcion"
             className="text-xl font-bold uppercase mb-1"
@@ -97,16 +89,21 @@ const AltaProvTipo = ({
             id="descripcion"
             type="text"
             className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            placeholder={placeholder}
+            value={descripcionEditar}
+            onChange={(e) => setDescripcionEditar(e.target.value)}
+            placeholder="Descripción"
+          />
+          <input
+            type="text"
+            className="hidden"
+            value={id}
           />
         </div>
 
         <div className="w-full px-5">
           <input
             type="submit"
-            value="Agregar"
+            value="Editar"
             className="w-full bg-indigo-700 py-2 rounded-md uppercase font-bold cursor-pointer hover:bg-indigo-900 text-white transition-colors"
           />
         </div>
@@ -115,4 +112,4 @@ const AltaProvTipo = ({
   );
 };
 
-export default AltaProvTipo;
+export default EditarTipo;
