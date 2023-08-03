@@ -25,20 +25,22 @@ const EditarTipo = ({ setActivadoEditar, descripcion, id, tipoArticulos, setTipo
 
     try {
       const { data } = await axios.put(url, { descripcion: descripcionEditar });
-      
-      const tipoArticuloActualizado = tipoArticulos.map( tipoArticulo => tipoArticulo.id === data.tipo.id ? data.tipo : tipoArticulo);
 
+      //Actualiza el arreglo de tipos de articulos, el que se edito
+      const tipoArticuloActualizado = tipoArticulos.map( tipoArticulo => tipoArticulo.id == data.tipo.id ? data.tipo : tipoArticulo);
+    
       setTipoArticulos(tipoArticuloActualizado)
-      console.log(tipoArticuloActualizado)
-      
+      console.log(data.msg)
       setAlerta({
         error: false,
-        msg: data.tipo.msg,
+        msg: data.msg,
       });
 
       setTimeout(() => {
         setAlerta({});
-      }, 3000);
+        setActivadoEditar(false);
+      }, 1500);
+
     } catch (error) {
       setAlerta({
         error: true,
