@@ -1,16 +1,15 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Alerta from "./Alerta";
+import tipoProvider from "../context/TipoArticuloProvider";
 
 const AltaProvTipo = ({
   title,
-  placeholder,
-  setActivado,
-  tipoArticulos,
-  setTipoArticulos,
+  placeholder
 }) => {
+
   const [descripcion, setDescripcion] = useState("");
-  const [alerta, setAlerta] = useState("");
+  const { guardarTipoArticulo, alerta, setAlerta, setActivado } = useContext(tipoProvider);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,23 +25,13 @@ const AltaProvTipo = ({
       return;
     }
 
-    const url = "http://localhost:4000/admin/tipos-de-articulo";
+    //Funcion en el context, crea un nuevo tipo de articulo
+    guardarTipoArticulo(descripcion);
 
-    try {
-      // Al hacer el post del nuevo tipo de articulo, acutalizamos el estado de tipos de articulos usando el spread operator y agregando el nuevo que nos llega desde la respuesta del back
-      const respuesta = await axios.post(url, { descripcion });
-      setTipoArticulos([...tipoArticulos, respuesta.data.respuesta]);
-      // Mensaje de creado con exito
+    // Desactiva el modal del form
+    setTimeout(() => {
       setActivado(false);
-    } catch (error) {
-      setAlerta({
-        error: true,
-        msg: "Hubo un error, vuelva a intentarlo"
-      });
-      setTimeout(() => {
-        setAlerta({});
-      }, 3000);
-    }
+    }, 2000);
   };
 
   const { msg } = alerta;
