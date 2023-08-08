@@ -1,59 +1,37 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import Alerta from "./Alerta";
+import tipoProvider from "../context/TipoArticuloProvider";
 
-const EditarTipo = ({ setActivadoEditar, descripcion, id, tipoArticulos, setTipoArticulos }) => {
-  const [descripcionEditar, setDescripcionEditar] = useState(descripcion); //Recibe la descripcion del padre y la muestra en el input
-  const [idEditar, setIdEditar] = useState(id);
-  const [alerta, setAlerta] = useState({});
+const EditarTipo = () => {
 
+  const {
+    editarTipoArticulo,
+    tipoArticulo, //State que guarda el objeto a editar
+    setTipoArticulo,
+    setActivadoEditar,
+    alertaEditar,
+    setAlertaEditar,
+  } = useContext(tipoProvider);
+
+  //Valida y luego llama a la funcion en el context
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (descripcionEditar === "") {
-      setAlerta({
+    if (descripcion === "") {
+      setAlertaEditar({
         msg: "Debe rellenar el campo",
         error: true,
       });
       setTimeout(() => {
-        setAlerta({});
+        setAlertaEditar({});
       }, 3000);
       return;
     }
-
-    const url = `http://localhost:4000/admin/tipos-de-articulo/${idEditar}`;
-
-    try {
-      const { data } = await axios.put(url, { descripcion: descripcionEditar });
-
-      //Actualiza el arreglo de tipos de articulos, el que se edito
-      const tipoArticuloActualizado = tipoArticulos.map( tipoArticulo => tipoArticulo.id == data.tipo.id ? data.tipo : tipoArticulo);
-    
-      setTipoArticulos(tipoArticuloActualizado)
-      console.log(data.msg)
-      setAlerta({
-        error: false,
-        msg: data.msg,
-      });
-
-      setTimeout(() => {
-        setAlerta({});
-        setActivadoEditar(false);
-      }, 1500);
-
-    } catch (error) {
-      setAlerta({
-        error: true,
-        msg: error.response.data.msg,
-      });
-
-      setTimeout(() => {
-        setAlerta({});
-      }, 3000);
-    }
+    editarTipoArticulo(tipoArticulo);
   };
 
-  const { msg } = alerta;
+  const { msg } = alertaEditar;
 
   return (
     <div className="w-full h-screen absolute top-0 left-0 bg-black bg-opacity-70 backdrop-blur-sm">
@@ -94,7 +72,7 @@ const EditarTipo = ({ setActivadoEditar, descripcion, id, tipoArticulos, setTipo
         </div>
 
         <div className="flex flex-col px-5">
-          {msg && <Alerta alerta={alerta} />}
+          {msg && <Alerta alerta={alertaEditar} />}
           <label
             htmlFor="descripcion"
             className="text-xl font-bold uppercase mb-1"
@@ -105,11 +83,18 @@ const EditarTipo = ({ setActivadoEditar, descripcion, id, tipoArticulos, setTipo
             id="descripcion"
             type="text"
             className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={descripcionEditar}
-            onChange={(e) => setDescripcionEditar(e.target.value)}
+            value={tipoArticulo.descripcion}
+            onChange={(e) =>
+              setTipoArticulo({ ...tipoArticulo, descripcion: e.target.value })
+            }
             placeholder="Descripción"
           />
-          <input type="text" className="hidden" value={id} readOnly={true} />
+          <input
+            type="text"
+            className="hidden"
+            value={tipoArticulo.id}
+            readOnly={true}
+          />
         </div>
 
         <div className="w-full px-5">
