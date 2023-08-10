@@ -10,6 +10,7 @@ import Inicio from "./pages/Inicio";
 import TipoArticulo from "./pages/TipoArticulo";
 import Proveedores from "./pages/Proveedores";
 import Articulos from "./pages/Articulos";
+import AltasExcel from "./pages/AltasExcel";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="tipos-de-articulo" element={<TipoArticulo />} />
                 <Route path="proveedores" element={<Proveedores />} />
                 <Route path="articulos" element={<Articulos />} />
+                <Route path="altas-excel" element={<AltasExcel />} />
               </Route>
             </Route>
           </Routes>

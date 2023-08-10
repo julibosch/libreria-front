@@ -27,7 +27,7 @@ const Login = () => {
     login(nombre, contrasenia);
   };
 
-  //Si el catch del context devuelve un error del que socio no existe , entra aca.
+  //Si el catch del context devuelve un error del que usuario no existe , entra aca.
   useEffect(() => {
     if (usuarioNoExiste) {
       setAlerta({
