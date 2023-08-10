@@ -1,7 +1,16 @@
+import { useState, useContext } from "react";
+import AltaArticulo from "../components/AltaArticulo";
+import articuloProvider from "../context/ArticuloProvider";
+import Articulo from "../components/Articulo";
+
 const Articulos = () => {
+
+  const { activarModal, setActivarModal, articulos } = useContext(articuloProvider);
+
   const handleAgregar = () => {
-    console.log("agregar");
+    setActivarModal(true);
   };
+
   return (
     <section className="w-4/5">
       <h2 className="bg-black w-full text-white py-5 mb-8 text-2xl uppercase font-bold text-center">
@@ -47,81 +56,87 @@ const Articulos = () => {
               </div>
 
               <div className="px-3 py-3 w-full inline-block align-middle">
-                <div className="overflow-hidden border rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-200 bg-slate-300">
+                <div className="lg:overflow-hidden sm:overflow-x-scroll border rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200 bg-slate-300 ">
                     <thead className="bg-gray-100">
                       <tr>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-md font-bold text-left text-gray-800 uppercase sm:truncate"
+                          className="px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
                         >
                           codigo
                         </th>
                         <th
                           scope="col"
-                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase sm:truncate "
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase  "
                         >
-                          Descripcion
+                          Descripción
                         </th>
                         <th
                           scope="col"
-                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase sm:truncate"
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
                         >
                           Precio
                         </th>
                         <th
                           scope="col"
-                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase sm:truncate"
-                        >
-                          Stock
-                        </th>
-                        <th
-                          scope="col"
-                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase sm:truncate"
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
                         >
                           Codigo de barra
                         </th>
                         <th
                           scope="col"
-                          className="w-2/12 py-3 text-md font-bold text-center text-gray-800 uppercase sm:truncate"
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                        >
+                          Tipo de artículo
+                        </th>
+                        <th
+                          scope="col"
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                        >
+                          Stock
+                        </th>
+                        <th
+                          scope="col"
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                        >
+                          Color
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3 text-md font-bold text-center text-gray-800 uppercase "
                         >
                           Editar
                         </th>
                         <th
                           scope="col"
-                          className="w-2/12 py-3 text-md font-bold text-center  text-gray-800 uppercase sm:truncate"
+                          className="px-3 py-3 text-md font-bold text-center  text-gray-800 uppercase "
                         >
                           Eliminar
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">{}</tbody>
+                    <tbody className="divide-y divide-gray-200">
+                      {
+                        articulos.length > 0 ? (
+                          articulos.map( articulo => (
+                            <Articulo key={articulo.id} articulo={articulo}/>
+                          ))
+                        )
+                        :
+                        (
+                          <tr>
+                          <td>No hay ningún artículo, cargue uno</td>
+                          </tr>
+                        )
+                      }
+                    </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* {activado && (
-        <AltaProvTipo
-          title={title}
-          placeholder={placeholder}
-          setActivado={setActivado}
-          tipoArticulos={tipoArticulos}
-          setTipoArticulos={setTipoArticulos}
-        />
-      )}
-
-      {
-        activadoEditar && (
-          <EditarTipo
-            descripcion={descripcion}
-            id={id}
-            tipoArticulos={tipoArticulos}
-            setTipoArticulos={setTipoArticulos}
-          />
-        )
-      } */}
+          {activarModal && <AltaArticulo setActivado={setActivarModal} />}
         </div>
       </div>
     </section>

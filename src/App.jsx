@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import { TipoArticuloProvider } from "./context/TipoArticuloProvider";
+import { ArticuloProvider } from "./context/ArticuloProvider";
 
 import AuthLayout from "./layout/AuthLayout";
 import InicioLayout from "./layout/InicioLayout";
@@ -16,23 +17,25 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <TipoArticuloProvider>
-          <Routes>
-            <Route>
-              <Route path="/" element={<AuthLayout />}>
-                <Route index element={<Login />} />
-              </Route>
+        <ArticuloProvider>
+          <TipoArticuloProvider>
+            <Routes>
+              <Route>
+                <Route path="/" element={<AuthLayout />}>
+                  <Route index element={<Login />} />
+                </Route>
 
-              <Route path="inicio" element={<InicioLayout />}>
-                <Route index element={<Inicio />} />
-                <Route path="tipos-de-articulo" element={<TipoArticulo />} />
-                <Route path="proveedores" element={<Proveedores />} />
-                <Route path="articulos" element={<Articulos />} />
-                <Route path="altas-excel" element={<AltasExcel />} />
+                <Route path="inicio" element={<InicioLayout />}>
+                  <Route index element={<Inicio />} />
+                  <Route path="tipos-de-articulo" element={<TipoArticulo />} />
+                  <Route path="proveedores" element={<Proveedores />} />
+                  <Route path="articulos" element={<Articulos />} />
+                  <Route path="altas-excel" element={<AltasExcel />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </TipoArticuloProvider>
+            </Routes>
+          </TipoArticuloProvider>
+        </ArticuloProvider>
       </AuthProvider>
     </BrowserRouter>
   );
