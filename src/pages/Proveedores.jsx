@@ -1,4 +1,3 @@
-import LeerExcel from "../components/LeerExcel"
 import TableProvTipo from "../components/TableProvTipo"
 
 const Proveedores = () => {
@@ -8,7 +7,6 @@ const Proveedores = () => {
 
       <div className="px-10">
         {/* <TableProvTipo /> */}
-        <LeerExcel/>
       </div>
 
     </section>
