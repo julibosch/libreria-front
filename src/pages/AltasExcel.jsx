@@ -49,7 +49,7 @@ const AltasExcel = () => {
   }
 
   return (
-    <section className="w-4/5">
+    <section className="w-full">
       <h1 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h1>
       <h3 className="text-center mb-2 font-bold text-white text-2xl">Tipos de artículos</h3>
       <div className="px-10 w-full mb-5">

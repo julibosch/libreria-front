@@ -1,6 +1,6 @@
 const Inicio = () => {
   return (
-    <section className="w-4/5">
+    <section className="w-full">
       <h2 className="bg-black w-full text-white py-5 text-2xl uppercase font-bold text-center">Inicio</h2>
 
       <div className="bg-amber-300 w-1/3 mx-auto my-28 p-5 rounded-md shadow-md">

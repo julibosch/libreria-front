@@ -3,16 +3,15 @@ import AltaArticulo from "../components/AltaArticulo";
 import articuloProvider from "../context/ArticuloProvider";
 import Articulo from "../components/Articulo";
 
-const Articulos = () => {
-
-  const { activarModal, setActivarModal, articulos } = useContext(articuloProvider);
+const ArticuloPage = () => {
+  const { activarModal, setActivarModal, articulos, activarEditar } = useContext(articuloProvider);
 
   const handleAgregar = () => {
     setActivarModal(true);
   };
 
   return (
-    <section className="w-4/5">
+    <section className="w-full">
       <h2 className="bg-black w-full text-white py-5 mb-8 text-2xl uppercase font-bold text-center">
         Articulos
       </h2>
@@ -56,13 +55,13 @@ const Articulos = () => {
               </div>
 
               <div className="px-3 py-3 w-full inline-block align-middle">
-                <div className="lg:overflow-hidden sm:overflow-x-scroll border rounded-lg">
+                <div className="sm:overflow-x-scroll border rounded-lg">
                   <table className="min-w-full divide-y divide-gray-200 bg-slate-300 ">
                     <thead className="bg-gray-100">
                       <tr>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                          className=" px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
                         >
                           codigo
                         </th>
@@ -120,7 +119,7 @@ const Articulos = () => {
                       {
                         articulos.length > 0 ? (
                           articulos.map( articulo => (
-                            <Articulo key={articulo.id} articulo={articulo}/>
+                            <Articulo key={articulo.id} articuloProp={articulo}/>
                           ))
                         )
                         :
@@ -136,11 +135,12 @@ const Articulos = () => {
               </div>
             </div>
           </div>
-          {activarModal && <AltaArticulo setActivado={setActivarModal} />}
+          {activarModal && <AltaArticulo />}
+          { activarEditar && <AltaArticulo /> }
         </div>
       </div>
     </section>
   );
 };
 
-export default Articulos;
+export default ArticuloPage;

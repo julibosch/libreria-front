@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import TableProvTipo from "../components/TableProvTipo";
-import axios from "axios";
 import Alerta from "../components/Alerta";
 
-const TipoArticulo = () => {
+const TipoArticuloPage = () => {
   const [alerta, setAlerta] = useState({});
 
   const { msg } = alerta;
 
   return (
-    <section className="w-4/5">
+    <section className="w-full">
       <h2 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">
         Tipos de articulo
       </h2>
@@ -25,4 +24,4 @@ const TipoArticulo = () => {
   );
 };
 
-export default TipoArticulo;
+export default TipoArticuloPage;

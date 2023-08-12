@@ -3,23 +3,48 @@ import Alerta from "./Alerta";
 import tipoProvider from "../context/TipoArticuloProvider";
 import articuloProvider from "../context/ArticuloProvider";
 
-const AltaArticulo = ({ setActivado }) => {
-  const [codigo, setCodigo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [precio, setPrecio] = useState("");
-  const [codigoBarra, setCodigoBarra] = useState("");
-  const [tipoArticulo, setTipoArticulo] = useState("");
-  const [stock, setStock] = useState("");
-  const [color, setColor] = useState("");
-
+const AltaArticulo = () => {
   const { tipoArticulos } = useContext(tipoProvider); //Este context es el de tipo de articulos, reutilizamos la funcion que trae los tipos de articulos
-  const { alertaAlta, setAlertaAlta, setArticulo, guardarArticulo } = useContext(articuloProvider);
+  const {
+    alertaAlta,
+    setAlertaAlta,
+    setArticulo,
+    guardarArticulo,
+    activarEditar,
+    setActivarEditar,
+    activarModal,
+    setActivarModal,
+    articulo,
+    codigo,
+    setCodigo,
+    descripcion,
+    setDescripcion,
+    codigoBarra,
+    setCodigoBarra,
+    stock,
+    setStock,
+    color,
+    setColor,
+    tipoArticulo,
+    setTipoArticulo,
+    precio,
+    setPrecio,
+  } = useContext(articuloProvider);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
-
+    if (
+      [
+        codigo,
+        descripcion,
+        precio,
+        codigoBarra,
+        tipoArticulo,
+        stock,
+        color,
+      ].includes("")
+    ) {
       setAlertaAlta({
         error: true,
         msg: "Debe rellenar todos los campos",
@@ -31,10 +56,34 @@ const AltaArticulo = ({ setActivado }) => {
       return;
     }
 
-    //setArticulo y guardarArticulo se llaman desde el context. SetArticulo guarda el objeto del form y guardar manda la info al back
-    setArticulo({ codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color, });
+    //Si esta dando de alta
+    if (activarModal) {
+      //setArticulo y guardarArticulo se llaman desde el context. SetArticulo guarda el objeto del form y guardar manda la info al back
+      setArticulo({
+        codigo,
+        descripcion,
+        precio,
+        codigoBarra,
+        tipoArticulo,
+        stock,
+        color,
+      });
+      guardarArticulo();
+      return;
+    }
+  };
 
-    guardarArticulo();
+  const handleCerrar = () => {
+    setActivarModal(false);
+    setActivarEditar(false);
+    setArticulo({});
+    setCodigo("");
+    setDescripcion("");
+    setCodigoBarra("");
+    setStock("");
+    setColor("");
+    setTipoArticulo("");
+    setPrecio("");
   };
 
   const { msg } = alertaAlta;
@@ -54,7 +103,7 @@ const AltaArticulo = ({ setActivado }) => {
           <button
             className="absolute right-4 top-1 hover:scale-110 transition-all"
             type="button"
-            onClick={() => setActivado(false)}
+            onClick={handleCerrar}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,125 +124,150 @@ const AltaArticulo = ({ setActivado }) => {
           </button>
         </div>
 
-        <div className="flex flex-col px-5">
-          {msg && <Alerta alerta={alertaAlta} />}
-          <label htmlFor="codigo" className="text-xl font-bold uppercase mb-1">
-            Código
-          </label>
-          <input
-            id="codigo"
-            type="number"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-5"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-            placeholder="Codigo"
-          />
-        </div>
-        <div className="flex flex-col px-5">
-          <label
-            htmlFor="descripcion"
-            className="text-xl font-bold uppercase mb-1"
-          >
-            Descripción
-          </label>
-          <input
-            id="descripcion"
-            type="text"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            placeholder="Descripción"
-          />
-        </div>
-        <div className="flex flex-col px-5">
-          <label htmlFor="precio" className="text-xl font-bold uppercase mb-1">
-            Precio
-          </label>
-          <input
-            id="precio"
-            type="number"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
-            placeholder="Precio"
-          />
-        </div>
-        <div className="flex flex-col px-5">
-          <label
-            htmlFor="codigoBarra"
-            className="text-xl font-bold uppercase mb-1"
-          >
-            codigo de barra
-          </label>
-          <input
-            id="codigoBarra"
-            type="number"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={codigoBarra}
-            onChange={(e) => setCodigoBarra(e.target.value)}
-            placeholder="codigoBarra"
-          />
-        </div>
-        <div className="flex flex-col px-5">
-          <label
-            htmlFor="tipoArticulo"
-            className="text-xl font-bold uppercase mb-1"
-          >
-            Tipo de artículo
-          </label>
-          <select
-            id="tipoArticulo"
-            value={tipoArticulo}
-            onChange={(e) => setTipoArticulo(e.target.value)}
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-          >
-          <option value="">Seleccione uno</option>
-            {tipoArticulos.length > 0 ? (
-              tipoArticulos.map((tipo) => (
-                <option value={tipo.descripcion} key={tipo.id}>
-                  {tipo.descripcion}
-                </option>
-              ))
-            ) : (
-              <option value="">
-                No existen tipos de artículos, da de alta uno
-              </option>
-            )}
-          </select>
-        </div>
-        <div className="flex flex-col px-5">
-          <label htmlFor="stock" className="text-xl font-bold uppercase mb-1">
-            Stock
-          </label>
-          <input
-            id="stock"
-            type="number"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={stock}
-            onChange={(e) => setStock(e.target.value)}
-            placeholder="stock"
-          />
-        </div>
-        <div className="flex flex-col px-5">
-          <label htmlFor="color" className="text-xl font-bold uppercase mb-1">
-            color
-          </label>
-          <input
-            id="color"
-            type="text"
-            className="border border-slate-600 rounded-md py-1 px-3 mb-10"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            placeholder="color"
-          />
-        </div>
+        {msg && <Alerta alerta={alertaAlta} />}
+        <div className="flex-col ">
+          {/* DIV 1 */}
+          <div className="flex justify-center gap-5 mb-5">
+            <div className="w-1/2">
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="codigo"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Código
+                </label>
+                <input
+                  id="codigo"
+                  type="number"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={codigo}
+                  onChange={(e) => setCodigo(e.target.value)}
+                  placeholder="Codigo"
+                />
+              </div>
 
-        <div className="w-full px-5">
-          <input
-            type="submit"
-            value="Agregar"
-            className="w-full bg-indigo-700 py-2 rounded-md uppercase font-bold cursor-pointer hover:bg-indigo-900 text-white transition-colors"
-          />
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="descripcion"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Descripción
+                </label>
+                <input
+                  id="descripcion"
+                  type="text"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={descripcion}
+                  onChange={(e) => setDescripcion(e.target.value)}
+                  placeholder="Descripción"
+                />
+              </div>
+
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="precio"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Precio
+                </label>
+                <input
+                  id="precio"
+                  type="number"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={precio}
+                  onChange={(e) => setPrecio(e.target.value)}
+                  placeholder="Precio"
+                />
+              </div>
+            </div>
+
+            {/* DIV 2 */}
+            <div className="w-1/2">
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="codigoBarra"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  codigo de barra
+                </label>
+                <input
+                  id="codigoBarra"
+                  type="number"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={codigoBarra}
+                  onChange={(e) => setCodigoBarra(e.target.value)}
+                  placeholder="codigoBarra"
+                />
+              </div>
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="tipoArticulo"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Tipo de artículo
+                </label>
+                <select
+                  id="tipoArticulo"
+                  value={tipoArticulo}
+                  onChange={(e) => setTipoArticulo(e.target.value)}
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                >
+                  <option value="">Seleccione uno</option>
+                  {tipoArticulos.length > 0 ? (
+                    tipoArticulos.map((tipo) => (
+                      <option value={tipo.descripcion} key={tipo.id}>
+                        {tipo.descripcion}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">
+                      No existen tipos de artículos, da de alta uno
+                    </option>
+                  )}
+                </select>
+              </div>
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="stock"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Stock
+                </label>
+                <input
+                  id="stock"
+                  type="number"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  placeholder="stock"
+                />
+              </div>
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="color"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  color
+                </label>
+                <input
+                  id="color"
+                  type="text"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  placeholder="color"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full px-5">
+            <input
+              type="submit"
+              value="Agregar"
+              className="w-full bg-indigo-700 py-2 rounded-md uppercase font-bold cursor-pointer hover:bg-indigo-900 text-white transition-colors"
+            />
+          </div>
         </div>
       </form>
     </div>
