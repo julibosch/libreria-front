@@ -51,18 +51,20 @@ const AltasExcel = () => {
   return (
     <section className="w-4/5">
       <h1 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h1>
-      <h3 className="text-center mb-2 font-bold text-white text-2xl">Tipos de artículos</h3>
-      <div className="px-10 w-full mb-5">
-        <form onSubmit={handleEnviarTiposArticulos} className=" flex flex-col justify-around items-center container mx-auto rounded-lg min-h-[200px] shadow-md bg-neutral-500">
-          <input type="file" accept=".xlsx, .xls" onChange={(e) => handleLeer(e, "tipoArticulo")} className="w-1/2 text-xl mx-auto my-3  text-white cursor-pointer" />
-          <input type="submit" value="Enviar" className="disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-gray-800 text-white hover:bg-slate-500 py-3 border-2 border-slate-600 my-6 w-6/12 mx-auto cursor-pointer rounded-xl transition-all shadow-md" />
+      
+      <div className="w-5/6 mx-auto mb-10 rounded-lg overflow-hidden shadow-md">
+        <h3 className="bg-neutral-800 text-center font-bold text-white text-xl py-2">Excel Tipos de artículo</h3>
+        <form onSubmit={handleEnviarTiposArticulos} className=" flex flex-col justify-around items-center container mx-auto min-h-[150px] bg-neutral-500">
+          <input type="file" accept=".xlsx, .xls" onChange={(e) => handleLeer(e, "tipoArticulo")} className="w-1/2 text-lg mx-auto my-3 text-white cursor-pointer" />
+          <input type="submit" value="Enviar" className="uppercase font-bold disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-slate-900 text-white hover:bg-slate-700 py-3 w-6/12 mx-auto mb-2 cursor-pointer rounded-xl transition-all shadow-md" />
         </form>
       </div>
-      <h3 className="text-center mb-2 font-bold text-white text-2xl">Artículos</h3>
-      <div className="px-10 w-full">
-        <form onSubmit={handleEnviarArticulos} className=" flex flex-col justify-around items-center container mx-auto rounded-lg min-h-[200px] shadow-md bg-neutral-500">
-          <input type="file" accept=".xlsx, .xls" onChange={(e) => handleLeer(e, "articulo")} className="w-1/2 text-xl mx-auto my-3  text-white cursor-pointer" />
-          <input type="submit" value="Enviar" className="disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-gray-800 text-white hover:bg-slate-500 py-3 border-2 border-slate-600 my-6 w-6/12 mx-auto cursor-pointer rounded-xl transition-all shadow-md" />
+
+      <div className="w-5/6 mx-auto rounded-lg overflow-hidden shadow-md">
+        <h3 className="bg-neutral-800 text-center font-bold text-white text-xl py-2">Excel Artículos</h3>
+        <form onSubmit={handleEnviarArticulos} className=" flex flex-col justify-around items-center container mx-auto min-h-[150px] bg-neutral-500">
+          <input type="file" accept=".xlsx, .xls" onChange={(e) => handleLeer(e, "articulo")} className="w-1/2 text-lg mx-auto my-3 text-white cursor-pointer" />
+          <input type="submit" value="Enviar" className="uppercase font-bold disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-slate-900 text-white hover:bg-slate-700 py-3 w-6/12 mx-auto mb-2 cursor-pointer rounded-xl transition-all shadow-md" />
         </form>
       </div>
     </section>

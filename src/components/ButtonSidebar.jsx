@@ -1,27 +1,19 @@
-import {useNavigate} from 'react-router-dom'
+import {Link, useMatch} from 'react-router-dom';
 
-const ButtonSidebar = ({nombre, icon}) => {
+const ButtonSidebar = ({nombre, to, icon}) => {
 
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    const palabra = nombre;
-
-    if(palabra === 'Inicio') {
-      navigate('/inicio')
-    } else {
-      navigate(palabra.replace(/\s/g, '-').toLowerCase());
-    }
-  }
+  const isActive = useMatch(to);
 
   return (
-    <button
-      onClick={handleClick}
-      className="flex items-center gap-2 w-full text-slate-100 hover:bg-slate-700 hover:bg-opacity-40 transition-colors cursor-pointer uppercase font-bold text-left text-md px-2 py-3"
-    >
-      {icon}
-      {nombre}
-    </button>
+    <Link
+    to={to}
+    className={`flex items-center gap-2 w-full text-slate-100 hover:bg-indigo-400 hover:bg-opacity-10 transition-all cursor-pointer uppercase font-bold text-left text-md px-2 py-3 ${
+      isActive ? 'bg-indigo-500 gap-4 bg-opacity-30 hover:!bg-indigo-500 hover:!bg-opacity-30 border-l-[6px] border-indigo-200' : ''
+    }`}
+  >
+    {icon}
+    {nombre}
+  </Link>
   )
 }
 
