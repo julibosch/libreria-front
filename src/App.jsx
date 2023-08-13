@@ -8,9 +8,9 @@ import InicioLayout from "./layout/InicioLayout";
 
 import Login from "./pages/Login";
 import Inicio from "./pages/Inicio";
-import TipoArticulo from "./pages/TipoArticulo";
+import TipoArticuloPage from "./pages/TipoArticuloPage";
 import Proveedores from "./pages/Proveedores";
-import Articulos from "./pages/Articulos";
+import ArticuloPage from "./pages/ArticuloPage";
 import AltasExcel from "./pages/AltasExcel";
 
 function App() {
@@ -27,9 +27,9 @@ function App() {
 
                 <Route path="inicio" element={<InicioLayout />}>
                   <Route index element={<Inicio />} />
-                  <Route path="tipos-de-articulo" element={<TipoArticulo />} />
+                  <Route path="tipos-de-articulo" element={<TipoArticuloPage />} />
                   <Route path="proveedores" element={<Proveedores />} />
-                  <Route path="articulos" element={<Articulos />} />
+                  <Route path="articulos" element={<ArticuloPage />} />
                   <Route path="altas-excel" element={<AltasExcel />} />
                 </Route>
               </Route>

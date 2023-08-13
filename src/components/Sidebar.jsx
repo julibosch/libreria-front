@@ -4,7 +4,7 @@ import ButtonSidebar from "./ButtonSidebar";
 const Sidebar = () => {
 
   return (
-    <aside className="pattern h-screen w-1/5 pb-5">
+    <aside className="pattern h-screen w-1/6 pb-5">
       <h2 className="uppercase text-4xl font-black text-center py-4 mx-3 border-b mb-10 text-slate-100">Piquitos</h2>
 
       <div className="flex flex-col justify-between h-3/4">

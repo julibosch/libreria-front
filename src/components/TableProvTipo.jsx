@@ -14,12 +14,6 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
     setActivado(true);
   };
 
-  //Cuando se agrega un nuevo tipo, se actualiza el state y se actualiza el componente para mostrar en la lista el nuevo tipo.
-  useEffect(() => {
-
-  }, [tipoArticulos])
-  
-
   return (
     <div className="container mx-auto bg-slate-500 rounded-lg shadow-md">
       <div className="flex flex-col">
@@ -59,9 +53,9 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
             </div>
           </div>
 
-          <div className="px-3 py-3 w-full inline-block align-middle">
-            <div className="overflow-hidden border rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200 bg-slate-300">
+          <div className="px-3 py-3 w-full inline-block align-middle ">
+            <div className="h-[30rem] overflow-y-scroll border rounded-lg">
+              <table className="min-w-full divide-y divide-gray-200 bg-slate-300 ">
                 <thead className="bg-gray-100">
                   <tr>
                     <th
