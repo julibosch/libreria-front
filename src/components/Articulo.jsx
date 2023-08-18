@@ -1,12 +1,15 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import articuloProvider from "../context/ArticuloProvider";
+import clienteAxios from "../config/axios";
 
 const Articulo = ({ articuloProp }) => {
-  
 
-  const { setActivarEditar, 
+  const {
+    setActivarEditar, 
     setArticulo, 
-    articulo
+    articulo,
+    articulos,
+    setArticulos
   } = useContext(articuloProvider);
 
   //Esta funcion activa el modal y llena articulo con los datos que es el state en el context.
@@ -22,6 +25,25 @@ const Articulo = ({ articuloProp }) => {
       color: articuloProp.color,
     }); 
   };
+
+  const handleEliminar = async () => {
+    const confirmar = confirm(`Estás seguro que deseas eliminar ${articuloProp.descripcion}`);
+
+    if (confirmar) {
+      try {
+        const { id } = articuloProp;
+        const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
+        
+        if (respuesta.data.respuesta == 1) {
+          const articulosActualizados = articulos.filter(articulo => articulo.id != id);
+          setArticulos(articulosActualizados);
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   return (
     <tr>
@@ -71,7 +93,7 @@ const Articulo = ({ articuloProp }) => {
         </button>
       </td>
       <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
-        <button className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
+        <button onClick={handleEliminar} className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-trash"

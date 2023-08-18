@@ -99,7 +99,8 @@ const TipoArticuloProvider = ({ children }) => {
   return (
     <tipoProvider.Provider
     value={{
-      tipoArticulos, // arreglo general
+      tipoArticulos, //Arreglo general
+      setTipoArticulos, //Set del arreglo general
       guardarTipoArticulo, //Funcion de dar de alta
       alerta, //Alerta en guardar tipo
       setAlerta, //Alerta en guardar tipo

@@ -29,22 +29,13 @@ const AltaArticulo = () => {
     setTipoArticulo,
     precio,
     setPrecio,
+    editarArticulo
   } = useContext(articuloProvider);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      [
-        codigo,
-        descripcion,
-        precio,
-        codigoBarra,
-        tipoArticulo,
-        stock,
-        color,
-      ].includes("")
-    ) {
+    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
       setAlertaAlta({
         error: true,
         msg: "Debe rellenar todos los campos",
@@ -52,10 +43,11 @@ const AltaArticulo = () => {
 
       setTimeout(() => {
         setAlertaAlta({});
-      }, 3000);
+      }, 2000);
       return;
     }
 
+    
     //Si esta dando de alta
     if (activarModal) {
       //setArticulo y guardarArticulo se llaman desde el context. SetArticulo guarda el objeto del form y guardar manda la info al back
@@ -71,6 +63,21 @@ const AltaArticulo = () => {
       guardarArticulo();
       return;
     }
+
+    if (activarEditar) {
+      if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
+        setAlertaAlta({
+          error: true,
+          msg: "Debe rellenar todos los campos",
+        });
+  
+        setTimeout(() => {
+          setAlertaAlta({});
+        }, 3000);
+        return;
+      }
+      // editarArticulo(articulo);
+    }
   };
 
   const handleCerrar = () => {
@@ -85,6 +92,10 @@ const AltaArticulo = () => {
     setTipoArticulo("");
     setPrecio("");
   };
+
+  useEffect( () => {
+    console.log(`TipoArticulo: ${tipoArticulo}`);
+  }, [tipoArticulo])
 
   const { msg } = alertaAlta;
 

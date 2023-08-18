@@ -24,7 +24,6 @@ const ArticuloProvider = ({ children }) => {
       try {
         const respuesta = await clienteAxios.get("/admin/articulo");
         setArticulos(respuesta.data);
-        console.log(articulos);
       } catch (error) {
         console.log(error);
       }
@@ -55,8 +54,12 @@ const ArticuloProvider = ({ children }) => {
   }, [articulo]);
 
   const guardarArticulo = async () => {
+    console.log(`TipoArticulo: ${tipoArticulo}`);
+    console.log(articulo);
+    return;
     try {
       const respuesta = await clienteAxios.post("/admin/articulo", articulo);
+
       setArticulos([...articulos, respuesta.data.respuesta]);
 
       setAlertaAlta({
@@ -69,16 +72,15 @@ const ArticuloProvider = ({ children }) => {
         setActivarModal(false); //Desactiva el modal
       }, 3000);
 
-      setArticulo({}); // borra el objeto de articulos
-      return;
+      return setArticulo({}); // borra el objeto de articulos
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setAlertaAlta({
         error: true,
         msg: error.message,
       });
       setTimeout(() => {
-        setAlertaAlta({})
+        setAlertaAlta({});
       }, 2000);
     }
   };
@@ -86,7 +88,7 @@ const ArticuloProvider = ({ children }) => {
   const editarArticulo = async ({ articulo }) => {
     try {
       const respuesta = await clienteAxios.put(
-        `/admin/${articulo.id}`,
+        `/admin/articulo/${articulo.id}`,
         articulo
       );
       console.log(respuesta);
@@ -105,6 +107,7 @@ const ArticuloProvider = ({ children }) => {
         activarModal,
         setActivarModal,
         articulos,
+        setArticulos,
         activarEditar,
         setActivarEditar,
         codigo,
@@ -121,6 +124,7 @@ const ArticuloProvider = ({ children }) => {
         setTipoArticulo,
         precio,
         setPrecio,
+        editarArticulo,
       }}
     >
       {children}
