@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import Alerta from "./Alerta";
 import tipoProvider from "../context/TipoArticuloProvider";
 import articuloProvider from "../context/ArticuloProvider";
@@ -11,9 +11,7 @@ const AltaArticulo = () => {
     setArticulo,
     guardarArticulo,
     activarEditar,
-    setActivarEditar,
-    activarModal,
-    setActivarModal,
+    activarAltaModal,
     articulo,
     codigo,
     setCodigo,
@@ -29,10 +27,11 @@ const AltaArticulo = () => {
     setTipoArticulo,
     precio,
     setPrecio,
-    editarArticulo
+    editarArticulo,
+    handleCerrar
   } = useContext(articuloProvider);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
@@ -47,55 +46,37 @@ const AltaArticulo = () => {
       return;
     }
 
-    
-    //Si esta dando de alta
-    if (activarModal) {
-      //setArticulo y guardarArticulo se llaman desde el context. SetArticulo guarda el objeto del form y guardar manda la info al back
-      setArticulo({
-        codigo,
-        descripcion,
-        precio,
-        codigoBarra,
-        tipoArticulo,
-        stock,
-        color,
-      });
+    setArticulo({
+      codigo,
+      descripcion,
+      precio,
+      codigoBarra,
+      tipoArticulo,
+      stock,
+      color,
+    });
+  };
+
+  // USEEFFECT ALTA
+  useEffect(() => {
+    // Si el modal esta en modo ALTA y el state ARTICULO esta lleno entonces se llama la funcion
+    if (activarAltaModal && Object.keys(articulo).length > 0) {
       guardarArticulo();
-      return;
     }
 
-    if (activarEditar) {
-      if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
-        setAlertaAlta({
-          error: true,
-          msg: "Debe rellenar todos los campos",
-        });
-  
-        setTimeout(() => {
-          setAlertaAlta({});
-        }, 3000);
-        return;
-      }
-      // editarArticulo(articulo);
+    // Si el modal esta en modo EDICION y el state ARTICULO esta lleno entonces se llama la funcion
+    if (activarEditar && Object.keys(articulo).length > 0) {
+      editarArticulo(articulo);
     }
-  };
+  }, [articulo]);
 
-  const handleCerrar = () => {
-    setActivarModal(false);
-    setActivarEditar(false);
-    setArticulo({});
-    setCodigo("");
-    setDescripcion("");
-    setCodigoBarra("");
-    setStock("");
-    setColor("");
-    setTipoArticulo("");
-    setPrecio("");
-  };
-
-  useEffect( () => {
-    console.log(`TipoArticulo: ${tipoArticulo}`);
-  }, [tipoArticulo])
+  // // USEEFECT EDITAR
+  // useEffect(() => {
+  //   // Si el modal esta en modo EDICION y el state ARTICULO esta lleno entonces se llama la funcion
+  //   if (activarEditar && Object.keys(articulo).length > 0) {
+  //     editarArticulo(articulo);
+  //   }
+  // }, [articulo]);
 
   const { msg } = alertaAlta;
 
@@ -108,7 +89,7 @@ const AltaArticulo = () => {
       >
         <div className="flex relative">
           <h2 className="w-full bg-slate-300 text-2xl font-bold uppercase text-center py-3 mb-5">
-            Alta artículo
+            {activarEditar ? "Editar articulo" : "Alta articulo"}
           </h2>
 
           <button
@@ -275,7 +256,7 @@ const AltaArticulo = () => {
           <div className="w-full px-5">
             <input
               type="submit"
-              value="Agregar"
+              value={activarEditar ? "Editar" : "Agregar"}
               className="w-full bg-indigo-700 py-2 rounded-md uppercase font-bold cursor-pointer hover:bg-indigo-900 text-white transition-colors"
             />
           </div>

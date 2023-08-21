@@ -1,49 +1,32 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import articuloProvider from "../context/ArticuloProvider";
-import clienteAxios from "../config/axios";
 
 const Articulo = ({ articuloProp }) => {
-
   const {
-    setActivarEditar, 
-    setArticulo, 
-    articulo,
-    articulos,
-    setArticulos
+    setActivarEditar,
+    setCodigo,
+    setDescripcion,
+    setCodigoBarra,
+    setStock,
+    setColor,
+    setTipoArticulo,
+    setPrecio,
+    setIdArticulo,
+    eliminarArticulo
   } = useContext(articuloProvider);
 
-  //Esta funcion activa el modal y llena articulo con los datos que es el state en el context.
+  //Esta funcion activa el modal de EDITAR y llena los estados para que se complete el formulario
   const handleEditar = () => {
     setActivarEditar(true);
-    setArticulo({
-      codigo_buscador: articuloProp.codigo_buscador,
-      descripcion: articuloProp.descripcion,
-      precio: articuloProp.precio,
-      codigo_barra: articuloProp.codigo_barra,
-      tipoArticulo: articuloProp.tipoArticulo,
-      stock: articuloProp.stock,
-      color: articuloProp.color,
-    }); 
+    setCodigo(articuloProp.codigo_buscador);
+    setDescripcion(articuloProp.descripcion);
+    setCodigoBarra(articuloProp.codigo_barra);
+    setStock(articuloProp.stock);
+    setColor(articuloProp.color);
+    setTipoArticulo(articuloProp.tipoArticulo);
+    setPrecio(articuloProp.precio);
+    setIdArticulo(articuloProp.id);
   };
-
-  const handleEliminar = async () => {
-    const confirmar = confirm(`Estás seguro que deseas eliminar ${articuloProp.descripcion}`);
-
-    if (confirmar) {
-      try {
-        const { id } = articuloProp;
-        const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
-        
-        if (respuesta.data.respuesta == 1) {
-          const articulosActualizados = articulos.filter(articulo => articulo.id != id);
-          setArticulos(articulosActualizados);
-        }
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
 
   return (
     <tr>
@@ -68,10 +51,12 @@ const Articulo = ({ articuloProp }) => {
       <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
         {articuloProp.color}
       </td>
+
+      {/* EDITAR */}
       <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
         <button
           className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
-          onClick={() => handleEditar(articulo)}
+          onClick={() => handleEditar()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +77,10 @@ const Articulo = ({ articuloProp }) => {
           </svg>
         </button>
       </td>
+
+      {/* ELIMINAR */}
       <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
-        <button onClick={handleEliminar} className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
+        <button onClick={() => eliminarArticulo(articuloProp)} className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-trash"

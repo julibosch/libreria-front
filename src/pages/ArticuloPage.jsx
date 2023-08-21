@@ -1,14 +1,10 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import AltaArticulo from "../components/AltaArticulo";
 import articuloProvider from "../context/ArticuloProvider";
 import Articulo from "../components/Articulo";
 
 const ArticuloPage = () => {
-  const { activarModal, setActivarModal, articulos, activarEditar } = useContext(articuloProvider);
-
-  const handleAgregar = () => {
-    setActivarModal(true);
-  };
+  const { activarAltaModal, setActivarAltaModal, articulos, activarEditar } = useContext(articuloProvider);
 
   return (
     <section className="w-full">
@@ -47,7 +43,7 @@ const ArticuloPage = () => {
                 <div className="absolute w-1/4 justify-between flex right-4 top-5">
                   <button
                     className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
-                    onClick={handleAgregar}
+                    onClick={() => setActivarAltaModal(true)} // Activa modal de alta
                   >
                     Agregar
                   </button>
@@ -135,8 +131,8 @@ const ArticuloPage = () => {
               </div>
             </div>
           </div>
-          {activarModal && <AltaArticulo />}
-          { activarEditar && <AltaArticulo /> }
+          {activarAltaModal && <AltaArticulo />}
+          {activarEditar && <AltaArticulo />}
         </div>
       </div>
     </section>
