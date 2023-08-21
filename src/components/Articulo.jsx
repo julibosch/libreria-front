@@ -30,39 +30,39 @@ const Articulo = ({ articuloProp }) => {
 
   return (
     <tr>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="pl-6 py-3 text-sm font-semibold text-gray-900">
         {articuloProp.codigo_buscador}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm font-semibold text-gray-900">
         {articuloProp.descripcion}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
-        {articuloProp.precio}
+      <td className="text-sm font-semibold text-gray-900">
+        ${articuloProp.precio}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm px-3 font-semibold text-gray-900">
         {articuloProp.codigo_barra}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm px-3 font-semibold text-gray-900">
         {articuloProp.tipoArticulo}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm text-center font-semibold text-gray-900">
         {articuloProp.stock}
       </td>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm text-center font-semibold text-gray-900">
         {articuloProp.color}
       </td>
 
       {/* EDITAR */}
-      <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
+      <td className="text-sm font-medium text-center whitespace-nowrap">
         <button
-          className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
+          className="py-2 px-2 shadow-md bg-indigo-400 hover:bg-indigo-600 transition-colors rounded-full"
           onClick={() => handleEditar()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-edit"
-            width="25"
-            height="25"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#000000"
@@ -79,13 +79,13 @@ const Articulo = ({ articuloProp }) => {
       </td>
 
       {/* ELIMINAR */}
-      <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
+      <td className="text-sm font-medium text-center whitespace-nowrap">
         <button onClick={() => eliminarArticulo(articuloProp)} className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-trash"
-            width="25"
-            height="25"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#000000"

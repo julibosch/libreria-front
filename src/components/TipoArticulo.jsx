@@ -1,10 +1,9 @@
 import { useContext } from "react";
 import tipoProvider from "../context/TipoArticuloProvider";
-import clienteAxios from "../config/axios";
 
 const TipoArticulo = ({ tipo }) => {
   const { id, descripcion } = tipo;
-  const { setActivadoEditar, setTipoArticulo, tipoArticulos, setTipoArticulos } = useContext(tipoProvider);
+  const { setActivadoEditar, setTipoArticulo, tipoArticulos, setTipoArticulos, eliminarTipoArticulo } = useContext(tipoProvider);
 
   //Esta funcion activa el modal y le pasa el id y la descripcion al state en el context.
   const handleEditar = () => {
@@ -12,36 +11,17 @@ const TipoArticulo = ({ tipo }) => {
     setTipoArticulo({ id: tipo.id, descripcion: tipo.descripcion }); //Esta en el context
   };
 
-  //Esta funcion elimina el tipo de articulo.
-  const handleEliminar = async (id) => {
-    const confirmar = confirm(`Estas seguro que desea eliminar ${descripcion}`);
-
-    if(confirmar) {
-      try {
-        const respuesta = await clienteAxios.delete(`admin/tipos-de-articulo/${id}`);
-
-        if(respuesta.data.respuesta == 1) {
-          const tiposArticulosActualizados = tipoArticulos.filter( tipo => tipo.id != id );
-
-          setTipoArticulos(tiposArticulosActualizados);
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
   return (
     <tr>
-      <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">
+      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
         {id}
       </td>
-      <td className="px-6 py-4 text-sm uppercase font-semibold text-gray-900 whitespace-nowrap">
+      <td className="px-6 text-sm uppercase font-semibold text-gray-900 whitespace-nowrap">
         {descripcion}
       </td>
 
       {/* EDITAR */}
-      <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
+      <td className="px-6 text-sm font-medium text-center whitespace-nowrap">
         <button
           className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
           onClick={() => handleEditar()}
@@ -49,8 +29,8 @@ const TipoArticulo = ({ tipo }) => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-edit"
-            width="25"
-            height="25"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#000000"
@@ -67,16 +47,16 @@ const TipoArticulo = ({ tipo }) => {
       </td>
 
       {/* ELIMINAR */}
-      <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
+      <td className="px-6 text-sm font-medium text-center whitespace-nowrap">
         <button 
         className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full"
-        onClick={()=> handleEliminar(id)}
+        onClick={()=> eliminarTipoArticulo(tipo)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-trash"
-            width="25"
-            height="25"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#000000"

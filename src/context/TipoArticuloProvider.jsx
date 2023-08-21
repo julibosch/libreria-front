@@ -1,4 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import clienteAxios from "../config/axios";
 import axios from "axios";
 
 const tipoProvider = createContext();
@@ -10,6 +13,16 @@ const TipoArticuloProvider = ({ children }) => {
   const [activado, setActivado] = useState(false); //Activa alerta
   const [activadoEditar, setActivadoEditar] = useState(false); //Activa editar
   const [tipoArticulo, setTipoArticulo] = useState({}); //Toma los datos para editar
+
+  const notify = (tipo, mensaje) => {
+    if(tipo === "success") {
+      toast.success(mensaje)
+    }
+
+    if(tipo === "info") {
+      toast.info(mensaje)
+    }
+  }
 
   //Trae los tipos de articulos apenas se carga el componente.
   useEffect(() => {
@@ -33,22 +46,14 @@ const TipoArticuloProvider = ({ children }) => {
 
   //Crea un nuevo tipo de articulo
   const guardarTipoArticulo = async (descripcion) => {
-
     const url = "http://localhost:4000/admin/tipos-de-articulo";
 
     try {
       const respuesta = await axios.post(url, { descripcion });
 
       setTipoArticulos([...tipoArticulos, respuesta.data.respuesta]);
-      setAlerta({
-        tipo: false,
-        msg: "Tipo de artículo creado exitosamente"
-      })
 
-      setTimeout(() => {
-        setAlerta({});
-      }, 2000);
-
+      notify("success", "Tipo de Articulo agregado exitosamente!");
     } catch (error) {
       setAlerta({
         error: true,
@@ -62,7 +67,6 @@ const TipoArticuloProvider = ({ children }) => {
   };
 
   const editarTipoArticulo = async ({ id, descripcion }) => {
-  
     const url = `http://localhost:4000/admin/tipos-de-articulo/${id}`;
 
     try {
@@ -73,15 +77,11 @@ const TipoArticuloProvider = ({ children }) => {
       
       setTipoArticulos(tipoArticuloActualizado)
       
-      setAlertaEditar({
-        error: false,
-        msg: data.msg,
-      });
+      notify("success", "Tipo de Articulo editado exitosamente!");
 
       setTimeout(() => {
-        setAlertaEditar({});
         setActivadoEditar(false);
-      }, 1500);
+      }, 1000);
 
     } catch (error) {
 
@@ -94,6 +94,28 @@ const TipoArticuloProvider = ({ children }) => {
         setAlertaEditar({});
       }, 3000);
     }
+  };
+
+  //Esta funcion elimina el tipo de articulo.
+  const eliminarTipoArticulo = async (tipo) => {
+    const {id, descripcion} = tipo;
+    const confirmar = confirm(`Estas seguro que desea eliminar ${descripcion}`);
+
+    if(confirmar) {
+      try {
+        const respuesta = await clienteAxios.delete(`admin/tipos-de-articulo/${id}`);
+
+        if(respuesta.data.respuesta == 1) {
+          const tiposArticulosActualizados = tipoArticulos.filter( tipoArt => tipoArt.id != id );
+
+          setTipoArticulos(tiposArticulosActualizados);
+
+          notify("info", "Tipo de Articulo eliminado exitosamente!");
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   return (
@@ -101,6 +123,7 @@ const TipoArticuloProvider = ({ children }) => {
     value={{
       tipoArticulos, //Arreglo general
       setTipoArticulos, //Set del arreglo general
+      eliminarTipoArticulo, //Funcioin de eliminar tipo articulo
       guardarTipoArticulo, //Funcion de dar de alta
       alerta, //Alerta en guardar tipo
       setAlerta, //Alerta en guardar tipo

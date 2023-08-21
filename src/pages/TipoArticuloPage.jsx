@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { ToastContainer } from 'react-toastify';
 import TableProvTipo from "../components/TableProvTipo";
 import Alerta from "../components/Alerta";
 
@@ -8,8 +9,8 @@ const TipoArticuloPage = () => {
   const { msg } = alerta;
 
   return (
-    <section className="w-full">
-      <h2 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">
+    <section className="w-5/6">
+      <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-4">
         Tipos de articulo
       </h2>
 
@@ -20,6 +21,18 @@ const TipoArticuloPage = () => {
           placeholder={"Ingrese el Tipo de Articulo"}
         />
       </div>
+      <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </section>
   );
 };

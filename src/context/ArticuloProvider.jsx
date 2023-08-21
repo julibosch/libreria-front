@@ -1,4 +1,6 @@
 import { createContext, useState, useEffect } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import clienteAxios from "../config/axios";
 
 const articuloProvider = createContext();
@@ -9,6 +11,7 @@ const ArticuloProvider = ({ children }) => {
   const [activarEditar, setActivarEditar] = useState(false); //Activa el modal editar en el componente Articulo
   const [articulo, setArticulo] = useState({}); //Objeto que se usa en el dar de alta articulo
   const [articulos, setArticulos] = useState([]); //Arreglo de todos los articulos
+  const [articulosFiltrados, setArticulosFiltrados] = useState([]); //Arreglo de articulos filtrados
 
   const [idArticulo, setIdArticulo] = useState("");
   const [codigo, setCodigo] = useState("");
@@ -19,12 +22,23 @@ const ArticuloProvider = ({ children }) => {
   const [stock, setStock] = useState("");
   const [color, setColor] = useState("");
 
+  const notify = (tipo, mensaje) => {
+    if(tipo === "success") {
+      toast.success(mensaje)
+    }
+
+    if(tipo === "info") {
+      toast.info(mensaje)
+    }
+  }
+
   //Trae todos los articulos
   useEffect(() => {
     const listadoArticulos = async () => {
       try {
         const respuesta = await clienteAxios.get("/admin/articulo");
-        setArticulos(respuesta.data);
+
+        setArticulos(respuesta.data)
       } catch (error) {
         console.log(error);
       }
@@ -33,6 +47,7 @@ const ArticuloProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    setArticulosFiltrados(articulos)
     console.log(articulos);
   }, [articulos])
 
@@ -60,15 +75,11 @@ const ArticuloProvider = ({ children }) => {
 
       setArticulos([...articulos, nuevoArticulo]);
 
-      setAlertaAlta({
-        error: false,
-        msg: "Artículo creado exitosamente",
-      });
+      notify("success", "Articulo agregado exitosamente!");
 
       setTimeout(() => {
-        setAlertaAlta({}); //Borra el mensaje de alerta.
         handleCerrar();  //Resetea todos los states y cierra el modal que este abierto, ya sea alta o edit.
-      }, 3000);
+      }, 1500);
 
       return setArticulo({}); // borra el objeto de articulos
     } catch (error) {
@@ -104,10 +115,7 @@ const ArticuloProvider = ({ children }) => {
 
         setArticulos(articulosActualizados);
 
-        setAlertaAlta({
-          error: false,
-          msg: respuesta.data.msg,
-        });
+        notify("success", "Articulo editado exitosamente!");
       } else {
         setAlertaAlta({
           error: true,
@@ -142,6 +150,8 @@ const ArticuloProvider = ({ children }) => {
         if (respuesta.data.respuesta == 1) {
           const articulosActualizados = articulos.filter(articulo => articulo.id != id);
           setArticulos(articulosActualizados);
+
+          notify("info", "Articulo eliminado exitosamente!")
         }
 
       } catch (error) {
@@ -175,7 +185,9 @@ const ArticuloProvider = ({ children }) => {
         activarAltaModal,
         setActivarAltaModal,
         articulos,
+        articulosFiltrados,
         setArticulos,
+        setArticulosFiltrados,
         activarEditar,
         setActivarEditar,
         codigo,

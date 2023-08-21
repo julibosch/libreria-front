@@ -15,10 +15,10 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
   };
 
   return (
-    <div className="container mx-auto bg-slate-500 rounded-lg shadow-md">
+    <div className="container mx-auto bg-slate-800 pb-3 rounded-lg shadow-md">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
-          <div className="py-3 pl-3 relative">
+          <div className="py-2 pl-3 relative">
             <div className="relative max-w-xs">
               <label htmlFor="hs-table-search" className="sr-only">
                 Buscar
@@ -27,7 +27,7 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                 type="text"
                 name="hs-table-search"
                 id="hs-table-search"
-                className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 outline-none"
+                className="block w-full p-3 pl-10 text-sm text-slate-50 font-semibold border-gray-200 rounded-md bg-slate-700 focus:shadow-inner focus:shadow-slate-600 focus:border-slate-600 focus:bg-slate-500 focus:text-md transition-colors border outline-none"
                 placeholder="Buscar Tipo de Articulo"
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -43,7 +43,7 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                 </svg>
               </div>
             </div>
-            <div className="absolute w-1/4 justify-between flex right-4 top-5">
+            <div className="absolute w-1/4 justify-between flex right-4 top-3">
               <button
                 className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
                 onClick={handleAgregar}
@@ -53,8 +53,8 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
             </div>
           </div>
 
-          <div className="px-3 py-3 w-full inline-block align-middle ">
-            <div className="h-[30rem] overflow-y-scroll border rounded-lg">
+          <div className="px-3 w-full inline-block align-middle ">
+            <div className="h-[75vh] overflow-y-scroll border rounded-lg">
               <table className="min-w-full divide-y divide-gray-200 bg-slate-300 ">
                 <thead className="bg-gray-100">
                   <tr>
