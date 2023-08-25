@@ -13,6 +13,7 @@ const TipoArticuloProvider = ({ children }) => {
   const [activado, setActivado] = useState(false); //Activa alerta
   const [activadoEditar, setActivadoEditar] = useState(false); //Activa editar
   const [tipoArticulo, setTipoArticulo] = useState({}); //Toma los datos para editar
+  const [tipoArticulosFiltrados, setTipoArticulosFiltrados] = useState([]); //Arreglo de tipos de articulos filtrados
 
   const notify = (tipo, mensaje) => {
     if(tipo === "success") {
@@ -31,6 +32,7 @@ const TipoArticuloProvider = ({ children }) => {
         const url = "http://localhost:4000/admin/tipos-de-articulo";
         const traerTipoArticulos = await axios.get(url);
         setTipoArticulos(traerTipoArticulos.data);
+        setTipoArticulosFiltrados(traerTipoArticulos.data);
       } catch (error) {
         setAlerta({
           error: true,
@@ -43,6 +45,11 @@ const TipoArticuloProvider = ({ children }) => {
     };
     traerTipoArticulos();
   }, []);
+
+  useEffect(() => {
+    setTipoArticulosFiltrados(tipoArticulos)
+    console.log(tipoArticulos);
+  }, [tipoArticulos])
 
   //Crea un nuevo tipo de articulo
   const guardarTipoArticulo = async (descripcion) => {
@@ -135,7 +142,9 @@ const TipoArticuloProvider = ({ children }) => {
       setTipoArticulo, //Articulo individual que se usa para el editado.
       tipoArticulo, //Articulo individual que se usa para el editado.
       alertaEditar, //Mensaje de alerta en editar
-      setAlertaEditar
+      setAlertaEditar,
+      tipoArticulosFiltrados, //Arreglo de tipos de articulos filtrados
+      setTipoArticulosFiltrados
     }}
     >
       { children }

@@ -49,8 +49,8 @@ const AltasExcel = () => {
   }
 
   return (
-    <section className="w-full">
-      <h1 className="bg-black w-full text-white py-5 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h1>
+    <section className="w-5/6">
+      <h1 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h1>
       
       <div className="w-5/6 mx-auto mb-10 rounded-lg overflow-hidden shadow-md">
         <h3 className="bg-neutral-800 text-center font-bold text-white text-xl py-2">Excel Tipos de artículo</h3>

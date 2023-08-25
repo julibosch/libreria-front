@@ -14,7 +14,8 @@ const ArticuloPage = () => {
     const artFiltrados = articulos.filter(
       articulo => articulo.codigo_buscador.toLowerCase().includes(filtrar.toLowerCase()) ||
       articulo.descripcion.toLowerCase().includes(filtrar.toLowerCase()) ||
-      articulo.tipoArticulo.toLowerCase().includes(filtrar.toLowerCase())
+      articulo.tipoArticulo.toLowerCase().includes(filtrar.toLowerCase()) || 
+      articulo.codigo_barra.toLowerCase().includes(filtrar.toLowerCase())
     );
 
     setArticulosFiltrados(artFiltrados);
@@ -135,8 +136,13 @@ const ArticuloPage = () => {
                         )
                           :
                           (
+                            articulos.length > 0 ? 
                             <tr>
-                              <td>No hay ningún artículo, cargue uno</td>
+                              <td className="font-bold p-2">No existe el articulo con esa especificacion</td>
+                            </tr>
+                            : 
+                            <tr>
+                              <td className="font-bold p-2">No hay ningún artículo, cargue uno</td>
                             </tr>
                           )
                       }

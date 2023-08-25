@@ -8,11 +8,21 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
   const [descripcion, setDescripcion] = useState(""); //Se pasa al componente editar
   const [id, setId] = useState(""); //Se pasa al componente editar
 
-  const { tipoArticulos, activado, setActivado, activadoEditar } = useContext(tipoProvider);
+  const { tipoArticulos, activado, setActivado, activadoEditar, tipoArticulosFiltrados, setTipoArticulosFiltrados } = useContext(tipoProvider);
 
   const handleAgregar = () => {
     setActivado(true);
   };
+
+  const handleFiltrar = (e) => {
+    const filtrar = e.target.value;
+
+    const tiposArtFiltrados = tipoArticulos.filter( tipo => 
+      tipo.id.toString().includes(filtrar.toLowerCase()) ||
+      tipo.descripcion.toLowerCase().includes(filtrar.toLowerCase())
+    );
+    setTipoArticulosFiltrados(tiposArtFiltrados);
+  }
 
   return (
     <div className="container mx-auto bg-slate-800 pb-3 rounded-lg shadow-md">
@@ -29,6 +39,7 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                 id="hs-table-search"
                 className="block w-full p-3 pl-10 text-sm text-slate-50 font-semibold border-gray-200 rounded-md bg-slate-700 focus:shadow-inner focus:shadow-slate-600 focus:border-slate-600 focus:bg-slate-500 focus:text-md transition-colors border outline-none"
                 placeholder="Buscar Tipo de Articulo"
+                onChange={handleFiltrar}
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
@@ -86,8 +97,8 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {
-                    tipoArticulos.length > 0 ? (
-                      tipoArticulos.map(tipo => (
+                    tipoArticulosFiltrados.length > 0 ? (
+                      tipoArticulosFiltrados.map(tipo => (
                       <TipoArticulo
                         key={tipo.id}
                         tipo={tipo}
