@@ -8,16 +8,33 @@ import Articulo from "../components/Articulo";
 const ArticuloPage = () => {
   const { activarAltaModal, setActivarAltaModal, articulos, activarEditar, articulosFiltrados, setArticulosFiltrados } = useContext(articuloProvider);
 
+  // const handleFiltrar = (e) => {
+  //   const filtrar = e.target.value;
+
+  //   const artFiltrados = articulos.filter(
+  //     articulo => articulo.codigo_buscador.toLowerCase().includes(filtrar.toLowerCase()) ||
+  //     articulo.descripcion.toLowerCase().includes(filtrar.toLowerCase()) ||
+  //     articulo.tipoArticulo.toLowerCase().includes(filtrar.toLowerCase()) || 
+  //     articulo.codigo_barra.toLowerCase().includes(filtrar.toLowerCase())
+  //   );
+
+  //   setArticulosFiltrados(artFiltrados);
+  // }
+
   const handleFiltrar = (e) => {
     const filtrar = e.target.value;
-
-    const artFiltrados = articulos.filter(
-      articulo => articulo.codigo_buscador.toLowerCase().includes(filtrar.toLowerCase()) ||
-      articulo.descripcion.toLowerCase().includes(filtrar.toLowerCase()) ||
-      articulo.tipoArticulo.toLowerCase().includes(filtrar.toLowerCase()) || 
-      articulo.codigo_barra.toLowerCase().includes(filtrar.toLowerCase())
-    );
-
+    const artFiltrados = articulos.filter((articulo) => {
+      const codigoBuscador = articulo.codigo_buscador ? articulo.codigo_buscador.toLowerCase() : '';
+      const descripcion = articulo.descripcion ? articulo.descripcion.toLowerCase() : '';
+      const tipoArticulo = articulo.tipoArticulo ? articulo.tipoArticulo.toLowerCase() : '';
+      const codigoBarra = articulo.codigo_barra ? articulo.codigo_barra.toLowerCase() : '';
+  
+      return codigoBuscador.includes(filtrar.toLowerCase()) ||
+             descripcion.includes(filtrar.toLowerCase()) ||
+             tipoArticulo.includes(filtrar.toLowerCase()) ||
+             codigoBarra.includes(filtrar.toLowerCase());
+    });
+  
     setArticulosFiltrados(artFiltrados);
   }
 
@@ -56,12 +73,19 @@ const ArticuloPage = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="absolute w-1/4 justify-between flex right-4 top-3">
+                <div className="absolute w-1/4 justify-around flex right-4 top-3">
                   <button
                     className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
                     onClick={() => setActivarAltaModal(true)} // Activa modal de alta
                   >
                     Agregar
+                  </button>
+
+                  <button
+                    className="px-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+                    onClick={() => setActivarAltaModal(true)} // Activa modal de alta
+                  >
+                    Aumentar
                   </button>
                 </div>
               </div>

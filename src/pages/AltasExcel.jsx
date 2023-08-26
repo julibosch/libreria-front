@@ -46,6 +46,13 @@ const AltasExcel = () => {
   const handleEnviarArticulos = async (e) => {
     e.preventDefault();
     console.log(articulos)
+    const url = "http://localhost:4000/admin/articuloExcel";
+    try {
+      const respuesta = await axios.post(url, articulos);
+      console.log(respuesta)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
