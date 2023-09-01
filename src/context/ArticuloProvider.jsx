@@ -44,6 +44,9 @@ const ArticuloProvider = ({ children }) => {
       }
     };
     listadoArticulos();
+    return () => {
+      console.log("cargo componente")
+    }
   }, []);
 
   useEffect(() => {
