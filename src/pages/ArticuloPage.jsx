@@ -94,85 +94,80 @@ const ArticuloPage = () => {
                 </div>
               </div>
 
-              <div className="px-3 w-full inline-block align-middle">
-                <div className="overflow-x-scroll lg:overflow-x-auto border rounded-lg h-[75vh] overflow-y-scroll">
-                  <table className="divide-y divide-gray-200 bg-slate-300 ">
-                    <thead className="bg-gray-100">
+              <div className="px-3 w-full">
+                <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh] overflow-y-scroll">
+                  <table className="divide-y divide-gray-800">
+                    <thead className="bg-slate-400">
                       <tr>
                         <th
                           scope="col"
-                          className="w-1/12 pl-3 py-3 text-xs font-black text-left text-gray-800 uppercase "
+                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                         >
                           codigo
                         </th>
                         <th
                           scope="col"
-                          className="w-2/12 py-3 text-xs font-black text-left text-gray-800 uppercase  "
+                          className="w-4/12 py-3 text-xs font-black text-left text-gray-950 uppercase"
                         >
                           Descripción
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-left text-gray-800 uppercase "
+                          className="w-1/12 py-3 text-xs font-black text-left text-gray-950 uppercase"
                         >
                           Precio
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-left text-gray-800 uppercase "
+                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                         >
                           Codigo de barra
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-800 uppercase "
+                          className="w-2/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                         >
                           Tipo de artículo
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-800 uppercase "
+                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                         >
                           Stock
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-800 uppercase "
+                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                         >
                           Color
                         </th>
                         <th
                           scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-800 uppercase "
+                          className="w-1/12 py-3 pr-1 text-xs font-black text-center  text-gray-950 uppercase"
                         >
-                          Editar
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center  text-gray-800 uppercase "
-                        >
-                          Eliminar
+                          Acciones
                         </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      {articulosFiltrados.length > 0 ? (
-                        articulosFiltrados.map((articulo) => (
-                          <Articulo key={articulo.id} articuloProp={articulo} />
-                        ))
-                      ) : articulos.length > 0 ? (
-                        <tr>
-                          <td className="font-bold p-2">
-                            No existe el articulo con esa especificacion
-                          </td>
-                        </tr>
-                      ) : (
-                        <tr>
-                          <td className="font-bold p-2">
-                            No hay ningún artículo, cargue uno
-                          </td>
-                        </tr>
-                      )}
+                      {
+                        articulosFiltrados.length > 0 ? (
+                          articulosFiltrados.map((articulo, index) => (
+                            <Articulo key={articulo.id} articuloProp={articulo} index={index}/>
+                          ))
+                        )
+                          :
+                          (
+                            articulos.length > 0 ? 
+                            <tr>
+                              <td className="font-bold p-2">No existe el articulo con esa especificacion</td>
+                            </tr>
+                            : 
+                            <tr>
+                              <td className="font-bold p-2">No hay ningún artículo, cargue uno</td>
+                            </tr>
+                          )
+                      }
                     </tbody>
                   </table>
                 </div>
