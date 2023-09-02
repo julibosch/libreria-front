@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import articuloProvider from "../context/ArticuloProvider";
 
-const Articulo = ({ articuloProp }) => {
+const Articulo = ({ articuloProp, index }) => {
   const {
     setActivarEditar,
     setCodigo,
@@ -29,31 +29,31 @@ const Articulo = ({ articuloProp }) => {
   };
 
   return (
-    <tr>
-      <td className="pl-6 py-3 text-sm font-semibold text-gray-900">
+    <tr className={index % 2 === 0 ? 'bg-zinc-300' : 'bg-zinc-200'}>
+      <td className="text-sm font-semibold text-center text-gray-900">
         {articuloProp.codigo_buscador}
       </td>
-      <td className="text-sm font-semibold text-gray-900">
+      <td className="text-xs pr-3 font-semibold text-gray-900">
         {articuloProp.descripcion}
       </td>
-      <td className="text-sm font-semibold text-gray-900">
+      <td className="text-sm pr-3 font-sans font-bold text-gray-950">
         ${articuloProp.precio}
       </td>
-      <td className="text-sm px-3 font-semibold text-gray-900">
+      <td className="text-sm pr-3 font-semibold text-center text-gray-900">
         {articuloProp.codigo_barra}
       </td>
-      <td className="text-sm px-3 font-semibold text-gray-900">
+      <td className="text-xs px-2 font-semibold text-center text-gray-900">
         {articuloProp.tipoArticulo}
       </td>
       <td className="text-sm text-center font-semibold text-gray-900">
         {articuloProp.stock}
       </td>
-      <td className="text-sm text-center font-semibold text-gray-900">
+      <td className="text-xs text-center font-semibold text-gray-900">
         {articuloProp.color}
       </td>
 
       {/* EDITAR */}
-      <td className="text-sm font-medium text-center whitespace-nowrap">
+      <td className="text-sm font-medium text-center whitespace-nowrap flex py-2 pr-1 justify-around">
         <button
           className="py-2 px-2 shadow-md bg-indigo-400 hover:bg-indigo-600 transition-colors rounded-full"
           onClick={() => handleEditar()}
@@ -76,10 +76,10 @@ const Articulo = ({ articuloProp }) => {
             <path d="M16 5l3 3" />
           </svg>
         </button>
-      </td>
+
 
       {/* ELIMINAR */}
-      <td className="text-sm font-medium text-center whitespace-nowrap">
+      
         <button onClick={() => eliminarArticulo(articuloProp)} className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
