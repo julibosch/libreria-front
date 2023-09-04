@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import tipoProvider from "../context/TipoArticuloProvider";
 
-const TipoArticulo = ({ tipo }) => {
+const TipoArticulo = ({ tipo, index }) => {
   const { id, descripcion } = tipo;
   const { setActivadoEditar, setTipoArticulo, tipoArticulos, setTipoArticulos, eliminarTipoArticulo } = useContext(tipoProvider);
 
@@ -12,16 +12,16 @@ const TipoArticulo = ({ tipo }) => {
   };
 
   return (
-    <tr>
-      <td className="px-6 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">
+    <tr className={index % 2 === 0 ? 'bg-zinc-300' : 'bg-zinc-200'}>
+      <td className="py-3 text-sm text-center font-semibold text-gray-900 whitespace-nowrap">
         {id}
       </td>
-      <td className="px-6 text-sm uppercase font-semibold text-gray-900 whitespace-nowrap">
+      <td className="text-sm uppercase font-semibold text-gray-900 whitespace-nowrap">
         {descripcion}
       </td>
 
-      {/* EDITAR */}
-      <td className="px-6 text-sm font-medium text-center whitespace-nowrap">
+      {/* EDITAR y ELIMINAR */}
+      <td className="text-sm font-medium text-center whitespace-nowrap flex gap-10 py-2 pr-1 justify-center">
         <button
           className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
           onClick={() => handleEditar()}
@@ -44,10 +44,7 @@ const TipoArticulo = ({ tipo }) => {
             <path d="M16 5l3 3" />
           </svg>
         </button>
-      </td>
-
-      {/* ELIMINAR */}
-      <td className="px-6 text-sm font-medium text-center whitespace-nowrap">
+      
         <button 
         className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full"
         onClick={()=> eliminarTipoArticulo(tipo)}

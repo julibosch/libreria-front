@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import AltaProvTipo from "./AltaProvTipo";
 import EditarTipo from "./EditarTipo";
 import TipoArticulo from "./TipoArticulo";
@@ -14,103 +14,121 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
     setActivado(true);
   };
 
-  const handleFiltrar = (e) => {
-    const filtrar = e.target.value;
+  const [filtro, setFiltro] = useState("");
 
-    const tiposArtFiltrados = tipoArticulos.filter( tipo => 
-      tipo.id.toString().includes(filtrar.toLowerCase()) ||
-      tipo.descripcion.toLowerCase().includes(filtrar.toLowerCase())
+  //Toma el valor del input
+  const handleFiltro = e => {
+    if (e.target.value === "") {
+      setTipoArticulosFiltrados(tipoArticulos);
+    }
+    setFiltro(e.target.value);
+  }
+
+  const handleFiltrar = e => {
+    e.preventDefault();
+    const tipoArtFiltrados = [...tipoArticulos].filter(
+      (tipo) =>
+        tipo?.codigo_buscador
+          ?.toLowerCase()
+          .includes(filtro.toLowerCase()) ||
+        tipo.descripcion?.toLowerCase()?.includes(filtro.toLowerCase())
     );
-    setTipoArticulosFiltrados(tiposArtFiltrados);
+
+    setTipoArticulosFiltrados(tipoArtFiltrados);
   }
 
   return (
-    <div className="container mx-auto bg-slate-800 pb-3 rounded-lg shadow-md">
+    <div className="container mx-auto bg-slate-800 pb-2 rounded-lg shadow-md">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
-          <div className="py-2 pl-3 relative">
-            <div className="relative max-w-xs">
-              <label htmlFor="hs-table-search" className="sr-only">
-                Buscar
-              </label>
-              <input
-                type="text"
-                name="hs-table-search"
-                id="hs-table-search"
-                className="block w-full p-3 pl-10 text-sm text-slate-50 font-semibold border-gray-200 rounded-md bg-slate-700 focus:shadow-inner focus:shadow-slate-600 focus:border-slate-600 focus:bg-slate-500 focus:text-md transition-colors border outline-none"
-                placeholder="Buscar Tipo de Articulo"
-                onChange={handleFiltrar}
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  className="h-4 w-4 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
+          <div className="py-2 relative">
+            <div className="flex rounded-lg py-2 px-3">
+              <div className="flex flex-grow">
+                <div className="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
+                  <svg
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                    className="pointer-events-none absolute w-5 fill-gray-500 transition"
+                  >
+                    <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
+                  placeholder="Filtrar tipo articulo..."
+                  id=""
+                  onChange={handleFiltro}
+
+                />
+                <input
+                  type="submit"
+                  value="Buscar"
+                  className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
+                  onClick={handleFiltrar}
+                />
               </div>
-            </div>
-            <div className="absolute w-1/4 justify-between flex right-4 top-3">
-              <button
-                className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
-                onClick={handleAgregar}
-              >
-                Agregar
-              </button>
+
+              <div className="flex gap-10">
+                <button
+                  className="px-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+                  onClick={() => console.log('aumentando...')} // Activa modal de alta
+                >
+                  Aumentar
+                </button>
+
+                <button
+                  className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+                  onClick={handleAgregar} // Activa modal de alta
+                >
+                  Agregar Tipo Articulo
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="px-3 w-full inline-block align-middle ">
-            <div className="h-[75vh] overflow-y-scroll border rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200 bg-slate-300 ">
-                <thead className="bg-gray-100">
+          <div className="px-3 w-full">
+            <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh] overflow-y-scroll">
+              <table className="divide-y divide-gray-800 w-full">
+                <thead className="bg-slate-400">
                   <tr>
                     <th
                       scope="col"
-                      className="w-1/12 px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                      className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                     >
                       ID
                     </th>
                     <th
                       scope="col"
-                      className="w-7/12 px-6 py-3 text-md font-bold text-left text-gray-800 uppercase "
+                      className="w-7/12 py-3 text-xs font-black text-left text-gray-950 uppercase"
                     >
                       Descripcion
                     </th>
                     <th
                       scope="col"
-                      className="w-2/12 py-3 text-md font-bold text-center text-gray-800 uppercase "
+                      className="w-4/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
                     >
-                      Editar
-                    </th>
-                    <th
-                      scope="col"
-                      className="w-2/12 py-3 text-md font-bold text-center  text-gray-800 uppercase "
-                    >
-                      Eliminar
+                      Acciones
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {
                     tipoArticulosFiltrados.length > 0 ? (
-                      tipoArticulosFiltrados.map(tipo => (
-                      <TipoArticulo
-                        key={tipo.id}
-                        tipo={tipo}
-                      />
+                      tipoArticulosFiltrados.map((tipo, index) => (
+                        <TipoArticulo
+                          key={tipo.id}
+                          tipo={tipo}
+                          index={index}
+                        />
                       ))
                     )
-                    :
-                    (
-                      <tr>
-                        <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existen tipos de artículos, cargue uno</td>
-                      </tr>
-                    )
+                      :
+                      (
+                        <tr>
+                          <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existen tipos de artículos, cargue uno</td>
+                        </tr>
+                      )
 
                   }
                 </tbody>

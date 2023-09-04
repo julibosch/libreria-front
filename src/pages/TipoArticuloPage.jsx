@@ -10,7 +10,7 @@ const TipoArticuloPage = () => {
 
   return (
     <section className="w-5/6">
-      <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-4">
+      <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-2">
         Tipos de articulo
       </h2>
 
