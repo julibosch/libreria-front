@@ -99,12 +99,14 @@ const ArticuloProvider = ({ children }) => {
 
   // FUNCION EDITAR ARTICULO
   const editarArticulo = async (articulo) => {
+    console.log(codigo)
     try {
       const respuesta = await clienteAxios.put(
-        `/admin/articulo/${idArticulo}`,
+        `/admin/articulo/${codigo}`,
         articulo
       );
-
+        console.log(respuesta)
+        return
       //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
       const exito = respuesta.data.respuesta[0];
 
