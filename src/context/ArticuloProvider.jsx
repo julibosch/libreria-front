@@ -24,11 +24,11 @@ const ArticuloProvider = ({ children }) => {
   const [color, setColor] = useState("");
 
   const notify = (tipo, mensaje) => {
-    if(tipo === "success") {
+    if (tipo === "success") {
       toast.success(mensaje)
     }
 
-    if(tipo === "info") {
+    if (tipo === "info") {
       toast.info(mensaje)
     }
   }
@@ -105,8 +105,8 @@ const ArticuloProvider = ({ children }) => {
         `/admin/articulo/${codigo}`,
         articulo
       );
-        console.log(respuesta)
-        return
+      console.log(respuesta)
+      return
       //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
       const exito = respuesta.data.respuesta[0];
 
@@ -159,14 +159,14 @@ const ArticuloProvider = ({ children }) => {
         try {
           const { id } = articuloProp;
           const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
-  
+
           if (respuesta.data.respuesta == 1) {
             const articulosActualizados = articulos.filter(articulo => articulo.id != id);
             setArticulos(articulosActualizados);
-  
+
             notify("info", "Articulo eliminado exitosamente!")
           }
-  
+
         } catch (error) {
           notify("error", error);
         }
