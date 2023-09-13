@@ -39,7 +39,7 @@ const Sidebar = () => {
               <path d="M20 6c.264 .112 .52 .217 .768 .315a1 1 0 0 1 .53 1.311l-2.298 5.374" />
             </svg>}
           />
-          <ButtonSidebar
+          {/* <ButtonSidebar
             nombre={"Proveedores"}
             to={"/inicio/proveedores"}
             icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#f1f5f9" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +49,7 @@ const Sidebar = () => {
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
             </svg>}
-          />
+          /> */}
           <ButtonSidebar
             nombre={"Altas Excel"}
             to={"/inicio/altas-excel"}

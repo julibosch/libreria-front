@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import clienteAxios from "../config/axios";
+import Swal from "sweetalert2";
 
 const articuloProvider = createContext();
 
@@ -51,7 +52,6 @@ const ArticuloProvider = ({ children }) => {
 
   useEffect(() => {
     setArticulosFiltrados(articulos)
-    console.log(articulos);
   }, [articulos])
 
   //Cuando se actualiza articulo y ademas esta activada la edicion, se setean los valores en los campos asi se muestran en el form.
@@ -143,24 +143,33 @@ const ArticuloProvider = ({ children }) => {
   };
 
   const eliminarArticulo = async (articuloProp) => {
-    const confirmar = confirm(`Estás seguro que deseas eliminar ${articuloProp.descripcion}`);
-
-    if (confirmar) {
-      try {
-        const { id } = articuloProp;
-        const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
-
-        if (respuesta.data.respuesta == 1) {
-          const articulosActualizados = articulos.filter(articulo => articulo.id != id);
-          setArticulos(articulosActualizados);
-
-          notify("info", "Articulo eliminado exitosamente!")
+    Swal.fire({
+      title: 'Estas seguro que deseas eliminar el articulo?',
+      text: "No se podran revertir los cambios",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const { id } = articuloProp;
+          const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
+  
+          if (respuesta.data.respuesta == 1) {
+            const articulosActualizados = articulos.filter(articulo => articulo.id != id);
+            setArticulos(articulosActualizados);
+  
+            notify("info", "Articulo eliminado exitosamente!")
+          }
+  
+        } catch (error) {
+          notify("error", error);
         }
-
-      } catch (error) {
-        console.log(error)
       }
-    }
+    })
   }
 
   const handleCerrar = () => {

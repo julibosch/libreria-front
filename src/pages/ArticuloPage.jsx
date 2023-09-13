@@ -4,18 +4,21 @@ import "react-toastify/dist/ReactToastify.css";
 import AltaArticulo from "../components/AltaArticulo";
 import articuloProvider from "../context/ArticuloProvider";
 import Articulo from "../components/Articulo";
+import ModalAumentoPrecios from "../components/ModalAumentoPrecios";
 
 const ArticuloPage = () => {
   const {
     activarAltaModal,
     setActivarAltaModal,
     articulos,
+    setArticulos,
     activarEditar,
     articulosFiltrados,
     setArticulosFiltrados,
   } = useContext(articuloProvider);
 
   const [filtro, setFiltro] = useState("");
+  const [activarAumentoModal, setActivarAumentoModal] = useState(false);
 
   //Toma el valor del input
   const handleFiltro = e => {
@@ -27,17 +30,19 @@ const ArticuloPage = () => {
 
   const handleFiltrar = e => {
     e.preventDefault();
-    const artFiltrados = [...articulos].filter(
-      (articulo) =>
-        articulo?.codigo_buscador
-          ?.toLowerCase()
-          .includes(filtro.toLowerCase()) ||
+    const artFiltrados = [...articulos].filter((articulo) =>
+        articulo?.codigo_buscador?.toLowerCase().includes(filtro.toLowerCase()) ||
         articulo.descripcion?.toLowerCase()?.includes(filtro.toLowerCase()) ||
         articulo.tipoArticulo?.toLowerCase()?.includes(filtro.toLowerCase()) ||
         articulo.codigo_barra?.toLowerCase()?.includes(filtro.toLowerCase())
     );
 
     setArticulosFiltrados(artFiltrados);
+  }
+
+  /* Aumento masivo de IVA y Ganancias */
+  const handleAumentarPrecios = () => {
+    setActivarAumentoModal(true);
   }
 
   return (
@@ -63,11 +68,11 @@ const ArticuloPage = () => {
                     </div>
                     <input
                       type="text"
+                      name="filtro"
                       className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
                       placeholder="Filtrar articulo..."
-                      id=""
+                      id="filtro"
                       onChange={handleFiltro}
-
                     />
                     <input
                       type="submit"
@@ -79,16 +84,32 @@ const ArticuloPage = () => {
 
                   <div className="flex gap-10">
                     <button
-                      className="px-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
-                      onClick={() => setActivarAltaModal(true)} // Activa modal de alta
+                      className="flex items-center pr-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed"
+                      onClick={handleAumentarPrecios} // Activa modal de alta
+                      disabled={articulos.length > 0 ? false : true}
                     >
-                      Aumentar
+                      <svg xmlns="http://www.w3.org/2000/svg" className="mx-2 icon icon-tabler icon-tabler-mood-dollar" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M20.87 10.48a9 9 0 1 0 -7.876 10.465" />
+                        <path d="M9 10h.01" />
+                        <path d="M15 10h.01" />
+                        <path d="M9.5 15c.658 .64 1.56 1 2.5 1c.357 0 .709 -.052 1.043 -.151" />
+                        <path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+                        <path d="M19 21v1m0 -8v1" />
+                      </svg>
+                      Aumentar Importes
                     </button>
 
                     <button
-                      className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+                      className="flex items-center pr-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
                       onClick={() => setActivarAltaModal(true)} // Activa modal de alta
                     >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="mx-2 icon icon-tabler icon-tabler-square-rounded-plus" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M9 12h6" />
+                        <path d="M12 9v6" />
+                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                      </svg>
                       Agregar Articulo
                     </button>
                   </div>
@@ -97,7 +118,7 @@ const ArticuloPage = () => {
 
               <div className="px-3 w-full">
                 <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh] overflow-y-scroll">
-                  <table className="divide-y divide-gray-800">
+                  <table className="divide-y divide-gray-800 bg-yellow-200">
                     <thead className="bg-slate-400">
                       <tr>
                         <th
@@ -161,11 +182,11 @@ const ArticuloPage = () => {
                           (
                             articulos.length > 0 ?
                               <tr>
-                                <td className="font-bold p-2">No existe el articulo con esa especificacion</td>
+                                <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existe el articulo con esa descripcion</td>
                               </tr>
                               :
                               <tr>
-                                <td className="font-bold p-2">No hay ningún artículo, cargue uno</td>
+                                <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No hay ningún artículo, cargue uno</td>
                               </tr>
                           )
                       }
@@ -177,6 +198,13 @@ const ArticuloPage = () => {
           </div>
           {activarAltaModal && <AltaArticulo />}
           {activarEditar && <AltaArticulo />}
+          {activarAumentoModal &&
+            <ModalAumentoPrecios
+              setActivarAumentoModal={setActivarAumentoModal}
+              articulos={articulos}
+              setArticulos={setArticulos}
+            />
+          }
         </div>
       </div>
       <ToastContainer

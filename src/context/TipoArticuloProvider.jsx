@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import 'react-toastify/dist/ReactToastify.css';
 import clienteAxios from "../config/axios";
 import axios from "axios";
@@ -16,11 +17,11 @@ const TipoArticuloProvider = ({ children }) => {
   const [tipoArticulosFiltrados, setTipoArticulosFiltrados] = useState([]); //Arreglo de tipos de articulos filtrados
 
   const notify = (tipo, mensaje) => {
-    if(tipo === "success") {
+    if (tipo === "success") {
       toast.success(mensaje)
     }
 
-    if(tipo === "info") {
+    if (tipo === "info") {
       toast.info(mensaje)
     }
   }
@@ -48,7 +49,6 @@ const TipoArticuloProvider = ({ children }) => {
 
   useEffect(() => {
     setTipoArticulosFiltrados(tipoArticulos)
-    console.log(tipoArticulos);
   }, [tipoArticulos])
 
   //Crea un nuevo tipo de articulo
@@ -80,10 +80,10 @@ const TipoArticuloProvider = ({ children }) => {
       const { data } = await axios.put(url, { descripcion });
 
       //Actualiza el arreglo de tipos de articulos, el que se edito
-      const tipoArticuloActualizado = tipoArticulos.map( tipoArticulo => tipoArticulo.id == data.tipo.id ? data.tipo : tipoArticulo);
-      
+      const tipoArticuloActualizado = tipoArticulos.map(tipoArticulo => tipoArticulo.id == data.tipo.id ? data.tipo : tipoArticulo);
+
       setTipoArticulos(tipoArticuloActualizado)
-      
+
       notify("success", "Tipo de Articulo editado exitosamente!");
 
       setTimeout(() => {
@@ -105,49 +105,59 @@ const TipoArticuloProvider = ({ children }) => {
 
   //Esta funcion elimina el tipo de articulo.
   const eliminarTipoArticulo = async (tipo) => {
-    const {id, descripcion} = tipo;
-    const confirmar = confirm(`Estas seguro que desea eliminar ${descripcion}`);
+    const { id } = tipo;
 
-    if(confirmar) {
-      try {
-        const respuesta = await clienteAxios.delete(`admin/tipos-de-articulo/${id}`);
+    Swal.fire({
+      title: 'Estas seguro que deseas eliminar el tipo de articulo?',
+      text: "No se podran revertir los cambios",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const respuesta = await clienteAxios.delete(`admin/tipos-de-articulo/${id}`);
 
-        if(respuesta.data.respuesta == 1) {
-          const tiposArticulosActualizados = tipoArticulos.filter( tipoArt => tipoArt.id != id );
+          if (respuesta.data.respuesta == 1) {
+            const tiposArticulosActualizados = tipoArticulos.filter(tipoArt => tipoArt.id != id);
 
-          setTipoArticulos(tiposArticulosActualizados);
+            setTipoArticulos(tiposArticulosActualizados);
 
-          notify("info", "Tipo de Articulo eliminado exitosamente!");
+            notify("info", "Tipo de Articulo eliminado exitosamente!");
+          }
+        } catch (error) {
+          notify("error", error);
         }
-      } catch (error) {
-        console.log(error)
       }
-    }
+    })
   }
 
   return (
     <tipoProvider.Provider
-    value={{
-      tipoArticulos, //Arreglo general
-      setTipoArticulos, //Set del arreglo general
-      eliminarTipoArticulo, //Funcioin de eliminar tipo articulo
-      guardarTipoArticulo, //Funcion de dar de alta
-      alerta, //Alerta en guardar tipo
-      setAlerta, //Alerta en guardar tipo
-      activado, //Activa el dar de alta - el componente
-      setActivado, //Activa o desactiva - el componente
-      editarTipoArticulo, //Funcion de editar
-      activadoEditar, //Activa el editar - el componente
-      setActivadoEditar, //Activa o desactiva - el componente
-      setTipoArticulo, //Articulo individual que se usa para el editado.
-      tipoArticulo, //Articulo individual que se usa para el editado.
-      alertaEditar, //Mensaje de alerta en editar
-      setAlertaEditar,
-      tipoArticulosFiltrados, //Arreglo de tipos de articulos filtrados
-      setTipoArticulosFiltrados
-    }}
+      value={{
+        tipoArticulos, //Arreglo general
+        setTipoArticulos, //Set del arreglo general
+        eliminarTipoArticulo, //Funcioin de eliminar tipo articulo
+        guardarTipoArticulo, //Funcion de dar de alta
+        alerta, //Alerta en guardar tipo
+        setAlerta, //Alerta en guardar tipo
+        activado, //Activa el dar de alta - el componente
+        setActivado, //Activa o desactiva - el componente
+        editarTipoArticulo, //Funcion de editar
+        activadoEditar, //Activa el editar - el componente
+        setActivadoEditar, //Activa o desactiva - el componente
+        setTipoArticulo, //Articulo individual que se usa para el editado.
+        tipoArticulo, //Articulo individual que se usa para el editado.
+        alertaEditar, //Mensaje de alerta en editar
+        setAlertaEditar,
+        tipoArticulosFiltrados, //Arreglo de tipos de articulos filtrados
+        setTipoArticulosFiltrados
+      }}
     >
-      { children }
+      {children}
     </tipoProvider.Provider>
   )
 }

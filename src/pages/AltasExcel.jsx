@@ -28,9 +28,35 @@ const AltasExcel = () => {
           setActivarSubmitTipo(false);
           console.log("tipo", resultado)
         } else {
-          setArticulos(resultado)
+          const articulosEstandarizados = resultado.map(articulo => {
+            //Primero pregunto por los articulos que no tengan codigo_buscador, si los mismos no tienen
+            //codigo_buscador corresponde a un articulo padre, ahora debemos preguntar si tienen o no
+            //precio, SI TIENEN PRECIO entonces es un articulo padre que no posee hijos.
+            //SI NO TIENE PRECIO entonces corresponde a un articulo padre que posee hijos, los cuales si tendran precio
+            if (!Object.keys(articulo).includes('codigo_buscador')) {
+              //Aca pregunto si tiene precio
+              if (Object.keys(articulo).includes('precio')) { //Tiene precio --> Articulo padre sin hijos
+                return {
+                  ...articulo,
+                  codigo_buscador: articulo.codigo_barra,
+                  codigo_barra: '-------'
+                }
+              } else { //No tiene precio --> Articulo padre con hijos, por lo que se lo omite
+                return undefined;
+              }
+            }
+
+            return articulo;
+          })
+
+          //Vuelvo a depurar el arreglo, sacando todos los undefined
+          const articulosDefinitivos = articulosEstandarizados.filter(articulo =>
+            articulo !== undefined
+          );
+
+          setArticulos(articulosDefinitivos)
           setActivarSubmitArticulo(false);
-          console.log("articulo", articulos)
+          console.log("articulos: ", articulosDefinitivos)
         }
       };
       reader.readAsArrayBuffer(file);
@@ -55,6 +81,7 @@ const AltasExcel = () => {
     const url = "http://localhost:4000/admin/articuloExcel";
     try {
       const respuesta = await axios.post(url, articulos);
+      console.log(respuesta);
       notify(respuesta.data.msg);
     } catch (error) {
       console.log(error)

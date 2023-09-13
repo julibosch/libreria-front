@@ -57,9 +57,8 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                   type="text"
                   className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
                   placeholder="Filtrar tipo articulo..."
-                  id=""
+                  id="search"
                   onChange={handleFiltro}
-
                 />
                 <input
                   type="submit"
@@ -71,16 +70,15 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
 
               <div className="flex gap-10">
                 <button
-                  className="px-3 py-2 bg-green-400 hover:bg-green-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
-                  onClick={() => console.log('aumentando...')} // Activa modal de alta
-                >
-                  Aumentar
-                </button>
-
-                <button
-                  className="px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+                  className="flex items-center pr-2 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
                   onClick={handleAgregar} // Activa modal de alta
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="mx-2 icon icon-tabler icon-tabler-square-rounded-plus" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 12h6" />
+                    <path d="M12 9v6" />
+                    <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                  </svg>
                   Agregar Tipo Articulo
                 </button>
               </div>
@@ -89,7 +87,7 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
 
           <div className="px-3 w-full">
             <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh] overflow-y-scroll">
-              <table className="divide-y divide-gray-800 w-full">
+              <table className="divide-y divide-gray-800 w-full bg-yellow-200">
                 <thead className="bg-slate-400">
                   <tr>
                     <th
@@ -123,12 +121,14 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                         />
                       ))
                     )
-                      :
-                      (
+                      : tipoArticulos.length > 0 ?
                         <tr>
-                          <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existen tipos de artículos, cargue uno</td>
+                          <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existen tipos de artículos con esa descripcion</td>
                         </tr>
-                      )
+                        :
+                        <tr>
+                          <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No hay ningún tipo de artículo, cargue uno</td>
+                        </tr>
 
                   }
                 </tbody>

@@ -134,7 +134,7 @@ const AltaArticulo = () => {
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value)}
-                  placeholder="Codigo"
+                  placeholder="Ej: 001 o A42"
                 />
               </div>
 
@@ -151,7 +151,7 @@ const AltaArticulo = () => {
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
-                  placeholder="Descripción"
+                  placeholder="Descripción del articulo"
                 />
               </div>
 
@@ -188,7 +188,7 @@ const AltaArticulo = () => {
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={codigoBarra}
                   onChange={(e) => setCodigoBarra(e.target.value)}
-                  placeholder="codigoBarra"
+                  placeholder="Ej: 712517721"
                 />
               </div>
               <div className="flex flex-col px-5">
@@ -231,7 +231,7 @@ const AltaArticulo = () => {
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
-                  placeholder="stock"
+                  placeholder="Cantidad de stock"
                 />
               </div>
               <div className="flex flex-col px-5">
@@ -247,7 +247,7 @@ const AltaArticulo = () => {
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  placeholder="color"
+                  placeholder="Color o Modelo"
                 />
               </div>
             </div>
