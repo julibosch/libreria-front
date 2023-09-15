@@ -38,21 +38,16 @@ const ArticuloProvider = ({ children }) => {
     const listadoArticulos = async () => {
       try {
         const respuesta = await clienteAxios.get("/admin/articulo");
-
         setArticulos(respuesta.data)
       } catch (error) {
         console.log(error);
       }
     };
     listadoArticulos();
-    return () => {
-      console.log("cargo componente")
-    }
   }, []);
 
   useEffect(() => {
     setArticulosFiltrados(articulos)
-    console.log('ARTICULOS USE EFFECT: ', articulos);
   }, [articulos])
 
   //Cuando se actualiza articulo y ademas esta activada la edicion, se setean los valores en los campos asi se muestran en el form.
@@ -100,24 +95,22 @@ const ArticuloProvider = ({ children }) => {
 
   // FUNCION EDITAR ARTICULO
   const editarArticulo = async (articulo) => {
-    console.log(codigo)
     try {
       const respuesta = await clienteAxios.put(
         `/admin/articulo/${codigo}`,
         articulo
       );
-      console.log(respuesta)
-      return
+  
       //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
       const exito = respuesta.data.respuesta[0];
 
       //Si se modifico con exito el articulo
-      if (exito == 1) {
+      if (exito > 0) {
         //Articulo actualizado que viene desde el back
         const articuloActualizado = respuesta.data.articuloActualizado;
 
-        //Creo un arreglo nuevo a partir del general, pero reemplazo el articulo por el modificado a partir de su id
-        const articulosActualizados = articulos.map(articuloArreglo => articuloArreglo.id === articuloActualizado.id ? articuloActualizado : articuloArreglo);
+        //Creo un arreglo nuevo a partir del general, pero reemplazo el articulo por el modificado a partir de su codigo
+        const articulosActualizados = articulos.map(articuloArreglo => articuloArreglo.codigo_buscador === articuloActualizado.codigo_buscador ? articuloActualizado : articuloArreglo);
 
         setArticulos(articulosActualizados);
 
@@ -158,17 +151,21 @@ const ArticuloProvider = ({ children }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const { id } = articuloProp;
-          const respuesta = await clienteAxios.delete(`admin/articulo/${id}`);
+          const { codigo_buscador } = articuloProp;
 
-          if (respuesta.data.respuesta == 1) {
-            const articulosActualizados = articulos.filter(articulo => articulo.id != id);
+          const respuesta = await clienteAxios.delete(`admin/articulo/${codigo_buscador}`);
+
+          //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
+          const exito = respuesta.data.respuesta;
+
+          if (exito > 0) {
+            const articulosActualizados = articulos.filter(articulo => articulo.codigo_buscador != codigo_buscador);
             setArticulos(articulosActualizados);
-
             notify("info", "Articulo eliminado exitosamente!")
           }
 
         } catch (error) {
+          console.log(error)
           notify("error", error);
         }
       }

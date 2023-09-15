@@ -122,7 +122,7 @@ const AltaArticulo = () => {
                 </label>
                 <input
                   id="codigo"
-                  type="number" // Cambiarle el type a text asi puede poner codigos para proveedores ej: N200
+                  type="text" // Cambiarle el type a text asi puede poner codigos para proveedores ej: N200
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value)}

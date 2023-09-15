@@ -14,7 +14,7 @@ const AuthLayout = () => {
       />
 
       <div className="z-10">
-        <h2 className='lg:text-5xl text-3xl font-black uppercase text-white my-8 text-center py-7'>Administrador de Librería</h2>
+        <h2 className='lg:text-5xl text-3xl font-black uppercase text-white my-8 text-center py-7'>Administrador de Librería piquitos</h2>
         <Outlet />
 
         <Footer fecha={fecha} />

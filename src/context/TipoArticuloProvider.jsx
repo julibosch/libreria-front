@@ -30,8 +30,8 @@ const TipoArticuloProvider = ({ children }) => {
   useEffect(() => {
     const traerTipoArticulos = async () => {
       try {
-        const url = "http://localhost:4000/admin/tipos-de-articulo";
-        const traerTipoArticulos = await axios.get(url);
+        const url = "/admin/tipos-de-articulo";
+        const traerTipoArticulos = await clienteAxios.get(url);
         setTipoArticulos(traerTipoArticulos.data);
         setTipoArticulosFiltrados(traerTipoArticulos.data);
       } catch (error) {
@@ -53,10 +53,10 @@ const TipoArticuloProvider = ({ children }) => {
 
   //Crea un nuevo tipo de articulo
   const guardarTipoArticulo = async (descripcion) => {
-    const url = "http://localhost:4000/admin/tipos-de-articulo";
+    const url = "/admin/tipos-de-articulo";
 
     try {
-      const respuesta = await axios.post(url, { descripcion });
+      const respuesta = await clienteAxios.post(url, { descripcion });
 
       setTipoArticulos([...tipoArticulos, respuesta.data.respuesta]);
 
@@ -74,10 +74,10 @@ const TipoArticuloProvider = ({ children }) => {
   };
 
   const editarTipoArticulo = async ({ id, descripcion }) => {
-    const url = `http://localhost:4000/admin/tipos-de-articulo/${id}`;
+    const url = `/admin/tipos-de-articulo/${id}`;
 
     try {
-      const { data } = await axios.put(url, { descripcion });
+      const { data } = await clienteAxios.put(url, { descripcion });
 
       //Actualiza el arreglo de tipos de articulos, el que se edito
       const tipoArticuloActualizado = tipoArticulos.map(tipoArticulo => tipoArticulo.id == data.tipo.id ? data.tipo : tipoArticulo);

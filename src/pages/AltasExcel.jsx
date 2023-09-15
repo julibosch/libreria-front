@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import BounceLoader from "react-spinners/BounceLoader";
 import articuloProvider from "../context/ArticuloProvider";
 import tipoProvider from "../context/TipoArticuloProvider";
-
+import clienteAxios from "../config/axios";
 
 const AltasExcel = () => {
   const [tipoArticulosExcel, setTipoArticulosExcel] = useState([]);
@@ -45,7 +45,7 @@ const AltasExcel = () => {
           setTipoArticulosExcel(resultado);
           setActivarSubmitTipo(false);
 
-        } else if (informacion === "articulo") {
+        } else if (informacion === "altaArticulo") {
           const articulosEstandarizados = resultado.map(articulo => {
             //Primero pregunto por los articulos que no tengan codigo_buscador, si los mismos no tienen
             //codigo_buscador corresponde a un articulo padre, ahora debemos preguntar si tienen o no
@@ -87,9 +87,9 @@ const AltasExcel = () => {
   const handleEnviarTiposArticulos = async (e) => {
     e.preventDefault();
 
-    const url = "http://localhost:4000/admin/tipos-de-articulo-excel"
+    const url = "/admin/tipos-de-articulo-excel"
     try {
-      const respuesta = await axios.post(url, tipoArticulosExcel);
+      const respuesta = await clienteAxios.post(url, tipoArticulosExcel);
       notify(respuesta.data.msg);
     } catch (error) {
       console.log(error)
@@ -99,9 +99,9 @@ const AltasExcel = () => {
   const handleEnviarArticulos = async (e) => {
     e.preventDefault();
 
-    const url = "http://localhost:4000/admin/articuloExcel";
+    const url = "/admin/articuloExcel";
     try {
-      const respuesta = await axios.post(url, articulosExcel);
+      const respuesta = await clienteAxios.post(url, articulosExcel);
 
       notify(respuesta.data.msg);
     } catch (error) {
@@ -113,9 +113,9 @@ const AltasExcel = () => {
     setLoading(true);
     e.preventDefault();
 
-    const url = "http://localhost:4000/admin/articuloExcelEditar";
+    const url = "/admin/articuloExcelEditar";
     try {
-      const respuesta = await axios.put(url, articulosExcel);
+      const respuesta = await clienteAxios.put(url, articulosExcel);
       
       if (respuesta.status === 200) {
         // Crear una copia de los artículos originales

@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import clienteAxios from "../config/axios";
 
 const AuthContext = createContext();
 
@@ -12,14 +13,14 @@ const AuthProvider = ({ children }) => {
 
   const login = async (nombre, contrasenia) => {
     try {
-      const url = "http://localhost:4000";
-      const respuesta = await axios.post(url, { nombre, contrasenia });
-      
+      // const url = "http://localhost:4000";
+      const respuesta = await clienteAxios.post("/", { nombre, contrasenia });
       // Se le cambia el estado de Logueado a true y se navega
       setIsLoggedIn(true)
       setUsuarioNoExiste("");
       navigate("/inicio");
     } catch (error) {
+      console.log(error)
       
       setUsuarioNoExiste(error.response.data.msg);
       setTimeout(() => {

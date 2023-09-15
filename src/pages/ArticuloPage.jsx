@@ -175,7 +175,7 @@ const ArticuloPage = () => {
                       {
                         articulosFiltrados.length > 0 ? (
                           articulosFiltrados.map((articulo, index) => (
-                            <Articulo key={articulo.id} articuloProp={articulo} index={index} />
+                            <Articulo key={articulo.codigo_buscador} articuloProp={articulo} index={index} />
                           ))
                         )
                           :
