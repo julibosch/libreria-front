@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import clienteAxios from "../config/axios";
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }) => {
   const [descripcionArticulos, setDescripcionArticulos] = useState("");
@@ -10,6 +12,16 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
   const [modalCalcularImportes, setModalCalcularImportes] = useState(false);
 
   const refArticulosOriginales = useRef([]);
+
+  const notify = (tipo, mensaje) => {
+    if (tipo === "success") {
+      toast.success(mensaje)
+    }
+
+    if (tipo === "info") {
+      toast.info(mensaje)
+    }
+  }
 
   /* CERRAR MODAL */
   const handleCerrar = () => {
@@ -56,10 +68,10 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
     setArticulosAgregados(articulosActualizados);
   }
 
-  /* Abrir modal de aumento de precios */
+  /* Modal de calcular importes */
   const handleCalcularImportes = () => {
     setModalCalcularImportes(true);
-    console.log(articulosAgregados);
+    
     let IVA = 0;
 
     if(incluirIVA) {
@@ -76,9 +88,10 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
     setArticulosAgregados(articulosActualizados);
   }
 
+  /* Submit al confirmar luego de calcular precios */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /* Primero debemos mostrar el modal para calcular los precios */
+    
     Swal.fire({
       title: 'Confirmar el aumento de articulos',
       text: "No podras revertir los cambios",
@@ -96,8 +109,8 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
           const respuesta = await clienteAxios.post(url, articulosAgregados);
 
           if (respuesta.status === 200) {
-            console.log(articulos);
-            console.log(respuesta.data.articulosFront);
+            console.log('Arreglo de articulos', articulos);
+            console.log('Articulos ya modificados', respuesta.data.updates);
 
             // Crear una copia de los artículos originales
             const articulosCopia = [...articulos];
@@ -105,7 +118,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
             // Actualizar los precios de los artículos en la copia
             const articulosActualizados = articulosCopia.map((articulo) => {
               // Busca el artículo correspondiente en la respuesta del servidor
-              const articuloActualizado = respuesta.data.articulosFront.find((item) => item.id === articulo.id);
+              const articuloActualizado = respuesta.data.updates.find((item) => item.id === articulo.id);
 
               if (articuloActualizado) {
                 // Si se encuentra el artículo en la respuesta, actualiza su precio
@@ -122,7 +135,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
             setArticulos(articulosActualizados);
           }
         } catch (error) {
-          console.log(error);
+          notify('error', error.msg)
         }
 
         //Mensaje de exito al aumentar los precios

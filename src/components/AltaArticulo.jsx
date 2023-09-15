@@ -70,14 +70,6 @@ const AltaArticulo = () => {
     }
   }, [articulo]);
 
-  // // USEEFECT EDITAR
-  // useEffect(() => {
-  //   // Si el modal esta en modo EDICION y el state ARTICULO esta lleno entonces se llama la funcion
-  //   if (activarEditar && Object.keys(articulo).length > 0) {
-  //     editarArticulo(articulo);
-  //   }
-  // }, [articulo]);
-
   const { msg } = alertaAlta;
 
   return (
@@ -130,7 +122,7 @@ const AltaArticulo = () => {
                 </label>
                 <input
                   id="codigo"
-                  type="number"
+                  type="number" // Cambiarle el type a text asi puede poner codigos para proveedores ej: N200
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value)}

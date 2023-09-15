@@ -33,8 +33,8 @@ const ArticuloPage = () => {
     const artFiltrados = [...articulos].filter((articulo) =>
         articulo?.codigo_buscador?.toLowerCase().includes(filtro.toLowerCase()) ||
         articulo.descripcion?.toLowerCase()?.includes(filtro.toLowerCase()) ||
-        articulo.tipoArticulo?.toLowerCase()?.includes(filtro.toLowerCase()) ||
-        articulo.codigo_barra?.toLowerCase()?.includes(filtro.toLowerCase())
+        articulo.tipoArticulo?.toLowerCase()?.includes(filtro.toLowerCase())
+        // articulo.codigo_barra?.toLowerCase()?.includes(filtro.toLowerCase())
     );
 
     setArticulosFiltrados(artFiltrados);

@@ -17,7 +17,7 @@ const AltasExcel = () => {
   const [activarSubmitActualizar, setActivarSubmitActualizar] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const { articulos } = useContext(articuloProvider);
+  const { articulos, setArticulos } = useContext(articuloProvider);
   const { tipoArticulos } = useContext(tipoProvider);
 
   const handleLeer = (e, informacion) => {
@@ -44,7 +44,7 @@ const AltasExcel = () => {
         if (informacion === "tipoArticulo") {
           setTipoArticulosExcel(resultado);
           setActivarSubmitTipo(false);
-          console.log("tipo", resultado)
+
         } else if (informacion === "articulo") {
           const articulosEstandarizados = resultado.map(articulo => {
             //Primero pregunto por los articulos que no tengan codigo_buscador, si los mismos no tienen
@@ -74,7 +74,6 @@ const AltasExcel = () => {
 
           setArticulosExcel(articulosDefinitivos)
           setActivarSubmitArticulo(false);
-          console.log("articulos: ", articulosDefinitivos)
         } else {
           setArticulosExcel(resultado);
           setActivarSubmitActualizar(false);
@@ -87,7 +86,7 @@ const AltasExcel = () => {
 
   const handleEnviarTiposArticulos = async (e) => {
     e.preventDefault();
-    console.log(tipoArticulosExcel);
+
     const url = "http://localhost:4000/admin/tipos-de-articulo-excel"
     try {
       const respuesta = await axios.post(url, tipoArticulosExcel);
@@ -99,11 +98,11 @@ const AltasExcel = () => {
 
   const handleEnviarArticulos = async (e) => {
     e.preventDefault();
-    console.log(articulosExcel);
+
     const url = "http://localhost:4000/admin/articuloExcel";
     try {
       const respuesta = await axios.post(url, articulosExcel);
-      console.log(respuesta);
+
       notify(respuesta.data.msg);
     } catch (error) {
       console.log(error)
@@ -113,13 +112,37 @@ const AltasExcel = () => {
   const handleActualizarArticulos = async (e) => {
     setLoading(true);
     e.preventDefault();
-    console.log(articulosExcel);
+
     const url = "http://localhost:4000/admin/articuloExcelEditar";
     try {
       const respuesta = await axios.put(url, articulosExcel);
+      
+      if (respuesta.status === 200) {
+        // Crear una copia de los artículos originales
+        const articulosCopia = [...articulos];
+
+        // Actualizar los precios de los artículos en la copia
+        const articulosActualizados = articulosCopia.map((articulo) => {
+          // Busca el artículo correspondiente en la respuesta del servidor
+          const articuloActualizado = respuesta.data.updates.find((item) => item.codigo == articulo.codigo_buscador);
+
+          if (articuloActualizado) {
+            // Si se encuentra el artículo en la respuesta, actualiza su precio
+            return {
+              ...articulo,
+              precio: articuloActualizado.precio,
+            };
+          }
+
+          // Si no se encuentra, devuelve el artículo sin cambios
+          return articulo;
+        });
+        // Actualiza el estado de 'articulos' con los artículos actualizados
+        setArticulos(articulosActualizados);
+      }
+
       notify("success", respuesta.data.msg);
       setLoading(false);
-      return console.log(respuesta);
     } catch (error) {
       console.log(error)
       return notify("error", error.response.data.msg);

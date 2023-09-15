@@ -52,6 +52,7 @@ const ArticuloProvider = ({ children }) => {
 
   useEffect(() => {
     setArticulosFiltrados(articulos)
+    console.log('ARTICULOS USE EFFECT: ', articulos);
   }, [articulos])
 
   //Cuando se actualiza articulo y ademas esta activada la edicion, se setean los valores en los campos asi se muestran en el form.
