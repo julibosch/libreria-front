@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import clienteAxios from "../config/axios";
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BounceLoader from "react-spinners/BounceLoader";
 
 const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }) => {
   const [descripcionArticulos, setDescripcionArticulos] = useState("");
@@ -10,6 +11,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
   const [incluirIVA, setIncluirIVA] = useState(false);
   const [porcentajeGanancia, setPorcentajeGanancia] = useState(0);
   const [modalCalcularImportes, setModalCalcularImportes] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const refArticulosOriginales = useRef([]);
 
@@ -103,11 +105,14 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         const url = '/admin/articulo/actualizar-precio';
 
         try {
-          const respuesta = await clienteAxios.post(url, articulosAgregados);
-
+          const respuesta = await clienteAxios.post(url, articulosAgregados,{
+            timeout: 50000, // Aumenta el tiempo de espera a 10 segundos (10000 milisegundos)
+          });
+          console.log(respuesta)
           if (respuesta.status === 200) {
             console.log('Arreglo de articulos', articulos);
             console.log('Articulos ya modificados', respuesta.data.updates);
@@ -133,6 +138,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
             });
             // Actualiza el estado de 'articulos' con los artículos actualizados
             setArticulos(articulosActualizados);
+            setLoading(false);
           }
         } catch (error) {
           notify('error', error.msg)
@@ -295,15 +301,27 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
             </div>
             {modalCalcularImportes &&
               <div className="flex w-full justify-center gap-16 mt-5">
+            {
+              loading &&
+              <BounceLoader
+                loading={loading}
+                color="#F2CB05"
+                size={60}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            }
                 <button
                   type="submit"
-                  className="bg-indigo-700 uppercase text-sm px-5 py-3 rounded-lg shadow-md text-white font-semibold hover:bg-blue-900 transition-colors cursor-pointer"
+                  disabled={loading ? true : false}
+                  className="bg-indigo-700 uppercase text-sm px-5 py-3 rounded-lg shadow-md text-white font-semibold hover:bg-blue-900 transition-colors cursor-pointer disabled:bg-slate-500 disabled:cursor-not-allowed"
                 >
                   Confirmar
                 </button>
                 <button
                   type="button"
-                  className="bg-rose-600 uppercase text-sm px-5 py-3 rounded-lg shadow-md text-white font-semibold hover:bg-rose-800 transition-colors cursor-pointer"
+                  disabled={loading ? true : false}
+                  className="bg-rose-600 uppercase text-sm px-5 py-3 rounded-lg shadow-md text-white font-semibold hover:bg-rose-800 transition-colors cursor-pointer disabled:bg-slate-500 disabled:cursor-not-allowed"
                   onClick={() => {
                     setModalCalcularImportes(false);
                     setArticulosAgregados(refArticulosOriginales.current);
