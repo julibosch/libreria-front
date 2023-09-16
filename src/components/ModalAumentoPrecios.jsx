@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import clienteAxios from "../config/axios";
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -110,9 +110,9 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
 
         try {
           const respuesta = await clienteAxios.post(url, articulosAgregados,{
-            timeout: 50000, // Aumenta el tiempo de espera a 10 segundos (10000 milisegundos)
+            timeout: 60000, // Aumenta el tiempo de espera a 60 segundos (60000 milisegundos)
           });
-          console.log(respuesta)
+          
           if (respuesta.status === 200) {
             console.log('Arreglo de articulos', articulos);
             console.log('Articulos ya modificados', respuesta.data.updates);
