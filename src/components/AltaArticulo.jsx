@@ -123,10 +123,11 @@ const AltaArticulo = () => {
                 <input
                   id="codigo"
                   type="text" // Cambiarle el type a text asi puede poner codigos para proveedores ej: N200
-                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3 disabled:bg-slate-400/50 disabled:cursor-not-allowed"
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value)}
                   placeholder="Ej: 001 o A42"
+                  disabled={activarEditar ? true : false}
                 />
               </div>
 

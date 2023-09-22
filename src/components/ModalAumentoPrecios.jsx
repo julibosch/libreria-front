@@ -12,6 +12,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
   const [porcentajeGanancia, setPorcentajeGanancia] = useState(0);
   const [modalCalcularImportes, setModalCalcularImportes] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dadosAlta, setDadosAlta] = useState(false); //Esto es un state para filtrar los dados de alta en el aumento de importes
 
   const refArticulosOriginales = useRef([]);
 
@@ -45,9 +46,18 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
 
   /* Agregar los articulos seleccionados al arreglo general, sin contar los duplicados */
   const handleAgregar = () => {
-    const artAgregados = [...articulos].filter(articulo =>
-      articulo.descripcion.toLowerCase().includes(descripcionArticulos)  //Crea un arreglo con los objetos filtrados.
-    );
+    let artAgregados = [];
+    if (!dadosAlta) {
+      artAgregados = [...articulos].filter(articulo =>
+        articulo.descripcion.toLowerCase().includes(descripcionArticulos) &&
+        !/[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador no contenga letras
+      );
+    } else {
+      artAgregados = [...articulos].filter(articulo =>
+        articulo.descripcion.toLowerCase().includes(descripcionArticulos) &&
+        /[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador no contenga letras
+      );
+    }
 
     //Convierte una copia del state de articulos agregados, insertando los filtrados recien y transformarlo a
     //una coleccion Set para eliminar los duplicados.
@@ -73,10 +83,10 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
   /* Modal de calcular importes */
   const handleCalcularImportes = () => {
     setModalCalcularImportes(true);
-    
+
     let IVA = 0;
 
-    if(incluirIVA) {
+    if (incluirIVA) {
       IVA = 21;
     }
 
@@ -93,7 +103,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
   /* Submit al confirmar luego de calcular precios */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     Swal.fire({
       title: 'Confirmar el aumento de articulos',
       text: "No podras revertir los cambios",
@@ -109,10 +119,10 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
         const url = '/admin/articulo/actualizar-precio';
 
         try {
-          const respuesta = await clienteAxios.post(url, articulosAgregados,{
+          const respuesta = await clienteAxios.post(url, articulosAgregados, {
             timeout: 60000, // Aumenta el tiempo de espera a 60 segundos (60000 milisegundos)
           });
-          
+
           if (respuesta.status === 200) {
             console.log('Arreglo de articulos', articulos);
             console.log('Articulos ya modificados', respuesta.data.updates);
@@ -198,68 +208,74 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
 
             <div className="flex flex-row justify-end w-full">
               {/* INPUTS */}
-                <div className={`${modalCalcularImportes ? 'hidden' : 'visible'} mx-4 w-2/5 bg-zinc-300 rounded-md shadow-md overflow-hidden transition-all`}>
-                  {/* Search de articulos para aumentar */}
-                  <div className="flex flex-col">
-                    <p className="fira py-3 mb-3 px-3 text-center text-sm bg-zinc-400 font-semibold">Seleccione los articulos a aumentar</p>
-                    <p className="text-xs text-center mb-2 border-b border-zinc-500 pb-1">Primero agregue todos los articulos deseados a la lista</p>
-                    <div className="flex my-2 mx-3">
-                      <input
-                        type="text"
-                        name="seleccion"
-                        className="w-full bg-slate-50 pl-2 text-sm font-semibold border-2 focus:border-y-teal-600 focus:border-l-teal-600 outline-0 placeholder:text-slate-500 rounded-l-md transition-colors"
-                        placeholder="Agregar Articulos al listado..."
-                        id="seleccion"
-                        onChange={handleSeleccion}
-                      />
-                      <button
-                        type="button"
-                        className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
-                        onClick={handleAgregar}
-                      >
-                        Agregar
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Campos */}
-                  <div className="px-3 mt-8 flex flex-col">
-                    <p className="text-xs text-center mb-2 border-b border-zinc-500 pb-1">Luego indique la ganancia y el IVA</p>
-                    {/* Porcentaje */}
-                    <div className="flex gap-2 items-center mb-3">
-                      <label className="fira font-semibold text-sm" htmlFor="porcentaje">Porcentaje de Ganancia: %</label>
-                      <input onChange={handlePorcentaje} onInput={(e) => { const inputValue = e.target.value; e.target.value = inputValue.replace(/[^0-9]/g, '') }} pattern="[0-9]*" inputMode="numeric" placeholder="Ej: 10" className="border font-semibold border-slate-800 rounded-lg w-14 px-2 py-1" type="text" name="porcentaje" id="porcentaje" />
-                    </div>
-
-                    {/* IVA */}
-                    <div className="flex gap-2 items-center mb-3">
-                      <div className="cntr flex items-center gap-3">
-                        <label className="fira font-semibold text-sm" htmlFor="cbx">Incluir IVA?</label>
-                        <input type="checkbox" onChange={() => setIncluirIVA(!incluirIVA)} name="cbx" id="cbx" className="hidden-xs-up" />
-                        <label htmlFor="cbx" className="cbx"></label>
-                      </div>
-                    </div>
+              <div className={`${modalCalcularImportes ? 'hidden' : 'visible'} mx-4 w-2/5 bg-zinc-300 rounded-md shadow-md overflow-hidden transition-all`}>
+                {/* Search de articulos para aumentar */}
+                <div className="flex flex-col">
+                  <p className="fira py-3 mb-3 px-3 text-center text-sm bg-zinc-400 font-semibold">Seleccione los articulos a aumentar</p>
+                  <p className="text-xs text-center mb-2 border-b border-zinc-500 pb-1">Primero agregue todos los articulos deseados a la lista</p>
+                  <div className="flex my-2 mx-3">
+                    <input
+                      type="text"
+                      name="seleccion"
+                      className="w-full bg-slate-50 pl-2 text-sm font-semibold border-2 focus:border-y-teal-600 focus:border-l-teal-600 outline-0 placeholder:text-slate-500 rounded-l-md transition-colors"
+                      placeholder="Agregar Articulos al listado..."
+                      id="seleccion"
+                      onChange={handleSeleccion}
+                    />
                     <button
                       type="button"
-                      disabled={(articulosAgregados.length > 0 && incluirIVA === true || articulosAgregados.length > 0 && porcentajeGanancia >= 1) ? false : true}
-                      className="w-full flex justify-center items-center gap-2 bg-indigo-700 py-2 mt-5 mb-3 rounded-md uppercase font-bold cursor-pointer hover:bg-blue-950 text-white text-center transition-all disabled:bg-zinc-500 disabled:cursor-not-allowed"
-                      onClick={handleCalcularImportes}
+                      className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
+                      onClick={handleAgregar}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-calculator" width="35" height="35" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#FFFFFF" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 3m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
-                        <path d="M8 7m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v1a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z" />
-                        <path d="M8 14l0 .01" />
-                        <path d="M12 14l0 .01" />
-                        <path d="M16 14l0 .01" />
-                        <path d="M8 17l0 .01" />
-                        <path d="M12 17l0 .01" />
-                        <path d="M16 17l0 .01" />
-                      </svg>
-                      Calcular Precios
+                      Agregar
                     </button>
                   </div>
                 </div>
+
+                {/* Input para filtrar los dados de alta */}
+                <div className="flex gap-1 pl-3">
+                  <input onChange={() => setDadosAlta(!dadosAlta)} name="dadosAlta" id="dadosAlta" type="checkbox" />
+                  <label className="text-xs" htmlFor="dadosAlta">Incluir articulos creados</label>
+                </div>
+
+                {/* Campos */}
+                <div className="px-3 mt-8 flex flex-col">
+                  <p className="text-xs text-center mb-2 border-b border-zinc-500 pb-1">Luego indique la ganancia y el IVA</p>
+                  {/* Porcentaje */}
+                  <div className="flex gap-2 items-center mb-3">
+                    <label className="fira font-semibold text-sm" htmlFor="porcentaje">Porcentaje de Ganancia: %</label>
+                    <input onChange={handlePorcentaje} onInput={(e) => { const inputValue = e.target.value; e.target.value = inputValue.replace(/[^0-9]/g, '') }} pattern="[0-9]*" inputMode="numeric" placeholder="Ej: 10" className="border font-semibold border-slate-800 rounded-lg w-14 px-2 py-1" type="text" name="porcentaje" id="porcentaje" />
+                  </div>
+
+                  {/* IVA */}
+                  <div className="flex gap-2 items-center mb-3">
+                    <div className="cntr flex items-center gap-3">
+                      <label className="fira font-semibold text-sm" htmlFor="cbx">Incluir IVA?</label>
+                      <input type="checkbox" onChange={() => setIncluirIVA(!incluirIVA)} name="cbx" id="cbx" className="hidden-xs-up" />
+                      <label htmlFor="cbx" className="cbx"></label>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={(articulosAgregados.length > 0 && incluirIVA === true || articulosAgregados.length > 0 && porcentajeGanancia >= 1) ? false : true}
+                    className="w-full flex justify-center items-center gap-2 bg-indigo-700 py-2 mt-5 mb-3 rounded-md uppercase font-bold cursor-pointer hover:bg-blue-950 text-white text-center transition-all disabled:bg-zinc-500 disabled:cursor-not-allowed"
+                    onClick={handleCalcularImportes}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-calculator" width="35" height="35" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#FFFFFF" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M4 3m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
+                      <path d="M8 7m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v1a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z" />
+                      <path d="M8 14l0 .01" />
+                      <path d="M12 14l0 .01" />
+                      <path d="M16 14l0 .01" />
+                      <path d="M8 17l0 .01" />
+                      <path d="M12 17l0 .01" />
+                      <path d="M16 17l0 .01" />
+                    </svg>
+                    Calcular Precios
+                  </button>
+                </div>
+              </div>
 
               {/* Listado */}
               <div className={`${modalCalcularImportes ? 'w-full rounded-t-none mx-0' : 'w-3/5 mx-4'} h-[23rem] rounded-md bg-sky-200 shadow-md text-xs overflow-hidden transition-all`}>
@@ -267,7 +283,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
                   <p className="fira py-3 px-3 text-center text-sm bg-sky-400 font-semibold">Listado de Articulos seleccionados</p>
                 }
                 <ul className={`${modalCalcularImportes ? 'h-[23rem]' : 'h-[20rem]'} overflow-y-scroll transition-all`}>
-                  {modalCalcularImportes && 
+                  {modalCalcularImportes &&
                     <div className="flex px-3 py-2 gap-4 border-b-2 border-zinc-900">
                       <p className="w-1/12 text-center font-black uppercase">Codigo</p>
                       <p className="w-8/12 font-black uppercase">Descripcion</p>
@@ -301,16 +317,16 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
             </div>
             {modalCalcularImportes &&
               <div className="flex w-full justify-center gap-16 mt-5">
-            {
-              loading &&
-              <BounceLoader
-                loading={loading}
-                color="#F2CB05"
-                size={60}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            }
+                {
+                  loading &&
+                  <BounceLoader
+                    loading={loading}
+                    color="#F2CB05"
+                    size={60}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                }
                 <button
                   type="submit"
                   disabled={loading ? true : false}
