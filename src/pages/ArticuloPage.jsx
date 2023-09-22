@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import React,{ useContext, useState }from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AltaArticulo from "../components/AltaArticulo";
 import articuloProvider from "../context/ArticuloProvider";
 import Articulo from "../components/Articulo";
 import ModalAumentoPrecios from "../components/ModalAumentoPrecios";
+import FiltroArticulos from "../components/FiltroArticulos";
 
 const ArticuloPage = () => {
   const {
@@ -17,36 +18,7 @@ const ArticuloPage = () => {
     setArticulosFiltrados,
   } = useContext(articuloProvider);
 
-  const [filtro, setFiltro] = useState("");
   const [activarAumentoModal, setActivarAumentoModal] = useState(false);
-  const [filtrarCodigo, setFiltrarCodigo] = useState(false);
-
-  //Toma el valor del input
-  const handleFiltro = e => {
-    if (e.target.value === "") {
-      setArticulosFiltrados(articulos);
-    }
-    setFiltro(e.target.value);
-  }
-
-  const handleFiltrar = e => {
-    e.preventDefault();
-    if (filtrarCodigo) {
-      const artFiltrados = [...articulos].filter((articulo) =>
-        articulo?.codigo_buscador?.toLowerCase() === filtro.toLowerCase()
-      );
-      setArticulosFiltrados(artFiltrados);
-    } else {
-      const artFiltrados = [...articulos].filter((articulo) =>
-        articulo?.codigo_buscador?.toLowerCase().includes(filtro.toLowerCase()) ||
-        articulo.descripcion?.toLowerCase()?.includes(filtro.toLowerCase()) ||
-        articulo.tipoArticulo?.toLowerCase()?.includes(filtro.toLowerCase())
-        // articulo.codigo_barra?.toLowerCase()?.includes(filtro.toLowerCase())
-      );
-      setArticulosFiltrados(artFiltrados);
-    }
-
-  }
 
   /* Aumento masivo de IVA y Ganancias */
   const handleAumentarPrecios = () => {
@@ -74,27 +46,12 @@ const ArticuloPage = () => {
                         <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
                       </svg>
                     </div>
-                    <input
-                      type="text"
-                      name="filtro"
-                      className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
-                      placeholder="Filtrar articulo..."
-                      id="filtro"
-                      onChange={handleFiltro}
+                    {/* Filtro, checkbox y boton buscar */}
+                    <FiltroArticulos 
+                      setArticulosFiltrados={setArticulosFiltrados} 
+                      articulos={articulos} 
                     />
-                    <input
-                      type="submit"
-                      value="Buscar"
-                      className="bg-blue-500 p-2 mr-5 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
-                      onClick={handleFiltrar}
-                    />
-
-                    {/* Checkbox de filtro */}
-                    <div className="flex w-40 gap-1 items-center">
-                      <input type="checkbox" onChange={() => setFiltrarCodigo(!filtrarCodigo)} name="codigo" id="codigo" />
-                      <label className="text-xs text-slate-100" htmlFor="codigo">Filtrar solo por codigo</label>
-                    </div>
-                  </div>
+                  </div> 
 
                   <div className="flex gap-10">
                     <button
@@ -237,4 +194,4 @@ const ArticuloPage = () => {
   );
 };
 
-export default ArticuloPage;
+export default React.memo(ArticuloPage);

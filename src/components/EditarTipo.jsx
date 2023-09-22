@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import axios from "axios";
 import Alerta from "./Alerta";
 import tipoProvider from "../context/TipoArticuloProvider";
 

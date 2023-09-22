@@ -89,7 +89,7 @@ const AltasExcel = () => {
     const url = "/admin/tipos-de-articulo-excel"
     try {
       const respuesta = await clienteAxios.post(url, tipoArticulosExcel);
-      notify(respuesta.data.msg);
+      notify("success", respuesta.data.msg);
     } catch (error) {
       console.log(error)
     }
@@ -101,8 +101,8 @@ const AltasExcel = () => {
     const url = "/admin/articuloExcel";
     try {
       const respuesta = await clienteAxios.post(url, articulosExcel);
-
-      notify(respuesta.data.msg);
+      notify("success", respuesta.data.msg);
+      console.log(respuesta)
     } catch (error) {
       console.log(error)
     }
