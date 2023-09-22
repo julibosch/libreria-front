@@ -1,11 +1,11 @@
-import React,{ useContext, useState }from "react";
+import { useContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AltaArticulo from "../components/AltaArticulo";
 import articuloProvider from "../context/ArticuloProvider";
-import Articulo from "../components/Articulo";
 import ModalAumentoPrecios from "../components/ModalAumentoPrecios";
 import FiltroArticulos from "../components/FiltroArticulos";
+import TableArticulos from "../components/TableArticulos";
 
 const ArticuloPage = () => {
   const {
@@ -47,11 +47,11 @@ const ArticuloPage = () => {
                       </svg>
                     </div>
                     {/* Filtro, checkbox y boton buscar */}
-                    <FiltroArticulos 
-                      setArticulosFiltrados={setArticulosFiltrados} 
-                      articulos={articulos} 
+                    <FiltroArticulos
+                      setArticulosFiltrados={setArticulosFiltrados}
+                      articulos={articulos}
                     />
-                  </div> 
+                  </div>
 
                   <div className="flex gap-10">
                     <button
@@ -88,81 +88,11 @@ const ArticuloPage = () => {
               </div>
 
               <div className="px-3 w-full">
-                <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh] overflow-y-scroll">
-                  <table className="divide-y divide-gray-800 bg-yellow-200">
-                    <thead className="bg-slate-400">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
-                        >
-                          codigo
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-4/12 py-3 text-xs font-black text-left text-gray-950 uppercase"
-                        >
-                          Descripción
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-left text-gray-950 uppercase"
-                        >
-                          Precio
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
-                        >
-                          Codigo de barra
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-2/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
-                        >
-                          Tipo de artículo
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
-                        >
-                          Stock
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
-                        >
-                          Color
-                        </th>
-                        <th
-                          scope="col"
-                          className="w-1/12 py-3 pr-1 text-xs font-black text-center  text-gray-950 uppercase"
-                        >
-                          Acciones
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {
-                        articulosFiltrados.length > 0 ? (
-                          articulosFiltrados.map((articulo, index) => (
-                            <Articulo key={articulo.codigo_buscador} articuloProp={articulo} index={index} />
-                          ))
-                        )
-                          :
-                          (
-                            articulos.length > 0 ?
-                              <tr>
-                                <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existe el articulo con esa descripcion</td>
-                              </tr>
-                              :
-                              <tr>
-                                <td className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No hay ningún artículo, cargue uno</td>
-                              </tr>
-                          )
-                      }
-                    </tbody>
-                  </table>
+                <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh]">
+                  <TableArticulos 
+                    articulosFiltrados={articulosFiltrados}
+                    articulos={articulos}
+                  />
                 </div>
               </div>
             </div>
@@ -194,4 +124,4 @@ const ArticuloPage = () => {
   );
 };
 
-export default React.memo(ArticuloPage);
+export default ArticuloPage;

@@ -42,7 +42,7 @@ const Login = () => {
   const { msg } = alerta;
 
   return (
-    <div className="w-1/3 mx-auto bg-slate-300 rounded-lg shadow-md overflow-hidden">
+    <div className="md:w-1/3 w-3/4 mx-auto bg-slate-300 rounded-lg shadow-md overflow-hidden">
       <p className="text-2xl font-black bg-[#838FFC] py-3 text-slate-950 uppercase text-center">
         Inicio de Sesión
       </p>
