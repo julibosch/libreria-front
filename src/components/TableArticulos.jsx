@@ -145,7 +145,7 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         articulosFiltrados.length > 0 ? (
           <List
             className='bg-slate-200 w-full'
-            height={400}
+            height={455}
             itemCount={articulosFiltrados.length}
             itemSize={45}
           >
