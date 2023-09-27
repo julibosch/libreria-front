@@ -85,11 +85,11 @@ const ArticuloProvider = ({ children }) => {
       console.error(error);
       setAlertaAlta({
         error: true,
-        msg: error.message,
+        msg: error.response.data.msg,
       });
       setTimeout(() => {
         setAlertaAlta({});
-      }, 2000);
+      }, 3000);
     }
   };
 

@@ -102,7 +102,6 @@ const AltasExcel = () => {
     try {
       const respuesta = await clienteAxios.post(url, articulosExcel);
       notify("success", respuesta.data.msg);
-      console.log(respuesta)
     } catch (error) {
       console.log(error)
     }
@@ -115,7 +114,7 @@ const AltasExcel = () => {
     const url = "/admin/articuloExcelEditar";
     try {
       const respuesta = await clienteAxios.put(url, articulosExcel);
-      
+      console.log(respuesta)
       if (respuesta.status === 200) {
         // Crear una copia de los artículos originales
         const articulosCopia = [...articulos];
