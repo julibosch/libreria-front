@@ -50,12 +50,13 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
     if (!dadosAlta) {
       artAgregados = [...articulos].filter(articulo =>
         articulo.descripcion.toLowerCase().includes(descripcionArticulos) &&
-        !/[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador no contenga letras
+        !/[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador NO contenga letras
       );
     } else {
+      // Si queremos filtrar los articulos dados de alta manualmente
       artAgregados = [...articulos].filter(articulo =>
-        articulo.descripcion.toLowerCase().includes(descripcionArticulos) &&
-        /[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador no contenga letras
+        articulo.codigo_buscador.toLowerCase().includes(descripcionArticulos) &&
+        /[a-zA-Z]/.test(articulo.codigo_buscador)  // Verificar que codigo_buscador SI contenga letras
       );
     }
 
@@ -170,7 +171,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
     <div className="absolute w-screen h-screen top-0 left-0 bg-black/70 backdrop-blur-sm">
       <div className="flex w-full h-full place-content-center place-items-center">
         {/* MODAL */}
-        <div className="w-4/6">
+        <div className="w-5/6">
           <form
             className="bg-white rounded-md shadow-sm pb-5 overflow-hidden"
             onSubmit={handleSubmit}
@@ -278,7 +279,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
               </div>
 
               {/* Listado */}
-              <div className={`${modalCalcularImportes ? 'w-full rounded-t-none mx-0' : 'w-3/5 mx-4'} h-[23rem] rounded-md bg-sky-200 shadow-md text-xs overflow-hidden transition-all`}>
+              <div className={`${modalCalcularImportes ? 'w-full rounded-t-none mx-0' : 'w-4/5 mx-4'} h-[23rem] rounded-md bg-sky-200 shadow-md text-xs overflow-hidden transition-all`}>
                 {!modalCalcularImportes &&
                   <p className="fira py-3 px-3 text-center text-sm bg-sky-400 font-semibold">Listado de Articulos seleccionados</p>
                 }
@@ -293,9 +294,9 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
                   {
                     articulosAgregados.length > 0 ? articulosAgregados.map(articulo => (
                       <li className="px-3 fira w-full border-b border-zinc-700 items-center flex gap-4 py-1" key={articulo.id}>
-                        <p className="w-1/12 text-center font-semibold">{articulo.codigo_buscador}</p>
+                        <p className="w-2/12 text-center font-semibold">{articulo.codigo_buscador}</p>
                         <p className="w-8/12 font-semibold">{articulo.descripcion}</p>
-                        <p className="w-3/12 text-center font-bold">${articulo.precio}</p>
+                        <p className="w-2/12 text-center font-bold">${articulo.precio}</p>
                         <button type="button" onClick={() => handleQuitar(articulo.id)}
                           className={`${modalCalcularImportes ? 'hidden' : 'visible'}`}
                         >
