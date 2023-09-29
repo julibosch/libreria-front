@@ -92,11 +92,17 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
     }
 
     const articulosActualizados = [...articulosAgregados].map(articulo => {
+      const precioBase = Number(articulo.precio);
+      console.log(precioBase)
+      const precioConIva = Number((precioBase + (precioBase * IVA / 100)).toFixed(3));
+      console.log(precioConIva)
       return {
         ...articulo,
-        precio: (Number(articulo.precio) + (Number(articulo.precio) * porcentajeGanancia / 100) + (Number(articulo.precio) * IVA / 100)).toFixed(3)
+        precio: Number((precioConIva + (precioConIva * porcentajeGanancia / 100)).toFixed(3))
       }
     });
+
+    console.log(articulosActualizados)
 
     setArticulosAgregados(articulosActualizados);
   }
