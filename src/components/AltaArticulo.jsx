@@ -127,7 +127,7 @@ const AltaArticulo = () => {
                   value={codigo}
                   onChange={(e) => {
                     // Elimina caracteres no deseados utilizando una expresión regular
-                    const newValue = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+                    const newValue = e.target.value.replace(/[^a-zA-Z0-9 ]/g, '');
                     // Actualiza el estado con el nuevo valor
                     setCodigo(newValue);
                   }}
