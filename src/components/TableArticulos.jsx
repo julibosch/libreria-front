@@ -79,9 +79,7 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
             </svg>
           </button>
 
-
           {/* ELIMINAR */}
-
           <button
             onClick={() => eliminarArticulo(articulosFiltrados[index])}
             className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">

@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BounceLoader from "react-spinners/BounceLoader";
+import { FixedSizeList as List } from 'react-window';
 
 const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }) => {
   const [descripcionArticulos, setDescripcionArticulos] = useState("");
@@ -93,16 +94,12 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
 
     const articulosActualizados = [...articulosAgregados].map(articulo => {
       const precioBase = Number(articulo.precio);
-      console.log(precioBase)
       const precioConIva = Number((precioBase + (precioBase * IVA / 100)).toFixed(3));
-      console.log(precioConIva)
       return {
         ...articulo,
         precio: Number((precioConIva + (precioConIva * porcentajeGanancia / 100)).toFixed(3))
       }
     });
-
-    console.log(articulosActualizados)
 
     setArticulosAgregados(articulosActualizados);
   }
@@ -171,6 +168,25 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
         )
       }
     })
+  }
+
+  const Articulo = ({ index, style }) => {
+    return (
+      <li className='px-3 fira w-full border-b border-zinc-700 items-center flex gap-4 py-1' style={style}>
+        <p className="w-1/12 text-center font-bold">{articulosAgregados[index].codigo_buscador}</p>
+        <p className="w-8/12 font-semibold">{articulosAgregados[index].descripcion}</p>
+        <p className="w-3/12 text-center font-bold">${articulosAgregados[index].precio}</p>
+        <button type="button" onClick={() => handleQuitar(articulosAgregados[index].id)}
+          className={`${modalCalcularImportes ? 'hidden' : 'visible'}`}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-minus hover:fill-red-300 transition-colors" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="#e93c61" strokeLinecap="round" strokeLinejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+            <path d="M9 12l6 0" />
+          </svg>
+        </button>
+      </li>
+    )
   }
 
   return (
@@ -289,7 +305,7 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
                 {!modalCalcularImportes &&
                   <p className="fira py-3 px-3 text-center text-sm bg-sky-400 font-semibold">Listado de Articulos seleccionados</p>
                 }
-                <ul className={`${modalCalcularImportes ? 'h-[23rem]' : 'h-[20rem]'} overflow-y-scroll transition-all`}>
+                <ul className={`${modalCalcularImportes ? 'h-[23rem]' : 'h-[20rem]'} transition-all`}>
                   {modalCalcularImportes &&
                     <div className="flex px-3 py-2 gap-4 border-b-2 border-zinc-900">
                       <p className="w-1/12 text-center font-black uppercase">Codigo</p>
@@ -298,26 +314,23 @@ const ModalAumentoPrecios = ({ setActivarAumentoModal, articulos, setArticulos }
                     </div>
                   }
                   {
-                    articulosAgregados.length > 0 ? articulosAgregados.map(articulo => (
-                      <li className="px-3 fira w-full border-b border-zinc-700 items-center flex gap-4 py-1" key={articulo.id}>
-                        <p className="w-2/12 text-center font-semibold">{articulo.codigo_buscador}</p>
-                        <p className="w-8/12 font-semibold">{articulo.descripcion}</p>
-                        <p className="w-2/12 text-center font-bold">${articulo.precio}</p>
-                        <button type="button" onClick={() => handleQuitar(articulo.id)}
-                          className={`${modalCalcularImportes ? 'hidden' : 'visible'}`}
+                    articulosAgregados.length > 0 ?
+                      (
+                        <List
+                          className='w-full'
+                          height={320}
+                          itemCount={articulosAgregados.length}
+                          itemSize={45}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-minus hover:fill-red-300 transition-colors" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="#e93c61" strokeLinecap="round" strokeLinejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                            <path d="M9 12l6 0" />
-                          </svg>
-                        </button>
-                      </li>
-                    ))
+                          {Articulo}
+                        </List>
+                      )
                       :
+                      (
                       <li className="w-full text-center mt-24">
                         <p className="w-2/3 px-4 py-5 font-semibold uppercase bg-slate-50 mx-auto">Aun no agregó ningún articulo</p>
                       </li>
+                      )
                   }
                 </ul>
               </div>
