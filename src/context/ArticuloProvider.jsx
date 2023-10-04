@@ -72,7 +72,7 @@ const ArticuloProvider = ({ children }) => {
         tipoArticulo: respuesta.data.descripcionTipoArticulo
       }
 
-      setArticulos([...articulos, nuevoArticulo]);
+      setArticulos([nuevoArticulo, ...articulos]); //Lo agrega primero al articulo nuevo y no ultimo en el arreglo 
 
       notify("success", "Articulo agregado exitosamente!");
 
