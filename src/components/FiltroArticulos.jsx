@@ -24,7 +24,7 @@ const FiltroArticulos = ({setArticulosFiltrados, articulos}) => {
     e.preventDefault();
     if (filtrarCodigo) {
       const artFiltrados = [...articulos].filter((articulo) =>
-        articulo?.codigo_buscador?.toLowerCase() === filtro.toLowerCase()
+        articulo?.codigo_buscador?.toLowerCase().includes(filtro.toLowerCase())
       );
       setArticulosFiltrados(artFiltrados);
 
