@@ -96,6 +96,8 @@ const ArticuloProvider = ({ children }) => {
   // FUNCION EDITAR ARTICULO
   const editarArticulo = async (articulo) => {
     try {
+      console.log(codigo)
+      console.log(articulo)
       const respuesta = await clienteAxios.put(
         `/admin/articulo/${codigo}`,
         articulo

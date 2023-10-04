@@ -34,7 +34,7 @@ const AltaArticulo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("")) {
+    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("" || /[\[\]#.,\-_{}\(\)\[\]\?\+\|!=]/.test(codigo))) {
       setAlertaAlta({
         error: true,
         msg: "Debe rellenar todos los campos",
@@ -125,9 +125,14 @@ const AltaArticulo = () => {
                   type="text" // Cambiarle el type a text asi puede poner codigos para proveedores ej: N200
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3 disabled:bg-slate-400/50 disabled:cursor-not-allowed"
                   value={codigo}
-                  onChange={(e) => setCodigo(e.target.value)}
+                  onChange={(e) => {
+                    // Elimina caracteres no deseados utilizando una expresión regular
+                    const newValue = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+                    // Actualiza el estado con el nuevo valor
+                    setCodigo(newValue);
+                  }}
                   placeholder="Ej: 001 o A42"
-                  disabled={activarEditar ? true : false}
+                  disabled={activarEditar ? true : false} //Si está en editar y tiene letras el codigo o esta vacio, se puede editar
                 />
               </div>
 
