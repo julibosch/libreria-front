@@ -196,13 +196,14 @@ const AltaArticulo = () => {
                 >
                   Tipo de artículo
                 </label>
-                <select
-                  id="tipoArticulo"
+                <input 
+                  list="tipoArticulos"
+                  id="tipoArticulo"  
                   value={tipoArticulo}
                   onChange={(e) => setTipoArticulo(e.target.value)}
-                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
-                >
-                  <option value="">Seleccione uno</option>
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"  
+                  />
+                  <datalist id="tipoArticulos">
                   {tipoArticulos.length > 0 ? (
                     tipoArticulos.map((tipo) => (
                       <option value={tipo.descripcion} key={tipo.id}>
@@ -214,7 +215,7 @@ const AltaArticulo = () => {
                       No existen tipos de artículos, da de alta uno
                     </option>
                   )}
-                </select>
+                  </datalist>
               </div>
               <div className="flex flex-col px-5">
                 <label
