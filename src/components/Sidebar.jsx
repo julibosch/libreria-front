@@ -39,17 +39,6 @@ const Sidebar = () => {
               <path d="M20 6c.264 .112 .52 .217 .768 .315a1 1 0 0 1 .53 1.311l-2.298 5.374" />
             </svg>}
           />
-          {/* <ButtonSidebar
-            nombre={"Proveedores"}
-            to={"/inicio/proveedores"}
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-users" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#f1f5f9" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-              <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-            </svg>}
-          /> */}
           <ButtonSidebar
             nombre={"Altas Excel"}
             to={"/inicio/altas-excel"}
@@ -57,6 +46,19 @@ const Sidebar = () => {
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
               <path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" />
+            </svg>}
+          />
+          <ButtonSidebar
+            nombre={"Exportar PDF"}
+            to={"/inicio/exportar-pdf"}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-type-pdf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+              <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4"></path>
+              <path d="M5 18h1.5a1.5 1.5 0 0 0 0 -3h-1.5v6"></path>
+              <path d="M17 18h2"></path>
+              <path d="M20 15h-3v6"></path>
+              <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z"></path>
             </svg>}
           />
         </nav>

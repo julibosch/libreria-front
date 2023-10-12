@@ -1,4 +1,3 @@
-import VistaPDF from "../components/VistaPDF"
 
 const Inicio = () => {
   return (
