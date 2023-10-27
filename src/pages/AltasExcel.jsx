@@ -109,6 +109,7 @@ const AltasExcel = () => {
 
   const handleActualizarArticulos = async (e) => {
     setLoading(true);
+    setActivarSubmitActualizar(true);
     e.preventDefault();
 
     const url = "/admin/articuloExcelEditar";

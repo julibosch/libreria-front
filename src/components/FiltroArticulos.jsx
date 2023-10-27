@@ -73,8 +73,8 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos }) => {
   }
 
   return (
-    <>
-      <div className="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
+    <div className="flex">
+      <div className="flex w-10 px-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
         <svg
           viewBox="0 0 20 20"
           aria-hidden="true"
@@ -109,7 +109,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos }) => {
           <option value="tipo_articulo">Tipo de artículo</option>
         </select>
       </div>
-    </>
+    </div>
   );
 };
 

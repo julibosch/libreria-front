@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import articuloProvider from "../context/ArticuloProvider";
 import { FixedSizeList as List } from 'react-window';
 import FiltroArticulos from "./FiltroArticulos";
@@ -26,6 +26,24 @@ const VistaPDF = () => {
     }
   };
 
+  const handleCheckAllItems = () => {
+    // Crear un objeto que contenga todos los checkboxes marcados
+    const allCheckedState = {};
+    articulosFiltrados.forEach((articulo) => {
+      allCheckedState[articulo.id] = true;
+    });
+  
+    // Actualizar el estado de los checkboxes
+    setCheckboxesState(allCheckedState);
+  
+    // Agregar todos los artículos filtrados a la lista de seleccionados
+    setArticulosSeleccionados([...articulosFiltrados]);
+  };
+
+  useEffect(() => {
+    console.log(articulosSeleccionados);
+  }, [articulosSeleccionados])
+
   const Articulo = ({ index, style }) => {
     const articulo = articulosFiltrados[index];
     const isChecked = checkboxesState[articulo.id] || false;
@@ -40,9 +58,9 @@ const VistaPDF = () => {
             checked={isChecked}
           />
         </div>
-        <p className="w-1/12 text-center font-bold">{articulo.codigo_buscador}</p>
+        <p className="w-2/12 text-center font-bold">{articulo.codigo_buscador}</p>
         <p className="w-7/12 font-semibold">{articulo.descripcion}</p>
-        <p className="w-3/12 text-center font-bold">${Number(articulo.precio).toFixed(2)}</p>
+        <p className="w-2/12 text-center font-bold">${Number(articulo.precio).toFixed(2)}</p>
       </li>
     );
   };
@@ -51,13 +69,20 @@ const VistaPDF = () => {
     <section className="w-5/6">
       <h2 className="bg-black w-full text-white py-3 text-2xl uppercase font-bold text-center">EXPORTAR PDF</h2>
       <div className="bg-slate-300 mx-auto w-11/12 mt-6 rounded-md overflow-hidden">
-        <div className="flex justify-center bg-slate-800 border-b-2 py-2">
+        <div className="flex justify-between items-center gap-5 bg-slate-800 border-b-2 py-2">
+          <button
+            className="flex flex-col justify-center items-center bg-lime-300 rounded-lg ml-3 px-4 py-1 text-xs font-bold uppercase hover:bg-lime-500 transition-colors"
+            onClick={handleCheckAllItems}
+          >
+            <span>Incluir</span>
+            <span>Todos</span>
+          </button>
           <FiltroArticulos
             setArticulosFiltrados={setArticulosFiltrados}
             articulos={articulos}
           />
           <button
-            className="flex items-center ml-36 px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+            className="flex items-center mr-3 px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
             onClick={() => setModalPDF(true)} // Activa modal de alta
           >
             Generar PDF
@@ -71,18 +96,18 @@ const VistaPDF = () => {
             </svg>
           </button>
         </div>
-        <div className="flex px-3 py-2 gap-4 border-b-2 border-zinc-900 bg-slate-800 text-white">
+        <div className="flex px-3 py-2 gap-4 border-b-2 border-zinc-900 bg-slate-800 text-white text-sm">
           <p className="w-1/12 text-center font-black uppercase">Agregar</p>
-          <p className="w-1/12 text-center font-black uppercase">Codigo</p>
+          <p className="w-2/12 text-center font-black uppercase">Codigo</p>
           <p className="w-7/12 font-black uppercase">Descripcion</p>
-          <p className="w-3/12 text-center font-black uppercase">Precio</p>
+          <p className="w-2/12 text-center mr-5 font-black uppercase">Precio</p>
         </div>
 
         {
           articulosFiltrados.length > 0 ?
             (
               <List
-                className='w-full'
+                className='w-full text-sm'
                 height={500}
                 itemCount={articulosFiltrados.length}
                 itemSize={45}
@@ -100,8 +125,8 @@ const VistaPDF = () => {
       </div>
 
       {
-        modalPDF && 
-        <ModalPDF 
+        modalPDF &&
+        <ModalPDF
           articulosSeleccionados={articulosSeleccionados}
           setModalPDF={setModalPDF}
         />
