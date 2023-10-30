@@ -40,6 +40,20 @@ const VistaPDF = () => {
     setArticulosSeleccionados([...articulosFiltrados]);
   };
 
+  const handleUncheckAllItems = () => {
+    // Crear un objeto que contenga todos los checkboxes desmarcados
+    const allUncheckedState = {};
+    articulosFiltrados.forEach((articulo) => {
+      allUncheckedState[articulo.id] = false;
+    });
+  
+    // Actualizar el estado de los checkboxes
+    setCheckboxesState(allUncheckedState);
+  
+    // Limpiar la lista de artículos seleccionados
+    setArticulosSeleccionados([]);
+  };
+
   useEffect(() => {
     console.log(articulosSeleccionados);
   }, [articulosSeleccionados])
@@ -75,6 +89,13 @@ const VistaPDF = () => {
             onClick={handleCheckAllItems}
           >
             <span>Incluir</span>
+            <span>Todos</span>
+          </button>
+          <button
+            className="flex flex-col justify-center items-center bg-lime-300 rounded-lg ml-3 px-4 py-1 text-xs font-bold uppercase hover:bg-lime-500 transition-colors"
+            onClick={handleUncheckAllItems}
+          >
+            <span>Sacar</span>
             <span>Todos</span>
           </button>
           <FiltroArticulos
