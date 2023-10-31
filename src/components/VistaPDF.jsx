@@ -27,17 +27,19 @@ const VistaPDF = () => {
   };
 
   const handleCheckAllItems = () => {
-    // Crear un objeto que contenga todos los checkboxes marcados
-    const allCheckedState = {};
+    // Realizar una copia del estado actual de los checkboxes
+    const updatedCheckboxesState = { ...checkboxesState };
+  
+    // Recorrer los artículos filtrados y actualizar el estado de los checkboxes
     articulosFiltrados.forEach((articulo) => {
-      allCheckedState[articulo.id] = true;
+      updatedCheckboxesState[articulo.id] = true;
     });
   
     // Actualizar el estado de los checkboxes
-    setCheckboxesState(allCheckedState);
+    setCheckboxesState(updatedCheckboxesState);
   
     // Agregar todos los artículos filtrados a la lista de seleccionados
-    setArticulosSeleccionados([...articulosFiltrados]);
+    setArticulosSeleccionados([...articulosSeleccionados, ...articulosFiltrados]);
   };
 
   const handleUncheckAllItems = () => {
