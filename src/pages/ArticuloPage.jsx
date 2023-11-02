@@ -42,6 +42,7 @@ const ArticuloPage = () => {
                     <FiltroArticulos
                       setArticulosFiltrados={setArticulosFiltrados}
                       articulos={articulos}
+                      tipoFiltro="general"
                     />
                   </div>
 

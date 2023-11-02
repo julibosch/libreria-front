@@ -3,7 +3,7 @@ import clienteAxios from "../config/axios";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
 
-const FiltroArticulos = ({ setArticulosFiltrados, articulos }) => {
+const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
   const [filtro, setFiltro] = useState("");
   const [filtroTipo, setFiltroTipo] = useState(""); //Toma el valos del select
 
@@ -102,11 +102,21 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos }) => {
       <div className="flex items-center justify-center gap-2 pl-7 ml-7 border-l-2 border-l-slate-300">
         <label htmlFor="filtros" className="text-white font-bold ">Filtros</label>
         <select id="filtros" onChange={e => setFiltroTipo(e.target.value)} className="border border-slate-600 rounded-md py-1 px-3">
-          <option value="">Descripción</option>
-          <option value="codigo_exacto">Código exacto</option>
-          <option value="codigo_aproximado">Código aproximado</option>
-          <option value="codigo_barra">Código de barra</option>
-          <option value="tipo_articulo">Tipo de artículo</option>
+          {tipoFiltro === "general" ? (
+            <>
+              <option value="">Descripción</option>
+              <option value="codigo_exacto">Código exacto</option>
+              <option value="codigo_aproximado">Código aproximado</option>
+              <option value="codigo_barra">Código de barra</option>
+              <option value="tipo_articulo">Tipo de artículo</option>
+            </>
+          ) : (
+            <>
+              <option value="">Descripción</option>
+              <option value="codigo_exacto">Código exacto</option>
+              <option value="codigo_aproximado">Código aproximado</option>
+            </>
+          )}
         </select>
       </div>
     </div>

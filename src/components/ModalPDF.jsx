@@ -25,7 +25,7 @@ const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
           </label>
           <input
             className="w-2/3 mx-auto py-2 px-2 rounded-md"
-            placeholder="Ejemplo: Juguetes para niños..."
+            placeholder="Ejemplo: Juguetes Duravit..."
             type="text"
             id="pdf"
             value={tituloPDF}
@@ -42,8 +42,8 @@ const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
         :
         (
           // PDF Viewer
-          <div className="w-10/12 h-[90vh] mx-auto my-6 bg-white">
-            <button onClick={() => setModalPDF(false)} className="p-2 bg-amber-400 hover:bg-amber-600 transition-colors flex gap-2 font-bold">
+          <div className="w-10/12 h-[90vh] mx-auto my-4 bg-white">
+            <button onClick={() => setModalPDF(false)} className="p-2 w-full bg-amber-400 hover:bg-amber-600 transition-colors flex gap-2 font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M5 12l14 0"></path>

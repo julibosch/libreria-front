@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import articuloProvider from "../context/ArticuloProvider";
 import { FixedSizeList as List } from 'react-window';
 import FiltroArticulos from "./FiltroArticulos";
@@ -29,15 +29,15 @@ const VistaPDF = () => {
   const handleCheckAllItems = () => {
     // Realizar una copia del estado actual de los checkboxes
     const updatedCheckboxesState = { ...checkboxesState };
-  
+
     // Recorrer los artículos filtrados y actualizar el estado de los checkboxes
     articulosFiltrados.forEach((articulo) => {
       updatedCheckboxesState[articulo.id] = true;
     });
-  
+
     // Actualizar el estado de los checkboxes
     setCheckboxesState(updatedCheckboxesState);
-  
+
     // Agregar todos los artículos filtrados a la lista de seleccionados
     setArticulosSeleccionados([...articulosSeleccionados, ...articulosFiltrados]);
   };
@@ -48,17 +48,13 @@ const VistaPDF = () => {
     articulosFiltrados.forEach((articulo) => {
       allUncheckedState[articulo.id] = false;
     });
-  
+
     // Actualizar el estado de los checkboxes
     setCheckboxesState(allUncheckedState);
-  
+
     // Limpiar la lista de artículos seleccionados
     setArticulosSeleccionados([]);
   };
-
-  useEffect(() => {
-    console.log(articulosSeleccionados);
-  }, [articulosSeleccionados])
 
   const Articulo = ({ index, style }) => {
     const articulo = articulosFiltrados[index];
@@ -69,6 +65,7 @@ const VistaPDF = () => {
         <div className="w-1/12 flex justify-center">
           <input
             type="checkbox"
+            id={articulo.codigo_buscador}
             className="h-4 w-4 rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 focus:ring-offset-0 disabled:cursor-not-allowed disabled:text-gray-400"
             onChange={(e) => handleCheckboxChange(e, articulo)}
             checked={isChecked}
@@ -86,23 +83,29 @@ const VistaPDF = () => {
       <h2 className="bg-black w-full text-white py-3 text-2xl uppercase font-bold text-center">EXPORTAR PDF</h2>
       <div className="bg-slate-300 mx-auto w-11/12 mt-6 rounded-md overflow-hidden">
         <div className="flex justify-between items-center gap-5 bg-slate-800 border-b-2 py-2">
-          <button
-            className="flex flex-col justify-center items-center bg-lime-300 rounded-lg ml-3 px-4 py-1 text-xs font-bold uppercase hover:bg-lime-500 transition-colors"
-            onClick={handleCheckAllItems}
-          >
-            <span>Incluir</span>
-            <span>Todos</span>
-          </button>
-          <button
-            className="flex flex-col justify-center items-center bg-lime-300 rounded-lg ml-3 px-4 py-1 text-xs font-bold uppercase hover:bg-lime-500 transition-colors"
-            onClick={handleUncheckAllItems}
-          >
-            <span>Sacar</span>
-            <span>Todos</span>
-          </button>
+          {/* Botones de Agregar y Quitar */}
+          <div className="flex ml-3">
+            <button
+              className="flex flex-col justify-center items-center bg-lime-300 rounded-l-lg px-5 py-1 text-xs font-bold uppercase hover:bg-lime-500 transition-colors"
+              onClick={handleCheckAllItems}
+            >
+              <span>Incluir</span>
+              <span>Todos</span>
+            </button>
+            <button
+              className="flex flex-col justify-center items-center bg-rose-300 rounded-r-lg px-5 py-1 text-xs font-bold uppercase hover:bg-rose-500 transition-colors"
+              onClick={handleUncheckAllItems}
+            >
+              <span>Quitar</span>
+              <span>Todos</span>
+            </button>
+          </div>
+
+          {/* Searchbox */}
           <FiltroArticulos
             setArticulosFiltrados={setArticulosFiltrados}
             articulos={articulos}
+            tipoFiltro="pdf"
           />
           <button
             className="flex items-center mr-3 px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
