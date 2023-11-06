@@ -81,7 +81,7 @@ const VistaPDF = () => {
   return (
     <section className="w-5/6">
       <h2 className="bg-black w-full text-white py-3 text-2xl uppercase font-bold text-center">EXPORTAR PDF</h2>
-      <div className="bg-slate-300 mx-auto w-11/12 mt-6 rounded-md overflow-hidden">
+      <div className="bg-slate-300 mx-auto w-11/12 mt-4 rounded-md overflow-hidden">
         <div className="flex justify-between items-center gap-5 bg-slate-800 border-b-2 py-2">
           {/* Botones de Agregar y Quitar */}
           <div className="flex ml-3">
@@ -109,7 +109,7 @@ const VistaPDF = () => {
           />
           <button
             className="flex items-center mr-3 px-3 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
-            onClick={() => setModalPDF(true)} // Activa modal de alta
+            onClick={() => setModalPDF(true)} // Activa modal de PDF
           >
             Generar PDF
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-text" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -122,11 +122,14 @@ const VistaPDF = () => {
             </svg>
           </button>
         </div>
-        <div className="flex px-3 py-2 gap-4 border-b-2 border-zinc-900 bg-slate-800 text-white text-sm">
-          <p className="w-1/12 text-center font-black uppercase">Agregar</p>
-          <p className="w-2/12 text-center font-black uppercase">Codigo</p>
-          <p className="w-7/12 font-black uppercase">Descripcion</p>
-          <p className="w-2/12 text-center mr-5 font-black uppercase">Precio</p>
+        <div className="flex items-center px-3 py-2 gap-4 border-b-2 border-zinc-900 bg-slate-800 text-white text-sm">
+          <div className="w-1/12 text-xs text-center">
+            <p className="text-center font-semibold uppercase">Seleccionados</p>
+            <span className="font-bold">{articulosSeleccionados.length}</span>
+          </div>
+          <p className="w-2/12 text-center font-bold uppercase">Codigo</p>
+          <p className="w-7/12 font-bold uppercase">Descripcion</p>
+          <p className="w-2/12 text-center mr-5 font-bold uppercase">Precio</p>
         </div>
 
         {
@@ -143,19 +146,36 @@ const VistaPDF = () => {
             )
             :
             (
-              <li className="w-full text-center mt-24">
+              <div className="w-full flex justify-center items-center text-center mt-24">
                 <p className="w-2/3 px-4 py-5 font-semibold uppercase bg-slate-50 mx-auto">Aun no cargo ningún artículo</p>
-              </li>
+              </div>
             )
         }
       </div>
 
       {
-        modalPDF &&
-        <ModalPDF
-          articulosSeleccionados={articulosSeleccionados}
-          setModalPDF={setModalPDF}
-        />
+        modalPDF && articulosSeleccionados.length <= 100 ?
+
+          <ModalPDF
+            articulosSeleccionados={articulosSeleccionados}
+            setModalPDF={setModalPDF}
+          />
+          :
+
+          modalPDF && articulosSeleccionados.length > 100 &&
+
+          <div className="absolute flex w-full h-screen top-0 left-0 bg-black/80 backdrop-blur-sm">
+            <div className="relative w-1/3 mx-auto my-auto pb-5 pt-12 bg-rose-300 text-center text-xl font-semibold">
+              <button onClick={() => setModalPDF(false)} className="absolute top-1 right-1 p-2 rounded-full bg-rose-500 hover:bg-rose-700 transition-colors flex gap-2 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M18 6l-12 12"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </button>
+              <p>Por favor, ingrese menos de 100 articulos</p>
+            </div>
+          </div>
       }
     </section>
   )
