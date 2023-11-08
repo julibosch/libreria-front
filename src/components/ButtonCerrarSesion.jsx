@@ -7,7 +7,7 @@ const ButtonCerrarSesion = () => {
   return (
     <button
       type="button"
-      className=" flex uppercase font-bold text-md items-center gap-2 bg-red-500 hover:bg-red-700 transition-colors cursor-pointer rounded-md px-3 py-2 mx-auto shadow-md"
+      className=" flex uppercase font-bold text-md items-center gap-2 bg-red-500 hover:bg-red-700 transition-colors cursor-pointer rounded-md md:px-3 md:py-2 px-1 py-1 mx-auto shadow-md"
       onClick={logout}
     >
       <svg
@@ -27,7 +27,7 @@ const ButtonCerrarSesion = () => {
         <path d="M9 12h12l-3 -3" />
         <path d="M18 15l3 -3" />
       </svg>
-      Cerrar Sesión
+       <p className="hidden md:block">Cerrar Sesión</p>
     </button>
   );
 };

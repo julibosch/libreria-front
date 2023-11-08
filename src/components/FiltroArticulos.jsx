@@ -73,33 +73,35 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
   }
 
   return (
-    <div className="flex">
-      <div className="flex w-10 px-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
-        <svg
-          viewBox="0 0 20 20"
-          aria-hidden="true"
-          className="pointer-events-none absolute w-5 fill-gray-500 transition"
-        >
-          <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
-        </svg>
+    <div className="flex flex-col md:flex-row">
+      <div className="flex">
+        <div className="flex w-10 px-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
+          <svg
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+            className="pointer-events-none absolute w-5 fill-gray-500 transition"
+          >
+            <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
+          </svg>
+        </div>
+        <input
+          type="text"
+          name="filtro"
+          className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
+          placeholder="Filtrar articulo..."
+          id="filtro"
+          onChange={handleFiltro}
+        />
+        <input
+          type="submit"
+          value="Buscar"
+          className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
+          onClick={handleFiltrar}
+        />
       </div>
-      <input
-        type="text"
-        name="filtro"
-        className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
-        placeholder="Filtrar articulo..."
-        id="filtro"
-        onChange={handleFiltro}
-      />
-      <input
-        type="submit"
-        value="Buscar"
-        className="bg-blue-500 p-2 rounded-tr-lg rounded-br-lg text-white font-semibold hover:bg-blue-800 transition-colors cursor-pointer"
-        onClick={handleFiltrar}
-      />
 
       {/* Checkbox de filtro */}
-      <div className="flex items-center justify-center gap-2 pl-7 ml-7 border-l-2 border-l-slate-300">
+      <div className="flex items-center justify-center gap-2 md:pl-7 md:ml-7 md:pt-0 md:mt-0 md:border-t-0 pt-2 mt-2 border-t-2 border-t-slate-200 md:border-l-2">
         <label htmlFor="filtros" className="text-white font-bold ">Filtros</label>
         <select id="filtros" onChange={e => setFiltroTipo(e.target.value)} className="border border-slate-600 rounded-md py-1 px-3">
           {tipoFiltro === "general" ? (
@@ -119,8 +121,8 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
           )}
         </select>
       </div>
-    </div>
-  );
+    </div>
+  );
 };
 
 export default FiltroArticulos;
