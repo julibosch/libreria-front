@@ -154,28 +154,11 @@ const VistaPDF = () => {
       </div>
 
       {
-        modalPDF && articulosSeleccionados.length <= 100 ?
-
+        modalPDF &&
           <ModalPDF
             articulosSeleccionados={articulosSeleccionados}
             setModalPDF={setModalPDF}
           />
-          :
-
-          modalPDF && articulosSeleccionados.length > 100 &&
-
-          <div className="absolute flex w-full h-screen top-0 left-0 bg-black/80 backdrop-blur-sm">
-            <div className="relative w-1/3 mx-auto my-auto pb-5 pt-12 bg-rose-300 text-center text-xl font-semibold">
-              <button onClick={() => setModalPDF(false)} className="absolute top-1 right-1 p-2 rounded-full bg-rose-500 hover:bg-rose-700 transition-colors flex gap-2 font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M18 6l-12 12"></path>
-                  <path d="M6 6l12 12"></path>
-                </svg>
-              </button>
-              <p>Por favor, ingrese menos de 100 articulos</p>
-            </div>
-          </div>
       }
     </section>
   )

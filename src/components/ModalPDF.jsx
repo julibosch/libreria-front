@@ -1,10 +1,26 @@
 import { useState } from "react";
 import GenerarPDF from "./GenerarPDF"
 import { PDFViewer } from '@react-pdf/renderer';
+import clienteAxios from "../config/axios";
 
 const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
   const [inputTitulo, setInputTitulo] = useState(true);
   const [tituloPDF, setTituloPDF] = useState("");
+
+  const handleValidate = async () => {
+    setInputTitulo(false);
+    const url = "/admin/exportar-pdf";
+
+    if(articulosSeleccionados.length > 100) {
+      try {
+        const respuesta = await clienteAxios.post(url, {articulosSeleccionados, tituloPDF})
+
+        console.log(respuesta);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 
   return (
     <div className="absolute w-full h-screen top-0 left-0 bg-black/80 backdrop-blur-sm">
@@ -33,15 +49,28 @@ const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
           />
           <button
             className="w-1/2 mx-auto py-2 px-3 bg-sky-700 hover:bg-sky-900 transition-colors text-white font-bold text-center my-5 uppercase"
-            onClick={() => setInputTitulo(false)}
+            onClick={handleValidate}
           >
             Aceptar
           </button>
         </div>
-      )
-        :
-        (
-          // PDF Viewer
+      ) : (
+        // Si esta en false y hay mas de 100 articulos, se descarga el pdf
+        articulosSeleccionados.length > 100 ? (
+          <div className="w-full h-screen flex items-center justify-center bg-lime-500">
+            <button onClick={() => setModalPDF(false)} className="p-2 w-full bg-amber-400 hover:bg-amber-600 transition-colors flex gap-2 font-bold">
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 12l14 0"></path>
+                <path d="M5 12l4 4"></path>
+                <path d="M5 12l4 -4"></path>
+              </svg>
+              Cerrar PDF
+            </button>
+            <h2>Descargando PDF...</h2>
+          </div>
+        ) : (
+          // Si esta en false y hay menos de 100 articulos, se renderiza PDF Viewer
           <div className="w-10/12 h-[90vh] mx-auto my-4 bg-white">
             <button onClick={() => setModalPDF(false)} className="p-2 w-full bg-amber-400 hover:bg-amber-600 transition-colors flex gap-2 font-bold">
               <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -59,7 +88,8 @@ const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
               />
             </PDFViewer>
           </div>
-        )}
+        )
+      )}
     </div>
   )
 }
