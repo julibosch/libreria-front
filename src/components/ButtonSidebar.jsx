@@ -12,7 +12,7 @@ const ButtonSidebar = ({nombre, to, icon}) => {
     }`}
   >
     {icon}
-    {nombre}
+    <p className='hidden md:block'>{nombre}</p>
   </Link>
   )
 }

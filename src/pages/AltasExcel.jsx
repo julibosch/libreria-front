@@ -109,6 +109,7 @@ const AltasExcel = () => {
 
   const handleActualizarArticulos = async (e) => {
     setLoading(true);
+    setActivarSubmitActualizar(true);
     e.preventDefault();
 
     const url = "/admin/articuloExcelEditar";
@@ -158,7 +159,7 @@ const AltasExcel = () => {
 
   return (
     <section className="w-5/6">
-      <h1 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h1>
+      <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h2>
 
       {tipoArticulos.length <= 0 &&
         <div className="w-5/6 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">

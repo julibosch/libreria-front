@@ -35,27 +35,27 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
 
     return (
       <li className={`${index % 2 === 0 ? 'bg-zinc-300' : 'bg-zinc-200'} flex items-center`} style={style}>
-        <p className="w-1/12 mr-3 text-xs font-sans font-black text-center text-gray-950">
+        <p className="md:w-1/12 w-1/6 mr-3 text-xs font-sans font-black text-center text-gray-950">
           {articulosFiltrados[index].codigo_buscador}
         </p>
-        <p className="w-5/12 text-xs pr-3 font-semibold text-gray-900">
+        <p className="md:w-5/12 w-4/6 text-xs md:pr-3 font-semibold text-gray-900">
           {articulosFiltrados[index].descripcion}
         </p>
-        <p className="w-1/12 text-sm pr-3 font-sans font-bold text-gray-950">
+        <p className="md:w-1/12 w-1/6 text-sm md:pr-3 font-sans font-bold text-gray-950">
           ${articulosFiltrados[index].precio}
         </p>
-        <p className="w-1/12 text-sm pr-3 font-semibold text-center text-gray-900">
+        <p className="md:w-1/12 text-sm pr-3 font-semibold text-center text-gray-900 hidden md:block">
           {articulosFiltrados[index].codigo_barra}
         </p>
-        <p className="w-2/12 text-xs pl-7 font-semibold text-center text-gray-900">
+        <p className="md:w-2/12 text-xs pl-7 font-semibold text-center text-gray-900 hidden md:block">
           {articulosFiltrados[index].tipoArticulo}
         </p>
-        <p className="w-1/12 text-xs text-center font-semibold text-gray-900">
+        <p className="md:w-1/12 text-xs text-center font-semibold text-gray-900 hidden md:block">
           {articulosFiltrados[index].color}
         </p>
 
         {/* EDITAR */}
-        <p className="w-1/12 text-sm font-medium text-center whitespace-nowrap flex py-2 pr-1 justify-around">
+        <p className="w-1/12 text-sm font-medium text-center whitespace-nowrap py-2 pr-1 justify-around hidden md:flex">
           <button
             className="py-2 px-2 shadow-md bg-indigo-400 hover:bg-indigo-600 transition-colors rounded-full"
             onClick={() => handleEditar()}
@@ -111,25 +111,25 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
   return (
     <ul className="flex flex-col bg-slate-400">
       <li className="flex items-center pr-3">
-        <p className="w-1/12 mr-3 py-3 text-xs font-black text-center text-gray-950 uppercase">
+        <p className="md:w-1/12 w-1/6 mr-3 py-3 text-xs font-black text-center text-gray-950 uppercase">
           codigo
         </p>
-        <p className="w-5/12 py-3 text-xs font-black text-left text-gray-950 uppercase">
+        <p className="md:w-5/12 w-4/6 py-3 text-xs font-black text-left text-gray-950 uppercase">
           Descripción
         </p>
-        <p className="w-1/12 py-3 text-xs font-black text-left text-gray-950 uppercase">
+        <p className="md:w-1/12 w-1/6 py-3 text-xs font-black text-left text-gray-950 uppercase">
           Precio
         </p>
-        <p className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase">
+        <p className="md:w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
           Codigo de barra
         </p>
-        <p className="w-2/12 py-3 pl-3 text-xs font-black text-center text-gray-950 uppercase">
+        <p className="md:w-2/12 py-3 pl-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
           Tipo de artículo
         </p>
-        <p className="w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase">
+        <p className="md:w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
           Color
         </p>
-        <p className="w-1/12 py-3 pr-1 text-xs font-black text-center  text-gray-950 uppercase">
+        <p className="md:w-1/12 py-3 pr-1 text-xs font-black text-center  text-gray-950 uppercase hidden md:block">
           Acciones
         </p>
       </li>
