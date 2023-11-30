@@ -81,7 +81,7 @@ const ArticuloPage = () => {
 
               <div className="px-3 w-full">
                 <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh]">
-                  <TableArticulos 
+                  <TableArticulos
                     articulosFiltrados={articulosFiltrados}
                     articulos={articulos}
                   />
@@ -116,4 +116,4 @@ const ArticuloPage = () => {
   );
 };
 
-export default ArticuloPage;
+export default ArticuloPage;

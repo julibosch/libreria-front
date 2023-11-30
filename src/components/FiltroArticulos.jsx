@@ -121,8 +121,8 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
           )}
         </select>
       </div>
-    </div>
-  );
+    </div>
+  );
 };
 
 export default FiltroArticulos;

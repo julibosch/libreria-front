@@ -34,15 +34,39 @@ const AltaArticulo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].includes("" || /[\[\]#.,\-_{}\(\)\[\]\?\+\|!=]/.test(codigo))) {
+    if(codigo.trim() == ""){
       setAlertaAlta({
         error: true,
-        msg: "Debe rellenar todos los campos",
+        msg: "Ingrese un codigo valido.",
       });
 
       setTimeout(() => {
         setAlertaAlta({});
-      }, 2000);
+      }, 4000);
+      return;
+    }
+
+    if(codigo.includes(" ")) {
+      setAlertaAlta({
+        error: true,
+        msg: "El codigo no puede contener espacios.",
+      });
+
+      setTimeout(() => {
+        setAlertaAlta({});
+      }, 4000);
+      return;
+    }
+
+    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].some(campo => /[\[\]#.,\-_{}\(\)\[\]\?\+\|!=]/.test(campo) || campo === "")) {
+      setAlertaAlta({
+        error: true,
+        msg: "Debe rellenar todos los campos y asegurarse de que no contengan caracteres especiales.",
+      });
+
+      setTimeout(() => {
+        setAlertaAlta({});
+      }, 4000);
       return;
     }
 
