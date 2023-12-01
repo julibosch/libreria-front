@@ -30,12 +30,12 @@ const ArticuloPage = () => {
       <h2 className="bg-black w-full text-white py-3 mb-2 text-2xl uppercase font-bold text-center">
         Articulos
       </h2>
-      <div className="px-4 md:px-10">
-        <div className="container mx-auto bg-slate-800 pb-2 rounded-lg shadow-md">
+      <div className="px-2 md:px-10">
+        <div className="container mx-auto bg-slate-800 pb-2 md:rounded-lg shadow-md">
           <div className="flex flex-col">
             <div className="overflow-x-auto">
               <div className="py-2 relative">
-                <div className="flex justify-center md:justify-between rounded-lg py-2 px-3">
+                <div className="flex justify-center md:justify-between md:rounded-lg py-2 px-3">
                   <div className="flex">
                     {/* Filtro, checkbox y boton buscar */}
                     <FiltroArticulos
@@ -79,9 +79,9 @@ const ArticuloPage = () => {
                 </div>
               </div>
 
-              <div className="px-3 w-full">
-                <div className="overflow-x-scroll lg:overflow-x-auto border-0 rounded-lg h-[75vh]">
-                  <TableArticulos 
+              <div className="md:px-3 w-full">
+                <div className="overflow-x-scroll lg:overflow-x-auto border-0 md:rounded-lg h-[75vh]">
+                  <TableArticulos
                     articulosFiltrados={articulosFiltrados}
                     articulos={articulos}
                   />
@@ -116,4 +116,4 @@ const ArticuloPage = () => {
   );
 };
 
-export default ArticuloPage;
+export default ArticuloPage;

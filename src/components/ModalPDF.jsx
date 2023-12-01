@@ -1,7 +1,7 @@
 import { useState } from "react";
 import GenerarPDF from "./GenerarPDF"
 import { PDFViewer } from '@react-pdf/renderer';
-import clienteAxios from "../config/axios";
+//import clienteAxios from "../config/axios";
 
 const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
   const [inputTitulo, setInputTitulo] = useState(true);
@@ -68,7 +68,7 @@ const ModalPDF = ({ articulosSeleccionados, setModalPDF }) => {
               </button>
               <p>Por favor, ingrese menos de 100 articulos</p>
             </div>
-          </div>
+          </div>
         ) : (
           // Si esta en false y hay menos de 100 articulos, se renderiza PDF Viewer
           <div className="w-10/12 h-[90vh] mx-auto my-4 bg-white">
