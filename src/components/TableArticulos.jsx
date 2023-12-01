@@ -38,10 +38,10 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         <p className="md:w-1/12 w-1/6 mr-3 text-xs font-sans font-black text-center text-gray-950">
           {articulosFiltrados[index].codigo_buscador}
         </p>
-        <p className="md:w-5/12 w-4/6 text-xs md:pr-3 font-semibold text-gray-900">
+        <p className="md:w-5/12 w-[55%] text-xs mr-2 md:pr-3 font-semibold text-gray-900">
           {articulosFiltrados[index].descripcion}
         </p>
-        <p className="md:w-1/12 w-1/6 text-sm md:pr-3 font-sans font-bold text-gray-950">
+        <p className="md:w-1/12 w-1/6 text-xs md:pr-3 font-sans font-bold text-gray-950">
           ${articulosFiltrados[index].precio}
         </p>
         <p className="md:w-1/12 text-sm pr-3 font-semibold text-center text-gray-900 hidden md:block">
@@ -111,10 +111,10 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
   return (
     <ul className="flex flex-col bg-slate-400">
       <li className="flex items-center pr-3">
-        <p className="md:w-1/12 w-1/6 mr-3 py-3 text-xs font-black text-center text-gray-950 uppercase">
+        <p className="md:w-1/12 w-1/6 mr-3 ml-1 py-3 text-xs font-black text-center text-gray-950 uppercase">
           codigo
         </p>
-        <p className="md:w-5/12 w-4/6 py-3 text-xs font-black text-left text-gray-950 uppercase">
+        <p className="md:w-5/12 w-[57%] mr-3 py-3 text-xs font-black text-left text-gray-950 uppercase">
           Descripción
         </p>
         <p className="md:w-1/12 w-1/6 py-3 text-xs font-black text-left text-gray-950 uppercase">

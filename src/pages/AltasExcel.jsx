@@ -138,6 +138,9 @@ const AltasExcel = () => {
         });
         // Actualiza el estado de 'articulos' con los artículos actualizados
         setArticulos(articulosActualizados);
+      } else {
+        notify("error", "Fallo en la consulta a la API");
+        setLoading(false);
       }
 
       notify("success", respuesta.data.msg);
@@ -185,17 +188,29 @@ const AltasExcel = () => {
         <h3 className="bg-neutral-800 text-center font-bold text-white text-xl py-2">Excel Actualizar Artículos</h3>
         <form onSubmit={handleActualizarArticulos} className="flex flex-col justify-around items-center container mx-auto min-h-[150px] bg-neutral-500">
           <input type="file" accept=".xlsx, .xls" onChange={(e) => handleLeer(e, "actualizarArticulo")} className="w-1/2 text-lg mx-auto my-3 text-white cursor-pointer" />
-          {
-            loading &&
-            <BounceLoader
-              loading={loading}
-              color="#F2CB05"
-              size={100}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          }
-          <input type="submit" value="Enviar" disabled={activarSubmitActualizar} className="uppercase font-bold disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-slate-900 text-white hover:bg-slate-700 py-3 w-6/12 mx-auto mb-2 cursor-pointer rounded-xl transition-all shadow-md" />
+
+          <button
+            type="submit"
+            disabled={activarSubmitActualizar}
+            className="flex items-center text-center uppercase disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none bg-slate-900 text-white hover:bg-slate-700 py-2 w-6/12 mx-auto mb-2 cursor-pointer rounded-xl transition-all shadow-md"
+          >
+            <div className="justify-self-start">
+              {
+                loading &&
+                <BounceLoader
+                  loading={loading}
+                  className="ml-4"
+                  color="#222961"
+                  size={30}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              }
+            </div>
+            <div className="w-full font-bold">
+              {loading ? "Actualizando" : "Actualizar"}
+            </div>
+          </button>
         </form>
       </div>
 
