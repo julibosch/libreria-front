@@ -46,7 +46,8 @@ const AltaArticulo = () => {
       return;
     }
 
-    if(codigo.includes(" ")) {
+    //Si esta dando de alta
+    if(codigo.includes(" ") && activarAltaModal) {
       setAlertaAlta({
         error: true,
         msg: "El codigo no puede contener espacios.",
@@ -58,7 +59,7 @@ const AltaArticulo = () => {
       return;
     }
 
-    if ([codigo, descripcion, precio, codigoBarra, tipoArticulo, stock, color].some(campo => /[\[\]#.,\-_{}\(\)\[\]\?\+\|!=]/.test(campo) || campo === "")) {
+    if ([codigo, precio, stock].some(campo => /[\[\]#\-_{}\(\)\[\]\?\+\|!=]/.test(campo) || campo === "")) {
       setAlertaAlta({
         error: true,
         msg: "Debe rellenar todos los campos y asegurarse de que no contengan caracteres especiales.",

@@ -7,6 +7,7 @@ import BounceLoader from "react-spinners/BounceLoader";
 import articuloProvider from "../context/ArticuloProvider";
 import tipoProvider from "../context/TipoArticuloProvider";
 import clienteAxios from "../config/axios";
+import Swal from 'sweetalert2';
 
 const AltasExcel = () => {
   const [tipoArticulosExcel, setTipoArticulosExcel] = useState([]);
@@ -143,10 +144,14 @@ const AltasExcel = () => {
         setLoading(false);
       }
 
-      notify("success", respuesta.data.msg);
-      setLoading(false);
+      Swal.fire(
+          'Actualización exitosa!',
+          'Los artículos se han actualizado con éxito!',
+          'success'
+        ).then(setLoading(false))
     } catch (error) {
       console.log(error)
+      setLoading(false)
       return notify("error", error.response.data.msg);
     }
   }
@@ -161,7 +166,7 @@ const AltasExcel = () => {
   }
 
   return (
-    <section className="w-5/6">
+    <section className="w-full md:w-5/6">
       <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-8">Altas mediante Excel</h2>
 
       {tipoArticulos.length <= 0 &&

@@ -21,7 +21,7 @@ const TipoArticulo = ({ tipo, index }) => {
       </td>
 
       {/* EDITAR y ELIMINAR */}
-      <td className="text-sm font-medium text-center whitespace-nowrap flex gap-10 py-2 pr-1 justify-center">
+      <td className="hidden text-sm font-medium text-center whitespace-nowrap md:flex gap-10 py-2 pr-1 justify-center">
         <button
           className="py-2 px-2 shadow-md bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full"
           onClick={() => handleEditar()}

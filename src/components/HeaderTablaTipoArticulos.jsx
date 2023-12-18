@@ -54,7 +54,7 @@ const HeaderTablaTipoArticulos = ({ handleAgregar, setTipoArticulosFiltrados, ti
 
         <div className="flex gap-10">
           <button
-            className="flex items-center pr-2 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
+            className="hidden md:flex items-center pr-2 py-2 bg-yellow-400 hover:bg-yellow-200 transition-colors shadow-md uppercase font-semibold text-sm rounded-md"
             onClick={handleAgregar} // Activa modal de alta
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="mx-2 icon icon-tabler icon-tabler-square-rounded-plus" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#000000" fill="none" strokeLinecap="round" strokeLinejoin="round">

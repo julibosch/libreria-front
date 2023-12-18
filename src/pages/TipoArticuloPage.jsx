@@ -3,12 +3,12 @@ import TableProvTipo from "../components/TableProvTipo";
 
 const TipoArticuloPage = () => {
   return (
-    <section className="w-5/6">
+    <section className="w-full md:w-5/6">
       <h2 className="bg-black w-full text-white py-3 text-2xl font-bold uppercase text-center mb-2">
         Tipos de articulo
       </h2>
 
-      <div className="px-10">
+      <div className="p-2 md:px-10">
         <TableProvTipo
           title={"Alta de Tipo de Articulo"}
           placeholder={"Ingrese el Tipo de Articulo"}

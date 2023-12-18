@@ -51,7 +51,7 @@ const TableProvTipo = ({ title, placeholder, setTipoArticulos }) => {
                     </th>
                     <th
                       scope="col"
-                      className="w-4/12 py-3 text-xs font-black text-center text-gray-950 uppercase"
+                      className="hidden md:block w-4/12 py-3 ml-32 text-xs font-black text-center text-gray-950 uppercase"
                     >
                       Acciones
                     </th>
