@@ -1,7 +1,13 @@
 import ButtonCerrarSesion from "./ButtonCerrarSesion";
 import ButtonSidebar from "./ButtonSidebar";
+import clienteAxios from "../config/axios";
 
 const Sidebar = () => {
+
+  const handleQuitarEspacios = async () => {
+    const res = await clienteAxios.post(`/admin/articulo`);
+    console.log(res)
+  }
 
   return (
     <aside className="pattern h-screen md:w-1/6 pb-5">
@@ -70,7 +76,7 @@ const Sidebar = () => {
             </svg>}
           />
         </nav>
-
+        <button className="text-white" onClick={handleQuitarEspacios}>ENVIAR</button>
         <ButtonCerrarSesion />
       </div>
     </aside>
