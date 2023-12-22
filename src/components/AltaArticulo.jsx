@@ -98,10 +98,10 @@ const AltaArticulo = () => {
   const { msg } = alertaAlta;
 
   return (
-    <div className="w-full h-screen absolute top-0 left-0 bg-black bg-opacity-70 backdrop-blur-sm">
+    <div className="w-full h-full absolute top-0 left-0 bg-black bg-opacity-75 backdrop-blur-sm">
       <form
         action=""
-        className="bg-white rounded-md shadow-md w-1/2 mx-auto my-16 pb-5 overflow-hidden"
+        className="bg-white rounded-md shadow-md w-1/2 mx-auto my-28 pb-5 overflow-hidden"
         onSubmit={handleSubmit}
       >
         <div className="flex relative">
