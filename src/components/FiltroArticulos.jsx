@@ -21,7 +21,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
     switch (filtroTipo) {
       case "codigo_exacto":
         const artFiltrados = [...articulos].filter((articulo) =>
-          articulo?.codigo_buscador?.toLowerCase() == filtro
+          articulo?.codigo_buscador?.toLowerCase() == filtro.toLowerCase()
         );
         setArticulosFiltrados(artFiltrados);
         break;
@@ -75,7 +75,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
   return (
     <div className="flex flex-col md:flex-row">
       <div className="flex">
-        <div className="flex w-10 px-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
+        <div className="hidden md:flex w-10 px-5 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white">
           <svg
             viewBox="0 0 20 20"
             aria-hidden="true"
@@ -87,7 +87,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
         <input
           type="text"
           name="filtro"
-          className="w-full max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
+          className="w-full rounded-l-lg md:rounded-none max-w-[200px] bg-white pl-2 text-sm font-semibold outline-0"
           placeholder="Filtrar articulo..."
           id="filtro"
           onChange={handleFiltro}
