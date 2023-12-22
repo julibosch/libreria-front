@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import 'react-toastify/dist/ReactToastify.css';
 import clienteAxios from "../config/axios";
-import axios from "axios";
 
 const tipoProvider = createContext();
 
