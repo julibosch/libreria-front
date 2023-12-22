@@ -1,24 +1,10 @@
 import ButtonCerrarSesion from "./ButtonCerrarSesion";
 import ButtonSidebar from "./ButtonSidebar";
-import clienteAxios from "../config/axios";
 
 const Sidebar = () => {
 
-  const handleQuitarEspacios = async () => {
-    const res = await clienteAxios.post(`/admin/articulo`);
-    console.log(res)
-  }
-
   return (
     <aside className="pattern h-screen md:w-1/6 pb-5">
-      {/* <button className="block md:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M4 6l16 0"></path>
-          <path d="M4 12l16 0"></path>
-          <path d="M4 18l16 0"></path>
-        </svg>
-      </button> */}
       <h2 className="uppercase text-4xl font-black text-center py-4 mx-3 border-b mb-10 text-slate-100 hidden md:block">Piquitos</h2>
 
       <div className="flex flex-col justify-between h-3/4">
@@ -76,7 +62,6 @@ const Sidebar = () => {
             </svg>}
           />
         </nav>
-        <button className="text-white" onClick={handleQuitarEspacios}>ENVIAR</button>
         <ButtonCerrarSesion />
       </div>
     </aside>
