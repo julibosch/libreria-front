@@ -12,6 +12,7 @@ import TipoArticuloPage from "./pages/TipoArticuloPage";
 import ArticuloPage from "./pages/ArticuloPage";
 import AltasExcel from "./pages/AltasExcel";
 import VistaPDF from "./components/VistaPDF";
+import Backup from "./pages/Backup";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                   <Route path="articulos" element={<ArticuloPage />} />
                   <Route path="altas-excel" element={<AltasExcel />} />
                   <Route path="exportar-pdf" element={<VistaPDF />} />
+                  <Route path="backups" element={<Backup />} />
                 </Route>
               </Route>
             </Routes>
