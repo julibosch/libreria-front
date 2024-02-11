@@ -51,7 +51,7 @@ const Sidebar = () => {
           <ButtonSidebar
             nombre={"Exportar PDF"}
             to={"/inicio/exportar-pdf"}
-            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-pdf" width="30" height="30" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-pdf" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
               <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4"></path>
@@ -59,6 +59,17 @@ const Sidebar = () => {
               <path d="M17 18h2"></path>
               <path d="M20 15h-3v6"></path>
               <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z"></path>
+            </svg>}
+          />
+          <ButtonSidebar
+            nombre={"Backups"}
+            to={"/inicio/backups"}
+            icon={<svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-database-export" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
+              <path d="M4 6v6c0 1.657 3.582 3 8 3c1.118 0 2.183 -.086 3.15 -.241" />
+              <path d="M20 12v-6" /><path d="M4 12v6c0 1.657 3.582 3 8 3c.157 0 .312 -.002 .466 -.005" />
+              <path d="M16 19h6" /><path d="M19 16l3 3l-3 3" />
             </svg>}
           />
         </nav>
