@@ -1,43 +1,49 @@
 import { useState } from "react";
 import clienteAxios from "../config/axios";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
   const [filtro, setFiltro] = useState("");
   const [filtroTipo, setFiltroTipo] = useState(""); //Toma el valos del select
 
   //Toma el valor del input
-  const handleFiltro = e => {
+  const handleFiltro = (e) => {
     if (e.target.value === "") {
       setArticulosFiltrados(articulos);
     }
     setFiltro(e.target.value);
-  }
+  };
 
-  const handleFiltrar = async e => {
+  const handleFiltrar = async (e) => {
     e.preventDefault();
 
     switch (filtroTipo) {
       case "codigo_exacto":
-        const artFiltrados = [...articulos].filter((articulo) =>
-          articulo?.codigo_buscador?.toLowerCase() == filtro.toLowerCase()
+        const artFiltrados = [...articulos].filter(
+          (articulo) =>
+            articulo?.codigo_buscador?.toLowerCase() == filtro.toLowerCase()
         );
         setArticulosFiltrados(artFiltrados);
         break;
 
       case "codigo_aproximado":
         const artFiltradosCodigoAprox = [...articulos].filter((articulo) =>
-          articulo?.codigo_buscador?.toLowerCase().includes(filtro.toLowerCase())
+          articulo?.codigo_buscador
+            ?.toLowerCase()
+            .includes(filtro.toLowerCase())
         );
         setArticulosFiltrados(artFiltradosCodigoAprox);
-        break
+        break;
 
       case "codigo_barra":
         if (filtro === "") return notify("No ingresó código de barra");
 
         try {
-          const respuesta = await clienteAxios.post("/admin/articulo/buscar-codigo-barra", { filtro });
+          const respuesta = await clienteAxios.post(
+            "/admin/articulo/buscar-codigo-barra",
+            { filtro }
+          );
           //Si no existe el codigo de barra, devuelve un msg.
           if (respuesta.data.msg) {
             return notify(respuesta.data.msg);
@@ -47,7 +53,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
           const artFiltrados = [respuesta.data];
           setArticulosFiltrados(artFiltrados);
         } catch (error) {
-          console.log(error)
+          console.log(error);
           return notify(error.response.data.msg);
         }
         break;
@@ -58,7 +64,14 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
         );
         setArticulosFiltrados(artFiltradosTipoArt);
 
-        break
+        break;
+      case "proveedor":
+        const artFiltradosProveedor = [...articulos].filter((articulo) =>
+          articulo.proveedor?.toLowerCase()?.includes(filtro.toLowerCase())
+        );
+        setArticulosFiltrados(artFiltradosProveedor);
+
+        break;
       default:
         const artFiltradosDescripcion = [...articulos].filter((articulo) =>
           articulo.descripcion?.toLowerCase()?.includes(filtro.toLowerCase())
@@ -66,11 +79,11 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
         setArticulosFiltrados(artFiltradosDescripcion);
         break;
     }
-  }
+  };
 
   const notify = (mensaje) => {
     return toast.error(mensaje);
-  }
+  };
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -102,8 +115,14 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
 
       {/* Checkbox de filtro */}
       <div className="flex items-center justify-center gap-2 md:pl-7 md:ml-7 md:pt-0 md:mt-0 md:border-t-0 pt-2 mt-2 border-t-2 border-t-slate-200 md:border-l-2">
-        <label htmlFor="filtros" className="text-white font-bold ">Filtros</label>
-        <select id="filtros" onChange={e => setFiltroTipo(e.target.value)} className="border border-slate-600 rounded-md py-1 px-3">
+        <label htmlFor="filtros" className="text-white font-bold ">
+          Filtros
+        </label>
+        <select
+          id="filtros"
+          onChange={(e) => setFiltroTipo(e.target.value)}
+          className="border border-slate-600 rounded-md py-1 px-3"
+        >
           {tipoFiltro === "general" ? (
             <>
               <option value="">Descripción</option>
@@ -111,6 +130,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
               <option value="codigo_aproximado">Código aproximado</option>
               <option value="codigo_barra">Código de barra</option>
               <option value="tipo_articulo">Tipo de artículo</option>
+              <option value="proveedor">Proveedor</option>
             </>
           ) : (
             <>

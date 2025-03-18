@@ -2,9 +2,11 @@ import { useEffect, useContext } from "react";
 import Alerta from "./Alerta";
 import tipoProvider from "../context/TipoArticuloProvider";
 import articuloProvider from "../context/ArticuloProvider";
+import { proveedorProvider } from "../context/ProveedorProvider";
 
 const AltaArticulo = () => {
   const { tipoArticulos } = useContext(tipoProvider); //Este context es el de tipo de articulos, reutilizamos la funcion que trae los tipos de articulos
+  const { proveedores } = useContext(proveedorProvider); //Este context es el de tipo de articulos, reutilizamos la funcion que trae los tipos de articulos
   const {
     alertaAlta,
     setAlertaAlta,
@@ -28,13 +30,15 @@ const AltaArticulo = () => {
     precio,
     setPrecio,
     editarArticulo,
-    handleCerrar
+    handleCerrar,
+    proveedor,
+    setProveedor,
   } = useContext(articuloProvider);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(codigo.trim() == ""){
+    if (codigo.trim() == "") {
       setAlertaAlta({
         error: true,
         msg: "Ingrese un codigo valido.",
@@ -47,7 +51,7 @@ const AltaArticulo = () => {
     }
 
     //Si esta dando de alta
-    if(codigo.includes(" ") && activarAltaModal) {
+    if (codigo.includes(" ") && activarAltaModal) {
       setAlertaAlta({
         error: true,
         msg: "El codigo no puede contener espacios.",
@@ -59,7 +63,11 @@ const AltaArticulo = () => {
       return;
     }
 
-    if ([codigo, precio, stock].some(campo => /[\[\]#\-_{}\(\)\[\]\?\+\|!=]/.test(campo) || campo === "")) {
+    if (
+      [codigo, precio, stock].some(
+        (campo) => /[\[\]#\-_{}\(\)\[\]\?\+\|!=]/.test(campo) || campo === ""
+      )
+    ) {
       setAlertaAlta({
         error: true,
         msg: "Debe rellenar todos los campos y asegurarse de que no contengan caracteres especiales.",
@@ -71,6 +79,14 @@ const AltaArticulo = () => {
       return;
     }
 
+    if (proveedor === "") {
+      setAlertaAlta({
+        error: true,
+        msg: "Debe seleccionar un proveedor.",
+      });
+      return;
+    }
+
     setArticulo({
       codigo,
       descripcion,
@@ -79,6 +95,7 @@ const AltaArticulo = () => {
       tipoArticulo,
       stock,
       color,
+      proveedor,
     });
   };
 
@@ -152,7 +169,10 @@ const AltaArticulo = () => {
                   value={codigo}
                   onChange={(e) => {
                     // Elimina caracteres no deseados utilizando una expresión regular
-                    const newValue = e.target.value.replace(/[^a-zA-Z0-9 ]/g, '');
+                    const newValue = e.target.value.replace(
+                      /[^a-zA-Z0-9 ]/g,
+                      ""
+                    );
                     // Actualiza el estado con el nuevo valor
                     setCodigo(newValue);
                   }}
@@ -194,6 +214,34 @@ const AltaArticulo = () => {
                   placeholder="Precio"
                 />
               </div>
+              <div className="flex flex-col px-5">
+                <label
+                  htmlFor="proveedor"
+                  className="text-md font-bold uppercase mb-1"
+                >
+                  Proveedor
+                </label>
+                <input
+                  list="proveedores"
+                  id="proveedor"
+                  value={proveedor}
+                  onChange={(e) => setProveedor(e.target.value)}
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                />
+                <datalist id="proveedores">
+                  {proveedores.length > 0 ? (
+                    proveedores.map((proveedor) => (
+                      <option value={proveedor.descripcion} key={proveedor.id}>
+                        {proveedor.descripcion}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">
+                      No existen proveedores de artículos, da de alta uno
+                    </option>
+                  )}
+                </datalist>
+              </div>
             </div>
 
             {/* DIV 2 */}
@@ -221,14 +269,14 @@ const AltaArticulo = () => {
                 >
                   Tipo de artículo
                 </label>
-                <input 
+                <input
                   list="tipoArticulos"
-                  id="tipoArticulo"  
+                  id="tipoArticulo"
                   value={tipoArticulo}
                   onChange={(e) => setTipoArticulo(e.target.value)}
-                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"  
-                  />
-                  <datalist id="tipoArticulos">
+                  className="border border-slate-600 rounded-md py-1 px-3 mb-3"
+                />
+                <datalist id="tipoArticulos">
                   {tipoArticulos.length > 0 ? (
                     tipoArticulos.map((tipo) => (
                       <option value={tipo.descripcion} key={tipo.id}>
@@ -240,7 +288,7 @@ const AltaArticulo = () => {
                       No existen tipos de artículos, da de alta uno
                     </option>
                   )}
-                  </datalist>
+                </datalist>
               </div>
               <div className="flex flex-col px-5">
                 <label

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import clienteAxios from "../config/axios";
 import Swal from "sweetalert2";
 
@@ -22,23 +22,25 @@ const ArticuloProvider = ({ children }) => {
   const [tipoArticulo, setTipoArticulo] = useState("");
   const [stock, setStock] = useState("");
   const [color, setColor] = useState("");
+  const [proveedor, setProveedor] = useState("");
 
   const notify = (tipo, mensaje) => {
     if (tipo === "success") {
-      toast.success(mensaje)
+      toast.success(mensaje);
     }
 
     if (tipo === "info") {
-      toast.info(mensaje)
+      toast.info(mensaje);
     }
-  }
+  };
 
   //Trae todos los articulos
   useEffect(() => {
     const listadoArticulos = async () => {
       try {
         const respuesta = await clienteAxios.get("/admin/articulo");
-        setArticulos(respuesta.data)
+        console.log(respuesta);
+        setArticulos(respuesta.data);
       } catch (error) {
         console.log(error);
       }
@@ -47,19 +49,25 @@ const ArticuloProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setArticulosFiltrados(articulos)
-  }, [articulos])
+    setArticulosFiltrados(articulos);
+  }, [articulos]);
 
   //Cuando se actualiza articulo y ademas esta activada la edicion, se setean los valores en los campos asi se muestran en el form.
 
-
   // FUNCION GUARDAR ARTICULO
   const guardarArticulo = async () => {
-
     try {
       const respuesta = await clienteAxios.post("/admin/articulo", articulo);
 
-      const { id, codigo_buscador, descripcion, precio, codigo_barra, stock, color } = respuesta.data.respuesta
+      const {
+        id,
+        codigo_buscador,
+        descripcion,
+        precio,
+        codigo_barra,
+        stock,
+        color,
+      } = respuesta.data.respuesta;
 
       const nuevoArticulo = {
         id,
@@ -69,15 +77,16 @@ const ArticuloProvider = ({ children }) => {
         codigo_barra,
         stock,
         color,
-        tipoArticulo: respuesta.data.descripcionTipoArticulo
-      }
+        tipoArticulo: respuesta.data.descripcionTipoArticulo,
+        proveedor: respuesta.data.descripcionProveedor,
+      };
 
-      setArticulos([nuevoArticulo, ...articulos]); //Lo agrega primero al articulo nuevo y no ultimo en el arreglo 
+      setArticulos([nuevoArticulo, ...articulos]); //Lo agrega primero al articulo nuevo y no ultimo en el arreglo
 
       notify("success", "Articulo agregado exitosamente!");
 
       setTimeout(() => {
-        handleCerrar();  //Resetea todos los states y cierra el modal que este abierto, ya sea alta o edit.
+        handleCerrar(); //Resetea todos los states y cierra el modal que este abierto, ya sea alta o edit.
       }, 1500);
 
       return setArticulo({}); // borra el objeto de articulos
@@ -96,37 +105,29 @@ const ArticuloProvider = ({ children }) => {
   // FUNCION EDITAR ARTICULO
   const editarArticulo = async (articulo) => {
     try {
-      console.log(codigo)
-      console.log(articulo)
+      console.log(codigo);
+      console.log(articulo);
       const respuesta = await clienteAxios.put(
         `/admin/articulo/${codigo}`,
         articulo
       );
-  
-      //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
-      const exito = respuesta.data.respuesta[0];
+      //Articulo actualizado que viene desde el back
+      const articuloActualizado = respuesta.data.articuloActualizado;
 
-      //Si se modifico con exito el articulo
-      if (exito > 0) {
-        //Articulo actualizado que viene desde el back
-        const articuloActualizado = respuesta.data.articuloActualizado;
+      //Creo un arreglo nuevo a partir del general, pero reemplazo el articulo por el modificado a partir de su codigo
+      const articulosActualizados = articulos.map((articuloArreglo) =>
+        articuloArreglo.codigo_buscador === articuloActualizado.codigo_buscador
+          ? articuloActualizado
+          : articuloArreglo
+      );
 
-        //Creo un arreglo nuevo a partir del general, pero reemplazo el articulo por el modificado a partir de su codigo
-        const articulosActualizados = articulos.map(articuloArreglo => articuloArreglo.codigo_buscador === articuloActualizado.codigo_buscador ? articuloActualizado : articuloArreglo);
+      setArticulos(articulosActualizados);
 
-        setArticulos(articulosActualizados);
-
-        notify("success", "Articulo editado exitosamente!");
-      } else {
-        setAlertaAlta({
-          error: true,
-          msg: respuesta.data.msg,
-        });
-      }
+      notify("success", "Articulo editado exitosamente!");
 
       setTimeout(() => {
         setAlertaAlta({}); //Borra el mensaje de alerta.
-        handleCerrar();  //Resetea todos los states y cierra el modal que este abierto, ya sea alta o edit.
+        handleCerrar(); //Resetea todos los states y cierra el modal que este abierto, ya sea alta o edit.
       }, 2000);
     } catch (error) {
       console.error(error);
@@ -142,37 +143,40 @@ const ArticuloProvider = ({ children }) => {
 
   const eliminarArticulo = async (articuloProp) => {
     Swal.fire({
-      title: 'Estas seguro que deseas eliminar el articulo?',
+      title: "Estas seguro que deseas eliminar el articulo?",
       text: "No se podran revertir los cambios",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const { codigo_buscador } = articuloProp;
 
-          const respuesta = await clienteAxios.delete(`admin/articulo/${codigo_buscador}`);
+          const respuesta = await clienteAxios.delete(
+            `admin/articulo/${codigo_buscador}`
+          );
 
           //Variable que tiene el numero 1 si la edicion fue correcta o 0 si no se modificaron campos
           const exito = respuesta.data.respuesta;
 
           if (exito > 0) {
-            const articulosActualizados = articulos.filter(articulo => articulo.codigo_buscador != codigo_buscador);
+            const articulosActualizados = articulos.filter(
+              (articulo) => articulo.codigo_buscador != codigo_buscador
+            );
             setArticulos(articulosActualizados);
-            notify("info", "Articulo eliminado exitosamente!")
+            notify("info", "Articulo eliminado exitosamente!");
           }
-
         } catch (error) {
-          console.log(error)
+          console.log(error);
           notify("error", error);
         }
       }
-    })
-  }
+    });
+  };
 
   const handleCerrar = () => {
     setActivarAltaModal(false);
@@ -222,7 +226,9 @@ const ArticuloProvider = ({ children }) => {
         setIdArticulo,
         editarArticulo,
         eliminarArticulo,
-        handleCerrar
+        handleCerrar,
+        proveedor,
+        setProveedor,
       }}
     >
       {children}

@@ -13,6 +13,8 @@ import ArticuloPage from "./pages/ArticuloPage";
 import AltasExcel from "./pages/AltasExcel";
 import VistaPDF from "./components/VistaPDF";
 import Backup from "./pages/Backup";
+import Proveedor from "./pages/Proveedor";
+import ProveedorProvider from "./context/ProveedorProvider";
 
 function App() {
   return (
@@ -20,22 +22,28 @@ function App() {
       <AuthProvider>
         <ArticuloProvider>
           <TipoArticuloProvider>
-            <Routes>
-              <Route>
-                <Route path="/" element={<AuthLayout />}>
-                  <Route index element={<Login />} />
-                </Route>
+            <ProveedorProvider>
+              <Routes>
+                <Route>
+                  <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<Login />} />
+                  </Route>
 
-                <Route path="inicio" element={<InicioLayout />}>
-                  <Route index element={<Inicio />} />
-                  <Route path="tipos-de-articulo" element={<TipoArticuloPage />} />
-                  <Route path="articulos" element={<ArticuloPage />} />
-                  <Route path="altas-excel" element={<AltasExcel />} />
-                  <Route path="exportar-pdf" element={<VistaPDF />} />
-                  <Route path="backups" element={<Backup />} />
+                  <Route path="inicio" element={<InicioLayout />}>
+                    <Route index element={<Inicio />} />
+                    <Route
+                      path="tipos-de-articulo"
+                      element={<TipoArticuloPage />}
+                    />
+                    <Route path="articulos" element={<ArticuloPage />} />
+                    <Route path="altas-excel" element={<AltasExcel />} />
+                    <Route path="exportar-pdf" element={<VistaPDF />} />
+                    <Route path="backups" element={<Backup />} />
+                    <Route path="proveedor" element={<Proveedor />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </ProveedorProvider>
           </TipoArticuloProvider>
         </ArticuloProvider>
       </AuthProvider>

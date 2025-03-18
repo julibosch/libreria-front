@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import articuloProvider from "../context/ArticuloProvider";
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList as List } from "react-window";
+import { formatearFecha, formatearPrecio } from "../libs/funciones";
 
 const TableArticulos = ({ articulosFiltrados, articulos }) => {
-
   // COMPONENTE ARTICULO
   const Articulo = ({ index, style }) => {
-
     const {
       setActivarEditar,
       setCodigo,
@@ -17,9 +16,10 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
       setTipoArticulo,
       setPrecio,
       setIdArticulo,
-      eliminarArticulo
+      eliminarArticulo,
+      setProveedor,
     } = useContext(articuloProvider);
-  
+
     //Esta funcion activa el modal de EDITAR y llena los estados para que se complete el formulario
     const handleEditar = () => {
       setActivarEditar(true);
@@ -31,10 +31,16 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
       setTipoArticulo(articulosFiltrados[index].tipoArticulo);
       setPrecio(articulosFiltrados[index].precio);
       setIdArticulo(articulosFiltrados[index].id);
+      setProveedor(articulosFiltrados[index].proveedor);
     };
 
     return (
-      <li className={`${index % 2 === 0 ? 'bg-zinc-300' : 'bg-zinc-200'} flex items-center`} style={style}>
+      <li
+        className={`${
+          index % 2 === 0 ? "bg-zinc-300" : "bg-zinc-200"
+        } flex items-center`}
+        style={style}
+      >
         <p className="md:w-1/12 w-1/6 mr-3 text-xs font-sans font-black text-center text-gray-950">
           {articulosFiltrados[index].codigo_buscador}
         </p>
@@ -42,7 +48,12 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
           {articulosFiltrados[index].descripcion}
         </p>
         <p className="md:w-1/12 w-1/6 text-xs md:pr-3 font-sans font-bold text-gray-950">
-          ${articulosFiltrados[index].precio}
+          {formatearPrecio(articulosFiltrados[index].precio)}
+        </p>
+        <p className="md:w-1/12 w-1/6 text-xs md:pr-3 font-sans font-bold text-gray-950">
+          {articulosFiltrados[index].proveedor
+            ? articulosFiltrados[index].proveedor
+            : "N/A"}
         </p>
         <p className="md:w-1/12 text-sm pr-3 font-semibold text-center text-gray-900 hidden md:block">
           {articulosFiltrados[index].codigo_barra}
@@ -52,6 +63,11 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         </p>
         <p className="md:w-1/12 text-xs text-center font-semibold text-gray-900 hidden md:block">
           {articulosFiltrados[index].color}
+        </p>
+        <p className="md:w-1/12 text-xs text-center font-semibold text-gray-900 hidden md:block">
+          {articulosFiltrados[index].updatedAt
+            ? formatearFecha(articulosFiltrados[index].updatedAt)
+            : "N/A"}
         </p>
 
         {/* EDITAR */}
@@ -82,7 +98,8 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
           {/* ELIMINAR */}
           <button
             onClick={() => eliminarArticulo(articulosFiltrados[index])}
-            className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full">
+            className="py-2 px-2 shadow-md bg-red-500 hover:bg-red-600 transition-colors rounded-full"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="icon icon-tabler icon-tabler-trash"
@@ -105,7 +122,7 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
           </button>
         </p>
       </li>
-    )
+    );
   };
 
   return (
@@ -120,6 +137,9 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         <p className="md:w-1/12 w-1/6 py-3 text-xs font-black text-left text-gray-950 uppercase">
           Precio
         </p>
+        <p className="md:w-1/12 w-1/6 py-3 text-xs font-black text-left text-gray-950 uppercase">
+          Proveedor
+        </p>
         <p className="md:w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
           Codigo de barra
         </p>
@@ -129,35 +149,37 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         <p className="md:w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
           Color
         </p>
+        <p className="md:w-1/12 py-3 text-xs font-black text-center text-gray-950 uppercase hidden md:block">
+          Ult. Actualización
+        </p>
         <p className="md:w-1/12 py-3 pr-1 text-xs font-black text-center  text-gray-950 uppercase hidden md:block">
           Acciones
         </p>
       </li>
-      {
-        articulosFiltrados.length > 0 ? (
-          <List
-            className='bg-slate-200 w-full'
-            height={455}
-            itemCount={articulosFiltrados.length}
-            itemSize={45}
-          >
-            {Articulo}
-          </List>
-        )
-          :
-          (
-            articulos.length > 0 ?
-              <li>
-                <p className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No existe el articulo con esa descripcion</p>
-              </li>
-              :
-              <li>
-                <p className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">No hay ningún artículo, cargue uno</p>
-              </li>
-          )
-      }
+      {articulosFiltrados.length > 0 ? (
+        <List
+          className="bg-slate-200 w-full"
+          height={455}
+          itemCount={articulosFiltrados.length}
+          itemSize={45}
+        >
+          {Articulo}
+        </List>
+      ) : articulos.length > 0 ? (
+        <li>
+          <p className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">
+            No existe el articulo con esa descripcion
+          </p>
+        </li>
+      ) : (
+        <li>
+          <p className="px-6 py-4 text-sm font-semibold text-gray-900 whitespace-nowrap">
+            No hay ningún artículo, cargue uno
+          </p>
+        </li>
+      )}
     </ul>
-  )
-}
+  );
+};
 
-export default TableArticulos
+export default TableArticulos;
