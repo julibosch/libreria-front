@@ -55,9 +55,12 @@ const ArticuloProvider = ({ children }) => {
   //Cuando se actualiza articulo y ademas esta activada la edicion, se setean los valores en los campos asi se muestran en el form.
 
   // FUNCION GUARDAR ARTICULO
-  const guardarArticulo = async () => {
+  const guardarArticulo = async (articuloParam) => {
     try {
-      const respuesta = await clienteAxios.post("/admin/articulo", articulo);
+      const respuesta = await clienteAxios.post(
+        "/admin/articulo",
+        articuloParam
+      );
 
       const {
         id,
@@ -67,6 +70,8 @@ const ArticuloProvider = ({ children }) => {
         codigo_barra,
         stock,
         color,
+        tipoArticulo,
+        proveedor,
       } = respuesta.data.respuesta;
 
       const nuevoArticulo = {
@@ -77,8 +82,8 @@ const ArticuloProvider = ({ children }) => {
         codigo_barra,
         stock,
         color,
-        tipoArticulo: respuesta.data.descripcionTipoArticulo,
-        proveedor: respuesta.data.descripcionProveedor,
+        tipoArticulo,
+        proveedor,
       };
 
       setArticulos([nuevoArticulo, ...articulos]); //Lo agrega primero al articulo nuevo y no ultimo en el arreglo
@@ -103,13 +108,11 @@ const ArticuloProvider = ({ children }) => {
   };
 
   // FUNCION EDITAR ARTICULO
-  const editarArticulo = async (articulo) => {
+  const editarArticulo = async (articuloParam) => {
     try {
-      console.log(codigo);
-      console.log(articulo);
       const respuesta = await clienteAxios.put(
         `/admin/articulo/${codigo}`,
-        articulo
+        articuloParam
       );
       //Articulo actualizado que viene desde el back
       const articuloActualizado = respuesta.data.articuloActualizado;
@@ -189,6 +192,7 @@ const ArticuloProvider = ({ children }) => {
     setColor("");
     setTipoArticulo("");
     setPrecio("");
+    setProveedor("");
     setIdArticulo("");
   };
 

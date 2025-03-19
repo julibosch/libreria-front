@@ -38,28 +38,23 @@ const AltaArticulo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (codigo.trim() == "") {
+    if (codigo.trim() === "") {
       setAlertaAlta({
         error: true,
-        msg: "Ingrese un codigo valido.",
+        msg: "Ingrese un código válido.",
       });
 
-      setTimeout(() => {
-        setAlertaAlta({});
-      }, 4000);
+      setTimeout(() => setAlertaAlta({}), 4000);
       return;
     }
 
-    //Si esta dando de alta
     if (codigo.includes(" ") && activarAltaModal) {
       setAlertaAlta({
         error: true,
-        msg: "El codigo no puede contener espacios.",
+        msg: "El código no puede contener espacios.",
       });
 
-      setTimeout(() => {
-        setAlertaAlta({});
-      }, 4000);
+      setTimeout(() => setAlertaAlta({}), 4000);
       return;
     }
 
@@ -73,9 +68,7 @@ const AltaArticulo = () => {
         msg: "Debe rellenar todos los campos y asegurarse de que no contengan caracteres especiales.",
       });
 
-      setTimeout(() => {
-        setAlertaAlta({});
-      }, 4000);
+      setTimeout(() => setAlertaAlta({}), 4000);
       return;
     }
 
@@ -87,7 +80,7 @@ const AltaArticulo = () => {
       return;
     }
 
-    setArticulo({
+    const nuevoArticulo = {
       codigo,
       descripcion,
       precio,
@@ -96,21 +89,18 @@ const AltaArticulo = () => {
       stock,
       color,
       proveedor,
-    });
+    };
+
+    // Si el modal está en modo ALTA
+    if (activarAltaModal) {
+      guardarArticulo(nuevoArticulo);
+    }
+
+    // Si el modal está en modo EDICIÓN
+    if (activarEditar) {
+      editarArticulo(nuevoArticulo);
+    }
   };
-
-  // USEEFFECT ALTA
-  useEffect(() => {
-    // Si el modal esta en modo ALTA y el state ARTICULO esta lleno entonces se llama la funcion
-    if (activarAltaModal && Object.keys(articulo).length > 0) {
-      guardarArticulo();
-    }
-
-    // Si el modal esta en modo EDICION y el state ARTICULO esta lleno entonces se llama la funcion
-    if (activarEditar && Object.keys(articulo).length > 0) {
-      editarArticulo(articulo);
-    }
-  }, [articulo]);
 
   const { msg } = alertaAlta;
 
@@ -224,16 +214,24 @@ const AltaArticulo = () => {
                 <input
                   list="proveedores"
                   id="proveedor"
-                  value={proveedor}
-                  onChange={(e) => setProveedor(e.target.value)}
+                  value={proveedor.descripcion}
+                  onChange={(e) => {
+                    const selectedProveedor = proveedores.find(
+                      (p) => p.descripcion === e.target.value
+                    );
+                    setProveedor(
+                      selectedProveedor ? selectedProveedor : e.target.value
+                    );
+                  }}
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                 />
                 <datalist id="proveedores">
                   {proveedores.length > 0 ? (
                     proveedores.map((proveedor) => (
-                      <option value={proveedor.descripcion} key={proveedor.id}>
-                        {proveedor.descripcion}
-                      </option>
+                      <option
+                        key={proveedor.id}
+                        value={proveedor.descripcion}
+                      />
                     ))
                   ) : (
                     <option value="">
@@ -272,16 +270,23 @@ const AltaArticulo = () => {
                 <input
                   list="tipoArticulos"
                   id="tipoArticulo"
-                  value={tipoArticulo}
-                  onChange={(e) => setTipoArticulo(e.target.value)}
+                  value={tipoArticulo.descripcion} // ✅ Muestra la descripción
+                  onChange={(e) => {
+                    const selectedTipoArticulo = tipoArticulos.find(
+                      (t) => t.descripcion === e.target.value
+                    );
+                    setTipoArticulo(
+                      selectedTipoArticulo
+                        ? selectedTipoArticulo
+                        : e.target.value
+                    );
+                  }}
                   className="border border-slate-600 rounded-md py-1 px-3 mb-3"
                 />
                 <datalist id="tipoArticulos">
                   {tipoArticulos.length > 0 ? (
                     tipoArticulos.map((tipo) => (
-                      <option value={tipo.descripcion} key={tipo.id}>
-                        {tipo.descripcion}
-                      </option>
+                      <option key={tipo.id} value={tipo.descripcion} />
                     ))
                   ) : (
                     <option value="">

@@ -51,6 +51,7 @@ const FiltroArticulos = ({ setArticulosFiltrados, articulos, tipoFiltro }) => {
 
           //El arreglo articulosFiltrados muestra el que viene del back.
           const artFiltrados = [respuesta.data];
+          console.log(respuesta.data)
           setArticulosFiltrados(artFiltrados);
         } catch (error) {
           console.log(error);

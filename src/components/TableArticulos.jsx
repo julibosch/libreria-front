@@ -52,14 +52,14 @@ const TableArticulos = ({ articulosFiltrados, articulos }) => {
         </p>
         <p className="md:w-1/12 w-1/6 text-xs md:pr-3 font-sans font-bold text-gray-950">
           {articulosFiltrados[index].proveedor
-            ? articulosFiltrados[index].proveedor
+            ? articulosFiltrados[index].proveedor.descripcion
             : "N/A"}
         </p>
         <p className="md:w-1/12 text-sm pr-3 font-semibold text-center text-gray-900 hidden md:block">
           {articulosFiltrados[index].codigo_barra}
         </p>
         <p className="md:w-2/12 text-xs pl-7 font-semibold text-center text-gray-900 hidden md:block">
-          {articulosFiltrados[index].tipoArticulo}
+          {articulosFiltrados[index].tipoArticulo.descripcion}
         </p>
         <p className="md:w-1/12 text-xs text-center font-semibold text-gray-900 hidden md:block">
           {articulosFiltrados[index].color}

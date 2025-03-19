@@ -127,7 +127,7 @@ const ModalAumentoPrecios = ({
       return notify("error", "Debe seleccioar un proveedor");
     }
     const articulosProveedor = [...articulos].filter(
-      (articulo) => articulo.proveedor === e.target.value
+      (articulo) => articulo.proveedor?.descripcion === e.target.value
     );
     setArticulosAgregados(articulosProveedor);
     refArticulosOriginales.current = articulosProveedor;
